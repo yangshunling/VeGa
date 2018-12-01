@@ -62,6 +62,11 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.3.0'//Glide转化器
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'//GPU加速器
     /**
+     * RecyclerView
+     */
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'//BaseAdapterHelper
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'//RecycleView分割线
+    /**
      * 常用依赖
      */
     implementation 'com.jakewharton:butterknife:8.8.1'//butterknife
@@ -73,4 +78,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:2.0.0'//动态权限
     implementation 'com.gcssloop.widget:rclayout:1.8.1'//圆角布局
     implementation 'com.github.ithedan:CustomViewBgUi:v1.0'//自定义button
+    implementation 'com.android.support:multidex:1.0.1'//multidex
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'//顶部导航栏
 }
