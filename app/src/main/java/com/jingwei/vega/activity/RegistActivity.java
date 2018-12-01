@@ -26,6 +26,7 @@ public class RegistActivity extends BaseActivity {
     @BindView(R.id.bt_regist)
     ButtonBgUi mBtRegist;
 
+
     @Override
     public int getContentView() {
         return R.layout.activity_regist;
