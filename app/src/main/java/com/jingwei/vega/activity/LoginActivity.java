@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
             case R.id.tv_forget:
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, ForgetPwdActivity.class));
                 break;
         }
     }
