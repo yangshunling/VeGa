@@ -11,6 +11,9 @@ import com.jingwei.vega.view.VerifyCodeButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 用户注册
+ */
 public class RegistActivity extends BaseActivity {
 
     @BindView(R.id.et_phone)

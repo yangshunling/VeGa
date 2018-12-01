@@ -16,6 +16,9 @@ import com.jingwei.vega.view.TitleBar;
 
 import butterknife.BindView;
 
+/**
+ * MainActivity
+ */
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     @BindView(R.id.main_content)

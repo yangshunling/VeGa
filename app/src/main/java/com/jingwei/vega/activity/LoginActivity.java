@@ -16,6 +16,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 用户登录
+ */
 public class LoginActivity extends BaseActivity {
 
     @BindView(R.id.iv_logo)

@@ -12,6 +12,9 @@ import com.jingwei.vega.view.VerifyCodeButton;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 忘记密码
+ */
 public class ForgetPwdActivity extends BaseActivity {
 
     @BindView(R.id.tv_phone)
