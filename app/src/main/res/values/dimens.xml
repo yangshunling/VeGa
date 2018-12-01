@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 顶部标题栏尺寸 -->
+    <dimen name="title_bar_height">45dp</dimen>
+    <dimen name="title_image_size">35dp</dimen>
+    <dimen name="title_image_padding">9dp</dimen>
+    <dimen name="title_text_size">14dp</dimen>
+    <dimen name="title_center_text_size">18dp</dimen>
+
+    <!-- 箭头宽和高 -->
+    <dimen name="arrow_width_heigh">13dp</dimen>
+
+    <!-- 底部导航栏 -->
+    <dimen name="fixed_height_bottom_padding">6dp</dimen>
+    <dimen name="nav_text_size">13dp</dimen>
+
+    <!-- 个人中心 -->
+    <dimen name="personal_item_heigh">55dp</dimen>
+    <dimen name="personal_text_size">15dp</dimen>
+    <dimen name="my_item_icon_size">50dp</dimen>
+    <dimen name="my_item_text_size">12dp</dimen>
+
+    <!-- 自定义LinearLayout -->
+    <dimen name="left_icon_size">16dp</dimen>
+    <dimen name="custom_linearlayout_left_image_size">25dp</dimen>
+    <dimen name="custom_linearlayout_right_image_size">30dp</dimen>
+</resources>

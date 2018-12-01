@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- 主题颜色 -->
+    <color name="app_color">#ffffff</color>
+
+    <!-- 文字颜色 -->
+    <color name="app_text_color">#333333</color>
+
+    <!-- 背景色 -->
+    <color name="app_bg">#f4f4f4</color>
+
+    <!--基本颜色-->
+    <color name="white">#ffffff</color>//白色
+    <color name="black">#000000</color>//黑色
+    <color name="gray">#999999</color>//灰色
+    <color name="gray2">#cccccc</color>
+    <color name="gray3">#666666</color>
+
+    <color name="blue">#492ff7</color>//蓝色
+    <color name="yellow">#f5fa02</color>//黄色
+    <color name="red">#ff4444</color>//艳红
+    <color name="green">#009688</color>//绿色
+    <color name="azure">#33a2e2</color>
+</resources>

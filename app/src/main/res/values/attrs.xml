@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义横向布局 -->
+    <declare-styleable name="CustomLinearLayout">
+        <!--左边的图片和文字-->
+        <attr name="left_image" format="reference"/>
+        <attr name="left_text" format="string"/>
+        <attr name="left_text_color" format="color"/>
+        <!--中间的标题-->
+        <attr name="title" format="string"/>
+        <attr name="title_text_color" format="color"/>
+        <!--中间标题的位置-->
+        <attr name="title_gravity">
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+        <!--右边的图片和文字-->
+        <attr name="right_image" format="reference"/>
+        <attr name="right_text" format="string"/>
+        <attr name="right_text_color" format="color"/>
+        <!--是否显示最右边得箭头-->
+        <attr name="hide_arrow" format="boolean"/>
+    </declare-styleable>
+
+    <!-- 自定义下拉刷新 -->
+    <declare-styleable name="SpringView">
+        <attr name="Spring_type">
+            <enum name="overlap" value="0"/>
+            <enum name="follow" value="1"/>
+        </attr>
+        <attr name="give">
+            <enum name="both" value="0"/>
+            <enum name="top" value="1"/>
+            <enum name="bottom" value="2"/>
+            <enum name="none" value="3"/>
+        </attr>
+        <attr name="header" format="reference"/>
+        <attr name="footer" format="reference"/>
+    </declare-styleable>
+
+    <!-- 自定义验证码按钮 -->
+    <declare-styleable name="VerifyCodeButton">
+        <!--默认背景-->
+        <attr name="android:background" />
+        <!--点击后背景-->
+        <attr name="clickedBackground" format="reference" />
+        <!--倒计时间-->
+        <attr name="countdownTime" format="integer" />
+        <!--倒计时间后提示文字-->
+        <attr name="countdownText" format="string" />
+    </declare-styleable>
+</resources>
