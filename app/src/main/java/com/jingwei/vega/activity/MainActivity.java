@@ -44,8 +44,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void initTitleBar() {
-        mTitleBar = getTitleBar();
-        mTitleBar.setLeftImage(R.drawable.icon_back).setTitleText(titles[0]);
         hintTitleBar();
     }
 
@@ -90,30 +88,24 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     public void onTabSelected(int position) {
         switch (position) {
             case 0:
-                hintTitleBar();
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mHomeFragment);
                 transaction.commit();
                 break;
             case 1:
-                showTitleBar();
-                initTitle(1);
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mClassificationFragment);
                 transaction.commit();
                 break;
             case 2:
-                hintTitleBar();
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mFocusFragment);
                 transaction.commit();
                 break;
             case 3:
-                showTitleBar();
-                initTitle(3);
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mMeFragment);
@@ -144,7 +136,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             transaction.hide(mClassificationFragment);
         }
         if (mFocusFragment != null) {
-            transaction.hide(mClassificationFragment);
+            transaction.hide(mFocusFragment);
         }
         if (mMeFragment != null) {
             transaction.hide(mMeFragment);
