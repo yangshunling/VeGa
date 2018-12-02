@@ -86,6 +86,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabSelected(int position) {
+        initStatusBar();
         switch (position) {
             case 0:
                 transaction = manager.beginTransaction();
@@ -106,6 +107,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 transaction.commit();
                 break;
             case 3:
+                setTransparent();
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mMeFragment);
