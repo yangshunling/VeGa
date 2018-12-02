@@ -33,7 +33,6 @@
             android:layout_marginLeft="30dp"
             android:src="@drawable/app_logo"/>
 
-
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
