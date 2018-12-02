@@ -2,16 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/white"
+              android:gravity="center"
               android:orientation="vertical">
 
-    <View
+    <ImageView
+        android:id="@+id/iv_dynamic_image"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/gray"/>
+        android:layout_height="90dp"
+        android:scaleType="centerCrop"/>
 
-    <com.jingwei.vega.view.cardgallery.SpeedRecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"/>
 </LinearLayout>
