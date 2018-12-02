@@ -1,10 +1,16 @@
 package com.jingwei.vega.fragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.AboutUsActivity;
+import com.jingwei.vega.activity.DownloadRecordActivity;
+import com.jingwei.vega.activity.MyCollectActivity;
+import com.jingwei.vega.activity.SettingActivity;
+import com.jingwei.vega.activity.VipCenterActivity;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.view.CustomLinearLayout;
 
@@ -67,14 +73,19 @@ public class MeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.ll_collection:
+                startActivity(new Intent(getActivity(), MyCollectActivity.class));
                 break;
             case R.id.ll_download:
+                startActivity(new Intent(getActivity(), DownloadRecordActivity.class));
                 break;
             case R.id.ll_vip:
+                startActivity(new Intent(getActivity(), VipCenterActivity.class));
                 break;
             case R.id.ll_about:
+                startActivity(new Intent(getActivity(), AboutUsActivity.class));
                 break;
         }
     }

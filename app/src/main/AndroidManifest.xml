@@ -28,6 +28,14 @@
             android:hardwareAccelerated="false"/>
         <activity android:name=".activity.RegistActivity"/>
         <activity android:name=".activity.ForgetPwdActivity"/>
+
+        <!-- 我的 -->
+        <activity android:name=".activity.MyCollectActivity"/>
+        <activity android:name=".activity.AboutUsActivity"/>
+        <activity android:name=".activity.VipCenterActivity"/>
+        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.DownloadRecordActivity"/>
+        <activity android:name=".activity.DownloadRecordDetailActivity"/>
     </application>
 
 </manifest>

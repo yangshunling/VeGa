@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <ImageView
+            android:id="@+id/my_bg"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/my_bg" />
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_bar_height"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/iv_left_finish"
+                android:layout_width="@dimen/title_image_size"
+                android:layout_height="@dimen/title_image_size"
+                android:padding="@dimen/title_image_padding"
+                android:src="@drawable/icon_back" />
+
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:text="会员中心"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_center_text_size" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/user_icon"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/app_logo" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/user_icon"
+            android:gravity="bottom"
+            android:text="居家女孩"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_date_title"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/user_icon"
+            android:gravity="top"
+            android:text="会员试用期："
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/tv_date_title"
+            android:gravity="top"
+            android:text="至2018-12-01"
+            android:textColor="@color/red"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/vip_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/app_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="66元·季度会员"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <com.came.viewbguilib.ButtonBgUi
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="3dp"
+            android:text="加入"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            app:defaultColor="@color/white"
+            app:isRipple="true"
+            app:pressedColor="@color/app_color"
+            app:raoundRadius="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/vip_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/app_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="99元·半年会员"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <com.came.viewbguilib.ButtonBgUi
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="3dp"
+            android:text="加入"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            app:defaultColor="@color/white"
+            app:isRipple="true"
+            app:pressedColor="@color/app_color"
+            app:raoundRadius="10dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/vip_bg"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/app_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="188元·年度会员"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <com.came.viewbguilib.ButtonBgUi
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="3dp"
+            android:text="加入"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            app:defaultColor="@color/white"
+            app:isRipple="true"
+            app:pressedColor="@color/app_color"
+            app:raoundRadius="10dp" />
+    </RelativeLayout>
+
+    <include layout="@layout/include_line_small" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp"
+        android:text="会员权益"
+        android:textColor="@color/gray5"
+        android:textSize="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="3dp"
+        android:text="会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益"
+        android:textColor="@color/gray"
+        android:textSize="12dp" />
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical">
+
+    <com.jingwei.vega.view.CustomLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text_color="@color/gray3"
+        app:right_text_color="@color/gray"
+        app:right_text="居家女孩"
+        app:hide_arrow="true"
+        app:title="用户名" />
+
+    <include layout="@layout/include_line_small" />
+
+    <com.jingwei.vega.view.CustomLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text_color="@color/gray3"
+        app:right_text_color="@color/gray"
+        app:hide_arrow="true"
+        app:right_text="女"
+        app:title="性别" />
+
+    <include layout="@layout/include_line_small" />
+
+    <com.jingwei.vega.view.CustomLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text_color="@color/gray3"
+        app:right_text_color="@color/gray"
+        app:hide_arrow="true"
+        app:right_text="1996-01-01"
+        app:title="出生日期" />
+
+    <include layout="@layout/include_line_small" />
+
+    <com.jingwei.vega.view.CustomLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text_color="@color/gray3"
+        app:right_text_color="@color/gray"
+        app:right_text="设置修改"
+        app:title="修改密码" />
+
+    <include layout="@layout/include_line_small" />
+
+    <com.jingwei.vega.view.CustomLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title_text_color="@color/gray3"
+        app:right_text_color="@color/gray"
+        app:right_text="123M"
+        app:title="清除缓存" />
+
+    <include layout="@layout/include_line_small" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <com.came.viewbguilib.ButtonBgUi
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:padding="15dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:defaultColor="@color/black"
+        app:isRipple="true"
+        app:pressedColor="@color/app_color"
+        app:raoundRadius="100dp"/>
+</LinearLayout>

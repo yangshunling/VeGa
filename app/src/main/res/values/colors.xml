@@ -26,4 +26,7 @@
     <color name="red">#ff4444</color>//艳红
     <color name="green">#009688</color>//绿色
     <color name="azure">#33a2e2</color>
+
+    <!-- 我的 -->
+    <color name="line_color">#D5A9FB</color>
 </resources>

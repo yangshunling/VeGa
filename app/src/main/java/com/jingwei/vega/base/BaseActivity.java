@@ -117,6 +117,13 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     }
 
     /**
+     * 返回空布局
+     */
+    public View getEmptyView() {
+        return LayoutInflater.from(BaseActivity.this).inflate(R.layout.layout_empty_view, null);
+    }
+
+    /**
      * 获取布局文件
      *
      * @return
