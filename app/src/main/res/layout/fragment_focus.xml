@@ -6,11 +6,13 @@
               android:background="@color/white"
               android:orientation="vertical">
 
+    <include layout="@layout/include_search"/>
+
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/table_padding"
+        android:padding="2dp"
         app:tl_indicator_bounce_enable="true"
         app:tl_indicator_color="@color/black"
         app:tl_indicator_corner_radius="0.5dp"

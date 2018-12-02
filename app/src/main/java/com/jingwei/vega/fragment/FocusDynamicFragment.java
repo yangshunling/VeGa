@@ -1,5 +1,6 @@
 package com.jingwei.vega.fragment;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,8 +15,10 @@ import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,10 @@ public class FocusDynamicFragment extends BaseFragment {
         mMyAdapter.setEmptyView(getEmptyView());
         mRvList.setAdapter(mMyAdapter);
         mRvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRvList.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity())
+                .color(ContextCompat.getColor(getActivity(), R.color.gray2))
+                .size(DisplayUtil.dp2px(getActivity(), 0.5f))
+                .build());
     }
 
     @Override
