@@ -68,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
      * 沉浸式图片
      */
     public void setTransparent() {
-        ImmersionBar.with(this).fitsSystemWindows(false).transparentBar().init();
+        ImmersionBar.with(this).fitsSystemWindows(false).transparentStatusBar().init();
     }
 
     /**
