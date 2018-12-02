@@ -80,40 +80,48 @@
             android:textSize="15dp"/>
     </RelativeLayout>
 
-    <com.jingwei.vega.view.CustomLinearLayout
-        android:id="@+id/ll_collection"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:left_image="@drawable/icon_mycollection"
-        app:title="我的收藏"/>
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
-    <include layout="@layout/include_line_small"/>
+        <include layout="@layout/include_line_small"/>
 
-    <com.jingwei.vega.view.CustomLinearLayout
-        android:id="@+id/ll_download"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_image="@drawable/icon_download"
-        app:title="下载记录"/>
+        <com.jingwei.vega.view.CustomLinearLayout
+            android:id="@+id/ll_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:left_image="@drawable/icon_mycollection"
+            app:title="我的收藏"/>
 
-    <include layout="@layout/include_line_small"/>
+        <include layout="@layout/include_line_small"/>
 
-    <com.jingwei.vega.view.CustomLinearLayout
-        android:id="@+id/ll_vip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_image="@drawable/icon_vip"
-        app:title="会员中心"/>
+        <com.jingwei.vega.view.CustomLinearLayout
+            android:id="@+id/ll_download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:left_image="@drawable/icon_download"
+            app:title="下载记录"/>
 
-    <include layout="@layout/include_line_small"/>
+        <include layout="@layout/include_line_small"/>
 
-    <com.jingwei.vega.view.CustomLinearLayout
-        android:id="@+id/ll_about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:left_image="@drawable/icon_about"
-        app:title="关于VeGa"/>
+        <com.jingwei.vega.view.CustomLinearLayout
+            android:id="@+id/ll_vip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:left_image="@drawable/icon_vip"
+            app:title="会员中心"/>
 
-    <include layout="@layout/include_line_small"/>
+        <include layout="@layout/include_line_small"/>
+
+        <com.jingwei.vega.view.CustomLinearLayout
+            android:id="@+id/ll_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:left_image="@drawable/icon_about"
+            app:title="关于VeGa"/>
+
+        <include layout="@layout/include_line_small"/>
+    </LinearLayout>
 </LinearLayout>
