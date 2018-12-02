@@ -12,18 +12,21 @@ import com.jingwei.vega.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * BaseActivity基类
  */
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private View rootView;
-
-    private List<Integer> mList = new ArrayList<>();
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = LayoutInflater.from(getActivity()).inflate(getContentView(), null);
+        unbinder = ButterKnife.bind(this, rootView);
         initView(rootView);
         setListener();
         initData();
@@ -66,5 +69,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
      */
     public void showToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

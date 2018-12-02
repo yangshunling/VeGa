@@ -105,8 +105,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 transaction.commit();
                 break;
             case 2:
-                showTitleBar();
-                initTitle(2);
+                hintTitleBar();
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mFocusFragment);

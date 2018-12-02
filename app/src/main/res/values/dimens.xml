@@ -25,4 +25,9 @@
     <dimen name="left_icon_size">16dp</dimen>
     <dimen name="custom_linearlayout_left_image_size">25dp</dimen>
     <dimen name="custom_linearlayout_right_image_size">30dp</dimen>
+
+    <!-- tableLayout头部字体大小 -->
+    <dimen name="table_text_size">15dp</dimen>
+    <dimen name="table_padding">8dp</dimen>
+    <dimen name="table_underline_height">3dp</dimen>
 </resources>
