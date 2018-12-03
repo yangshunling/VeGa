@@ -14,7 +14,6 @@ import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.utils.GlideUtil;
-import com.jingwei.vega.view.GridDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,6 @@ public class GoodsLibAllFragment extends BaseFragment {
         mMyAdapter.setEmptyView(getEmptyView());
         mRvList.setAdapter(mMyAdapter);
         mRvList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mRvList.addItemDecoration(new GridDivider(getActivity(),20,getResources().getColor(R.color.white)));
     }
 
     @Override
@@ -87,7 +85,7 @@ public class GoodsLibAllFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, GoodsLibBean item) {
-            GlideUtil.setRoundImage(getActivity(), item.getImage(), 10, (ImageView) helper.getView(R.id.iv_goods_lib));
+            GlideUtil.setImage(getActivity(), item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
             helper.setText(R.id.tv_goods_lib_price, item.getPrice());
         }

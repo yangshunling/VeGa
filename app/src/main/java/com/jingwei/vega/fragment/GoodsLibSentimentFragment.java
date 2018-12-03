@@ -89,7 +89,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, GoodsLibBean item) {
-            GlideUtil.setRoundImage(getActivity(), item.getImage(), 10, (ImageView) helper.getView(R.id.iv_goods_lib));
+            GlideUtil.setImage(getActivity(), item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
             helper.setText(R.id.tv_goods_lib_price, item.getPrice());
         }
