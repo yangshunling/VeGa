@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="300"
+        android:fromYDelta="0"
+        android:toYDelta="50%p" />
+
+    <!-- 持续时间200毫秒
+         y方向的起始位置0点坐标,向下运动
+         y方向的结束为止,50%个屏幕高度 -->
+    <alpha
+        android:duration="200"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0" />
+    <!-- 持续时间200毫秒
+        起始透明度100%
+         结束透明度0 -->
+</set>

@@ -28,6 +28,7 @@
             android:hardwareAccelerated="false"/>
         <activity android:name=".activity.RegistActivity"/>
         <activity android:name=".activity.ForgetPwdActivity"/>
+        <activity android:name=".activity.MarketShopsActivity"/>
 
         <!-- 我的 -->
         <activity android:name=".activity.MyCollectActivity"/>

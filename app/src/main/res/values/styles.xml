@@ -11,4 +11,10 @@
     <style name="NavBar" parent="TextAppearance.AppCompat.Body2">
         <item name="android:textSize">@dimen/nav_text_size</item>
     </style>
+
+    <!-- 显示弹入弹出动画 -->
+    <style name="TopDialog">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+    </style>
 </resources>
