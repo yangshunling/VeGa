@@ -48,14 +48,16 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     }
 
     @Override
-    public void initData() {
-        initView();
+    public void initView() {
         initNavBar();
         initFragment();
     }
 
-    private void initView() {
+    @Override
+    public void initData() {
+
     }
+
 
     private void initNavBar() {
         mNavBar.setTabSelectedListener(this);

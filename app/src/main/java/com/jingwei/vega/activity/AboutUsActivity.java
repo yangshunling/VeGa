@@ -26,6 +26,11 @@ public class AboutUsActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
         mTvIntroduce.setText("商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动" +
                 "描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描" +

@@ -46,6 +46,11 @@ public class MyCollectActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
         mSpring.setHeader(new DefaultHeader(MyCollectActivity.this));
         mSpring.setFooter(new DefaultFooter(MyCollectActivity.this));

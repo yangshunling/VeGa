@@ -19,6 +19,11 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
     }
 }

@@ -53,6 +53,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
 
     }

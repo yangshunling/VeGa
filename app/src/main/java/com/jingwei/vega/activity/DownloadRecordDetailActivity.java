@@ -36,6 +36,11 @@ public class DownloadRecordDetailActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
 
         DynamicBean bean = new DynamicBean();

@@ -41,6 +41,11 @@ public class RegistActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
 
     }

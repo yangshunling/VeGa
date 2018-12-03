@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.GoodsLibActivity"
             android:hardwareAccelerated="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -36,6 +36,7 @@
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.DownloadRecordActivity"/>
         <activity android:name=".activity.DownloadRecordDetailActivity"/>
+        <!--<activity android:name=".activity.GoodsLibActivity"/>-->
     </application>
 
 </manifest>

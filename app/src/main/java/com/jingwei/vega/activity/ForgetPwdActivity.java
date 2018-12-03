@@ -42,6 +42,11 @@ public class ForgetPwdActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
         mEtPhone.setText("10086");
     }

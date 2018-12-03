@@ -49,6 +49,11 @@ public class DownloadRecordActivity extends BaseActivity {
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
         mSpring.setHeader(new DefaultHeader(DownloadRecordActivity.this));
         mSpring.setFooter(new DefaultFooter(DownloadRecordActivity.this));

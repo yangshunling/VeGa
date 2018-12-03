@@ -49,6 +49,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         bindPlugins();
         //初始化TitleBar
         initTitleBar();
+        //初始化控件
+        initView();
         //初始化数据
         initData();
     }
@@ -136,6 +138,11 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     public abstract void initTitleBar();
 
     /**
+     * 初始化控件
+     */
+    public abstract void initView();
+
+    /**
      * 初始化数据（控件的赋值）
      */
     public abstract void initData();
@@ -215,6 +222,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     /**
      * 点击非输入框的空白区域自动隐藏软键盘
+     *
      * @param ev
      * @return
      */
@@ -239,13 +247,14 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     /**
      * 点击非输入框的空白区域自动隐藏软键盘
+     *
      * @param v
      * @param event
      * @return
      */
     public boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] leftTop = { 0, 0 };
+            int[] leftTop = {0, 0};
             //获取输入框当前的location位置
             v.getLocationInWindow(leftTop);
             int left = leftTop[0];
