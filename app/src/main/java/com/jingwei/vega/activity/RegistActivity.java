@@ -91,5 +91,6 @@ public class RegistActivity extends BaseActivity {
     }
 
     private void regist() {
+
     }
 }

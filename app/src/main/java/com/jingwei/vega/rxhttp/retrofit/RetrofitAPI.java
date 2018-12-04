@@ -16,10 +16,37 @@ import rx.Observable;
 
 public interface RetrofitAPI {
 
+    /********************************* Anonymous******************************/
+
     /**
      * 用户登录
      */
     @Multipart
     @POST("index/agency/login")
     Observable<RxMoudle<String>> userLogin(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 发验证码
+     */
+    @Multipart
+    @POST("index/agency/login")
+    Observable<RxMoudle<String>> sendCode(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 用户注册
+     */
+    @Multipart
+    @POST("index/agency/login")
+    Observable<RxMoudle<String>> userRegist(@PartMap Map<String, RequestBody> params);
+
+
+
+
+    /********************************* chengxc******************************/
+
+
+
+
+
+
 }
