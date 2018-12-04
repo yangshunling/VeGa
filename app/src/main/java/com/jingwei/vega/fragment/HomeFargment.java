@@ -1,15 +1,10 @@
 package com.jingwei.vega.fragment;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.R;
-import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.HomeBean;
