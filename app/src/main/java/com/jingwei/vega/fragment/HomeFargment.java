@@ -54,7 +54,7 @@ public class HomeFargment extends BaseFragment {
     @Override
     public void initData() {
         //轮播图测试数据
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             mBannerList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544256191&di=63fa160f4e838ddd1a46c9033f464af9&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F0136db56a8337a32f875520fcda8ec.jpg");
             mBannerList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543834276504&di=558d8d0aae63b7992d2aa9f8ef851307&imgtype=0&src=http%3A%2F%2Ffile25.mafengwo.net%2FM00%2F66%2FD8%2FwKgB4lMcWvyAE9xYAAC8zPK6yMw35.jpeg");
         }
@@ -103,7 +103,7 @@ public class HomeFargment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void scheduleTask(ScheduleEvent event) {
-        mRlBanner.setCurrentItem(event.getIndex());
+        mRlBanner.setCurrentItem(event.getIndex(),false);
     }
 
     @Override
@@ -118,6 +118,6 @@ public class HomeFargment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().unregister(this);
     }
 }

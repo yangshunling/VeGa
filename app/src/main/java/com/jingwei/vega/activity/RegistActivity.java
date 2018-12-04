@@ -6,6 +6,7 @@ import android.widget.EditText;
 import com.came.viewbguilib.ButtonBgUi;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.utils.TextUtil;
 import com.jingwei.vega.view.VerifyCodeButton;
 
 import butterknife.BindView;
@@ -54,9 +55,41 @@ public class RegistActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_verify_code:
+                validationPhone();
                 break;
             case R.id.bt_regist:
                 break;
         }
+    }
+
+    private void validationPhone() {
+        String phone = mEtPhone.getText().toString().trim();
+        if (TextUtil.isEmpty(phone))
+            showToast("手机号不能为空");
+        else
+            sendPhoneCode();
+    }
+
+    private void sendPhoneCode() {
+        String phone = mEtPhone.getText().toString().trim();
+        String code = mBtnVerifyCode.getText().toString().trim();
+        String password = mEtPassword.getText().toString().trim();
+        String confirmPassword = mEtConfirmPassword.getText().toString().trim();
+        if (TextUtil.isEmpty(phone))
+            showToast("手机号不能为空");
+        else if (TextUtil.isEmpty(code))
+            showToast("验证码不能为空");
+        else if (TextUtil.isEmpty(password))
+            showToast("密码不能为空");
+        else if (TextUtil.isEmpty(confirmPassword))
+            showToast("确认密码不能为空");
+        else if (!password.equals(confirmPassword))
+            showToast("两次密码不一致");
+        else 
+            regist();
+
+    }
+
+    private void regist() {
     }
 }

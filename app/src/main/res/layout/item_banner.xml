@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="5dp"
-    app:cardMaxElevation="3dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="1dp"
+    app:cardMaxElevation="1dp"
     app:cardUseCompatPadding="true">
 
     <ImageView

@@ -11,10 +11,19 @@ import android.widget.TextView;
 import com.came.viewbguilib.ButtonBgUi;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
+import com.jingwei.vega.rxhttp.retrofit.RetrofitAPI;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
+import com.jingwei.vega.utils.PreferencesUtil;
+import com.jingwei.vega.utils.TextUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 用户登录
@@ -66,6 +75,7 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_login:
+//                validationData();
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.tv_regist:
@@ -75,5 +85,32 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(this, ForgetPwdActivity.class));
                 break;
         }
+    }
+
+    private void validationData() {
+        String phone = mEtPhone.getText().toString().trim();
+        String password = mEtPassword.getText().toString().trim();
+        if (TextUtil.isEmpty(phone))
+            showToast("手机号不能为空");
+        else if (TextUtil.isEmpty(password))
+            showToast("密码不能为空");
+        else
+            login(phone, password);
+    }
+
+    private void login(String phone, String password) {
+        ServiceAPI.Retrofit().userLogin(ParamBuilder.newBody()
+                .addBody("username", phone)
+                .addBody("password", password)
+                .bulidBody())
+                .map(new RxResultFunc<String>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<String>(LoginActivity.this) {
+                    @Override
+                    public void onNext(String token) {
+                        PreferencesUtil.saveToken(LoginActivity.this, token);
+                    }
+                });
     }
 }
