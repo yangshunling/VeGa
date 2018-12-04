@@ -2,7 +2,6 @@ package com.jingwei.vega.fragment;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,6 +13,7 @@ import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.HomeBean;
+import com.jingwei.vega.utils.ListViewUtil;
 import com.jingwei.vega.view.cardgallery.CardGalleryAdapter;
 import com.jingwei.vega.view.cardgallery.CardScaleHelper;
 import com.jingwei.vega.view.cardgallery.SpeedRecyclerView;
@@ -27,13 +27,14 @@ public class HomeFargment extends BaseFragment {
 
     @BindView(R.id.recyclerView)
     SpeedRecyclerView mRecyclerView;
-    @BindView(R.id.rv_list)
-    RecyclerView mRvList;
+    @BindView(R.id.home_list)
+    ListView mHomeList;
+
 
     private List<String> mStringList = new ArrayList<>();
     private CardScaleHelper mCardScaleHelper = null;
 
-    private MyAdapter mMyAdapter;
+    private HomeListAdapter mMyAdapter;
     private List<HomeBean> mBeanList = new ArrayList<>();
 
     @Override
@@ -55,22 +56,28 @@ public class HomeFargment extends BaseFragment {
         //列表测试数据
         for (int i = 0; i < 3; i++) {
             HomeBean homeBean = new HomeBean();
-            homeBean.setTitle("市场推荐");
+            homeBean.setTitle("市场推荐 //");
             List<HomeBean.CardBean> cb = new ArrayList<>();
             for (int j = 0; j < 4; j++) {
                 HomeBean.CardBean bean = new HomeBean.CardBean();
                 bean.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543834276504&di=558d8d0aae63b7992d2aa9f8ef851307&imgtype=0&src=http%3A%2F%2Ffile25.mafengwo.net%2FM00%2F66%2FD8%2FwKgB4lMcWvyAE9xYAAC8zPK6yMw35.jpeg");
-                bean.setName("杭州"+j);
+                bean.setName("杭州" + j);
                 cb.add(bean);
             }
             homeBean.setCardBeans(cb);
             mBeanList.add(homeBean);
         }
-        mMyAdapter.replaceData(mBeanList);
+        initListview();
+    }
+
+    private void initListview() {
+        //列表
+        mMyAdapter = new HomeListAdapter(getActivity(), mBeanList);
+        mHomeList.setAdapter(mMyAdapter);
+        ListViewUtil.setListViewHeightBasedOnChildren(mHomeList);
     }
 
     private void initRecyclerView() {
-        //轮播
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(new CardGalleryAdapter(getActivity(), mStringList));
@@ -78,11 +85,7 @@ public class HomeFargment extends BaseFragment {
         mCardScaleHelper = new CardScaleHelper();
         mCardScaleHelper.setCurrentItemPos(2);
         mCardScaleHelper.attachToRecyclerView(mRecyclerView);
-        //列表
-        mMyAdapter = new MyAdapter(R.layout.item_home_recycle, mBeanList);
-        mMyAdapter.setEmptyView(getEmptyView());
-        mRvList.setAdapter(mMyAdapter);
-        mRvList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     @Override
@@ -92,25 +95,5 @@ public class HomeFargment extends BaseFragment {
     @Override
     public void onClick(View v) {
 
-    }
-
-    public class MyAdapter extends BaseQuickAdapter<HomeBean, BaseViewHolder> {
-        public MyAdapter(int layoutResId, List data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, HomeBean item) {
-            helper.setText(R.id.tv_home_title,item.getTitle());
-            ListView listView = helper.getView(R.id.lv_home_list);
-            listView.setAdapter(new HomeListAdapter(getActivity(),item.getCardBeans()));
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startActivity(new Intent(getActivity(), MarketShopsActivity.class));
-                }
-            });
-        }
     }
 }

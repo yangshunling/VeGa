@@ -23,9 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.MainActivity"
-            android:hardwareAccelerated="false"/>
+        <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.RegistActivity"/>
         <activity android:name=".activity.ForgetPwdActivity"/>
         <activity android:name=".activity.MarketShopsActivity"/>

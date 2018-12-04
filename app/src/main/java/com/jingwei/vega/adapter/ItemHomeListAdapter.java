@@ -5,21 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jingwei.vega.R;
 import com.jingwei.vega.moudle.bean.HomeBean;
-import com.jingwei.vega.utils.ListViewUtil;
+import com.jingwei.vega.utils.GlideUtil;
 
 import java.util.List;
 
-public class HomeListAdapter extends BaseAdapter {
+public class ItemHomeListAdapter extends BaseAdapter {
 
     private Context context;
-    private List<HomeBean> mBeanList;
+    private List<HomeBean.CardBean> mBeanList;
 
-    public HomeListAdapter(Context context, List<HomeBean> mBeanList) {
+    public ItemHomeListAdapter(Context context, List<HomeBean.CardBean> mBeanList) {
         this.context = context;
         this.mBeanList = mBeanList;
     }
@@ -45,24 +45,23 @@ public class HomeListAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(
-                    R.layout.item_home_list, null);
+                    R.layout.item_item_home_list, null);
 
-            viewHolder.mTvHomeTitle = (TextView) convertView.findViewById(R.id.tv_home_title);
-            viewHolder.mLvHomeList = (ListView) convertView.findViewById(R.id.lv_home_list);
+            viewHolder.url = (ImageView) convertView.findViewById(R.id.iv_home_list_item);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.tv_home_list_item);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        viewHolder.mTvHomeTitle.setText(mBeanList.get(position).getTitle());
-        viewHolder.mLvHomeList.setAdapter(new ItemHomeListAdapter(context,mBeanList.get(position).getCardBeans()));
-        ListViewUtil.setListViewHeightBasedOnChildren(viewHolder.mLvHomeList);
+        GlideUtil.setImage(context, mBeanList.get(position).getUrl(), viewHolder.url);
+        viewHolder.title.setText(mBeanList.get(position).getName());
         return convertView;
     }
 
     static class ViewHolder {
-        TextView mTvHomeTitle;
-        ListView mLvHomeList;
+        ImageView url;
+        TextView title;
     }
 }
