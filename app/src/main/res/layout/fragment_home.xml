@@ -15,11 +15,10 @@
             android:layout_height="0.5dp"
             android:background="@color/gray"/>
 
-        <com.jingwei.vega.view.cardgallery.SpeedRecyclerView
-            android:id="@+id/recyclerView"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_banner"
             android:layout_width="match_parent"
-            android:layout_height="180dp"/>
-
+            android:layout_height="200dp"/>
 
         <ListView
             android:id="@+id/home_list"
