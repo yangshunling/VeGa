@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <include layout="@layout/include_search" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择市场"
-            android:textColor="@color/gray3"
-            android:textSize="12dp" />
-
-        <ImageView
-            android:id="@+id/iv_choose_market_shops"
-            android:layout_width="35dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:src="@drawable/icon_arrow_down" />
-    </RelativeLayout>
-
-    <com.jingwei.vega.refresh.SpringView
-        android:id="@+id/spring"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        app:Spring_type="follow">
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_market_shops"
+        <include layout="@layout/include_search" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择市场"
+                android:textColor="@color/gray3"
+                android:textSize="12dp" />
+
+            <ImageView
+                android:id="@+id/iv_choose_market_shops"
+                android:layout_width="35dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/icon_arrow_down" />
+        </RelativeLayout>
+
+        <com.jingwei.vega.refresh.SpringView
+            android:id="@+id/spring"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray6"></android.support.v7.widget.RecyclerView>
-    </com.jingwei.vega.refresh.SpringView>
-</LinearLayout>
+            android:background="@color/white"
+            app:Spring_type="follow">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_market_shops"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray6"></android.support.v7.widget.RecyclerView>
+        </com.jingwei.vega.refresh.SpringView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_tran"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tran_color"/>
+</RelativeLayout>

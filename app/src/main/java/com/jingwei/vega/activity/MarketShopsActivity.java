@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -22,6 +24,9 @@ import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
+import com.zyyoona7.popup.EasyPopup;
+import com.zyyoona7.popup.XGravity;
+import com.zyyoona7.popup.YGravity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +48,11 @@ public class MarketShopsActivity extends BaseActivity{
 
     @BindView(R.id.spring)
     SpringView mSpring;
+
+    @BindView(R.id.tv_tran)
+    TextView mTran;//透明罩子
+
+    private EasyPopup mCirclePop;
 
     private MarketShopsAdapter mMarketShopsAdapter;
     private List<DynamicBean> mBeanList = new ArrayList<>();
@@ -96,26 +106,29 @@ public class MarketShopsActivity extends BaseActivity{
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_choose_market_shops:
-                showMarketShops();
+                showMarketShops(view);
                 break;
         }
     }
 
-    //展示商铺
-    private void showMarketShops() {
-        final Dialog topDialog = new Dialog(this, R.style.TopDialog);
-        View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_top_market_shops, null);
-        topDialog.setContentView(contentView);
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
-        layoutParams.width = getResources().getDisplayMetrics().widthPixels;
-        //设置mar属性
-        layoutParams.bottomMargin = DisplayUtil.dp2px(this,15f);
-        contentView.setLayoutParams(layoutParams);
-        topDialog.getWindow().setGravity(Gravity.TOP);
-        topDialog.show();
+    //展示商铺选择
+    private void showMarketShops(View view) {
+        if (mCirclePop == null) {
+            mCirclePop = EasyPopup.create()
+                    .setContentView(MarketShopsActivity.this, R.layout.dialog_top_market_shops)
+                    .setAnimationStyle(R.style.TopDialog)
+                    .setFocusAndOutsideEnable(true)
+                    .setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            mTran.setVisibility(View.GONE);
+                        }
+                    })
+                    .apply();
+        }
 
         //Recycler适配
-        RecyclerView mRv = contentView.findViewById(R.id.dialog_rv_top_market_shops);
+        RecyclerView mRv = mCirclePop.findViewById(R.id.dialog_rv_top_market_shops);
 
         cb.clear();
 
@@ -136,9 +149,15 @@ public class MarketShopsActivity extends BaseActivity{
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 showToast("你点击了："+cb.get(position).getName());
-                topDialog.dismiss();
+                mCirclePop.dismiss();
             }
         });
+
+        //设置透明罩子可见
+        mTran.setVisibility(View.VISIBLE);
+
+        //设置popupWindow的位置
+        mCirclePop.showAtAnchorView(view, YGravity.BELOW, XGravity.LEFT, 0, 0);
     }
 
     //顶部dialog适配

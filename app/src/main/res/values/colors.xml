@@ -30,4 +30,6 @@
 
     <!-- 我的 -->
     <color name="line_color">#D5A9FB</color>
+    <!-- 透明色 -->
+    <color name="tran_color">#33000000</color>
 </resources>
