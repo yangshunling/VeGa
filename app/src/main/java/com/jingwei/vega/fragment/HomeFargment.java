@@ -1,6 +1,10 @@
 package com.jingwei.vega.fragment;
 
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
@@ -9,13 +13,19 @@ import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.ScheduleEvent;
 import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.utils.ListViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 
 public class HomeFargment extends BaseFragment {
 
@@ -25,9 +35,11 @@ public class HomeFargment extends BaseFragment {
     HorizontalInfiniteCycleViewPager mRlBanner;
 
     private List<String> mBannerList = new ArrayList<>();
-
     private List<HomeBean> mBeanList = new ArrayList<>();
     private HomeListAdapter mListAdapter;
+    private Timer timer = new Timer();
+
+    private Integer pagerIndex = 0;
 
     @Override
     public int getContentView() {
@@ -36,6 +48,7 @@ public class HomeFargment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -71,8 +84,26 @@ public class HomeFargment extends BaseFragment {
     }
 
     private void initBanner() {
-        mRlBanner.setAdapter(new BannerListAdapter(getActivity(),mBannerList));
-        mRlBanner.clearAnimation();
+        mRlBanner.setAdapter(new BannerListAdapter(getActivity(), mBannerList));
+        mRlBanner.setInterpolator(new LinearInterpolator());
+        startSchedule();
+    }
+
+    private void startSchedule() {
+        timer.schedule(new TimerTask() {
+            public void run() {
+                pagerIndex++;
+                if (pagerIndex == mBannerList.size()) {
+                    pagerIndex = 0;
+                }
+                EventBus.getDefault().post(new ScheduleEvent(pagerIndex));
+            }
+        }, 3000, 3000);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void scheduleTask(ScheduleEvent event) {
+        mRlBanner.setCurrentItem(event.getIndex());
     }
 
     @Override
@@ -82,5 +113,11 @@ public class HomeFargment extends BaseFragment {
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().register(this);
     }
 }
