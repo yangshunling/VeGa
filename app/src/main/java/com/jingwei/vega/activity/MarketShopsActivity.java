@@ -1,6 +1,7 @@
 package com.jingwei.vega.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,6 +23,7 @@ import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.utils.AppUtils;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
@@ -39,6 +42,9 @@ import butterknife.OnClick;
  * 市场店铺界面
  */
 public class MarketShopsActivity extends BaseActivity{
+
+    @BindView(R.id.rl_choose_market_shops)
+    RelativeLayout mRlChooseMarketShops;
 
     @BindView(R.id.iv_choose_market_shops)
     ImageView mIvChooseMarketShops;
@@ -100,28 +106,37 @@ public class MarketShopsActivity extends BaseActivity{
             mBeanList.add(bean);
         }
         mMarketShopsAdapter.replaceData(mBeanList);
+
+        mMarketShopsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(MarketShopsActivity.this,ShopActivity.class));
+            }
+        });
     }
 
-    @OnClick({R.id.iv_choose_market_shops})
+    @OnClick({R.id.rl_choose_market_shops})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_choose_market_shops:
-                showMarketShops(view);
+            case R.id.rl_choose_market_shops:
+                showMarketShops();
                 break;
         }
     }
 
     //展示商铺选择
-    private void showMarketShops(View view) {
+    private void showMarketShops() {
         if (mCirclePop == null) {
             mCirclePop = EasyPopup.create()
                     .setContentView(MarketShopsActivity.this, R.layout.dialog_top_market_shops)
                     .setAnimationStyle(R.style.TopDialog)
+                    .setWidth(AppUtils.getScreenWidth(MarketShopsActivity.this))
                     .setFocusAndOutsideEnable(true)
                     .setOnDismissListener(new PopupWindow.OnDismissListener() {
                         @Override
                         public void onDismiss() {
                             mTran.setVisibility(View.GONE);
+                            mIvChooseMarketShops.setBackground(getResources().getDrawable(R.drawable.icon_arrow_down));
                         }
                     })
                     .apply();
@@ -155,12 +170,13 @@ public class MarketShopsActivity extends BaseActivity{
 
         //设置透明罩子可见
         mTran.setVisibility(View.VISIBLE);
+        mIvChooseMarketShops.setBackground(getResources().getDrawable(R.drawable.icon_arrow_up));
 
         //设置popupWindow的位置
-        mCirclePop.showAtAnchorView(view, YGravity.BELOW, XGravity.LEFT, 0, 0);
+        mCirclePop.showAtAnchorView(mRlChooseMarketShops, YGravity.BELOW, XGravity.LEFT, 0, 0);
     }
 
-    //顶部dialog适配
+    //顶部popupWindow适配
     public class DialogMarketShopsAdapter extends BaseQuickAdapter<HomeBean.CardBean, BaseViewHolder> {
         public DialogMarketShopsAdapter(int layoutResId, List data) {
             super(layoutResId, data);
@@ -169,7 +185,7 @@ public class MarketShopsActivity extends BaseActivity{
         @Override
         protected void convert(BaseViewHolder helper, HomeBean.CardBean item) {
             helper.setText(R.id.tv_market_shops_list_item,item.getName());
-            GlideUtil.setRoundImage(MarketShopsActivity.this,item.getUrl(),5, (ImageView) helper.getView(R.id.iv_market_shops_list_item));
+            GlideUtil.setRoundImage(MarketShopsActivity.this,item.getUrl(),10, (ImageView) helper.getView(R.id.iv_market_shops_list_item));
         }
     }
 

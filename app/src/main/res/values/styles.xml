@@ -14,7 +14,7 @@
 
     <!-- 显示弹入弹出动画 -->
     <style name="TopDialog">
-        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
-        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+        <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/popup_exit</item>
     </style>
 </resources>

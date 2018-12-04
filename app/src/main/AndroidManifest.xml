@@ -27,6 +27,7 @@
         <activity android:name=".activity.RegistActivity"/>
         <activity android:name=".activity.ForgetPwdActivity"/>
         <activity android:name=".activity.MarketShopsActivity"/>
+        <activity android:name=".activity.ShopActivity"/>
 
         <!-- 我的 -->
         <activity android:name=".activity.MyCollectActivity"/>

@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <include layout="@layout/include_search" />
+
+    <RelativeLayout
+        android:id="@+id/rl_choose_market_shops"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
-        <include layout="@layout/include_search" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:text="选择市场"
+            android:textColor="@color/gray3"
+            android:textSize="12dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="选择市场"
-                android:textColor="@color/gray3"
-                android:textSize="12dp" />
+        <ImageView
+            android:id="@+id/iv_choose_market_shops"
+            android:layout_width="12dp"
+            android:layout_height="8dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/icon_arrow_down" />
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/iv_choose_market_shops"
-                android:layout_width="35dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:src="@drawable/icon_arrow_down" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <com.jingwei.vega.refresh.SpringView
             android:id="@+id/spring"
@@ -47,12 +45,12 @@
                 android:layout_height="match_parent"
                 android:background="@color/gray6"></android.support.v7.widget.RecyclerView>
         </com.jingwei.vega.refresh.SpringView>
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_tran"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/tran_color"/>
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_tran"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/tran_color"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>
