@@ -1,14 +1,17 @@
 package com.jingwei.vega.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.utils.ListViewUtil;
 
@@ -49,6 +52,14 @@ public class HomeListAdapter extends BaseAdapter {
 
             viewHolder.mTvHomeTitle = (TextView) convertView.findViewById(R.id.tv_home_title);
             viewHolder.mLvHomeList = (ListView) convertView.findViewById(R.id.lv_home_list);
+
+            viewHolder.mLvHomeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(context,MarketShopsActivity.class);
+                    context.startActivity(intent);
+                }
+            });
 
             convertView.setTag(viewHolder);
         } else {
