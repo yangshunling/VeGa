@@ -1,11 +1,17 @@
 package com.jingwei.vega.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
@@ -19,6 +25,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
@@ -29,6 +37,8 @@ public class HomeFargment extends BaseFragment {
     ListView mHomeList;
     @BindView(R.id.rl_banner)
     HorizontalInfiniteCycleViewPager mRlBanner;
+    @BindView(R.id.et_content)
+    EditText mEtContent;
 
     private List<String> mBannerList = new ArrayList<>();
     private List<HomeBean> mBeanList = new ArrayList<>();
@@ -82,7 +92,8 @@ public class HomeFargment extends BaseFragment {
     private void initBanner() {
         mRlBanner.setAdapter(new BannerListAdapter(getActivity(), mBannerList));
         mRlBanner.setInterpolator(new LinearInterpolator());
-        startSchedule();
+        mRlBanner.startAutoScroll(true);
+//        startSchedule();
     }
 
     private void startSchedule() {
@@ -99,11 +110,19 @@ public class HomeFargment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void scheduleTask(ScheduleEvent event) {
-        mRlBanner.setCurrentItem(event.getIndex(),false);
+        mRlBanner.setCurrentItem(event.getIndex(), false);
     }
 
     @Override
     protected void setListener() {
+        mEtContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
+                intent.putExtra("tag","home");
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

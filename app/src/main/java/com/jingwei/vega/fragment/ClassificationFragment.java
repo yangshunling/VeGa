@@ -23,8 +23,6 @@ import java.util.List;
 import butterknife.BindView;
 
 public class ClassificationFragment extends BaseFragment {
-    @BindView(R.id.et_phone)
-    EditText mEtPhone;
     @BindView(R.id.lv_left)
     ListView mLvLeft;
     @BindView(R.id.rv_right)

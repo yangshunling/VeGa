@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.gcssloop.widget.RCRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/gray4"
-    android:padding="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    app:clip_background="true"
-    app:round_corner="100dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="10dp">
 
-    <ImageView
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/icon_search"/>
-
-    <EditText
-        android:id="@+id/et_phone"
+    <com.gcssloop.widget.RCRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:gravity="center"
-        android:hint="搜索店铺"
-        android:imeOptions="actionSearch"
-        android:padding="5dp"
-        android:textColorHint="@color/gray2"
-        android:textSize="13dp"/>
-</com.gcssloop.widget.RCRelativeLayout>
+        android:layout_weight="1"
+        android:background="@color/gray4"
+        app:clip_background="true"
+        app:round_corner="100dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_search"/>
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="true"
+            android:focusable="false"
+            android:gravity="center"
+            android:hint="搜索店铺"
+            android:imeOptions="actionSearch"
+            android:padding="5dp"
+            android:textColorHint="@color/gray2"
+            android:textSize="13dp"/>
+
+    </com.gcssloop.widget.RCRelativeLayout>
+</LinearLayout>

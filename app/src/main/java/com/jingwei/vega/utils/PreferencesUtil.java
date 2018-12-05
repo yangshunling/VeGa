@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jingwei.vega.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class PreferencesUtil {
     private static int appVersionCode;
 
     private static Gson gson = new Gson();
+    private static List<String> mRecordList = new ArrayList<>();
 
     /**
      * 保存App版本号
@@ -191,8 +193,12 @@ public class PreferencesUtil {
      * 保存历史记录
      */
     public static void saveSearchRecord(Context context, String recordStr) {
-        List<String> mRecordList = getSearchRecordList(context);
-        mRecordList.add(0,recordStr);
+        mRecordList = getSearchRecordList(context);
+        try {
+            mRecordList.add(0, recordStr);
+        } catch (Exception e) {
+            mRecordList.add(recordStr);
+        }
         editor = context.getSharedPreferences("record", Context.MODE_PRIVATE)
                 .edit();
         editor.putString("record", gson.toJson(mRecordList));
@@ -208,8 +214,10 @@ public class PreferencesUtil {
     public static List<String> getSearchRecordList(Context context) {
         pref = context.getSharedPreferences("record", context.MODE_PRIVATE);
         String mRecord = pref.getString("record", "");
-        List<String> mRecordList = gson.fromJson(mRecord, new TypeToken<List<String>>() {
-        }.getType());
+        if (!mRecord.equals("")) {
+            mRecordList = gson.fromJson(mRecord, new TypeToken<List<String>>() {
+            }.getType());
+        }
         return mRecordList;
     }
 
