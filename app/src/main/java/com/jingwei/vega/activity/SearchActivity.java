@@ -155,6 +155,12 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        SoftKeyboardUtils.showSoftKeyboard(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         SoftKeyboardUtils.hideSoftKeyboard(this);
