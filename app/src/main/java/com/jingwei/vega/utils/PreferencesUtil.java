@@ -3,7 +3,11 @@ package com.jingwei.vega.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jingwei.vega.Constants;
+
+import java.util.List;
 
 /**
  * 全局信息的保存和取出
@@ -19,29 +23,9 @@ public class PreferencesUtil {
     private static String userName;
     private static String userId;
     private static String token;
-    private static String imPassword;
-
-    private static String roleId;
-
-    private static String branch;
-
-    private static String phone;
-
-    private static String role_state;
-
-    private static int notifyCount;
     private static int appVersionCode;
 
-    private static String arrayJson;
-    private static String arrayJson1;
-    private static String arrayJson2;
-
-    private static int TAG;
-
-    //敏感词
-    private static String sensitiveWordsJson;
-
-    private static String host = "";
+    private static Gson gson = new Gson();
 
     /**
      * 保存App版本号
@@ -107,10 +91,10 @@ public class PreferencesUtil {
         editor.putString("username", username);//用户名
         editor.putString("userid", userid);//用户ID
         editor.putString("imPassword", imPassword);//IM登录密码
-        editor.putString("role_id",role_id);//角色id，大于0表示管理员
-        editor.putString("branch",branch);//所属党支部
-        editor.putString("phone",phone);//用户手机号
-        editor.putString("role_state",role_state);//用户身份  1-超级管理员
+        editor.putString("role_id", role_id);//角色id，大于0表示管理员
+        editor.putString("branch", branch);//所属党支部
+        editor.putString("phone", phone);//用户手机号
+        editor.putString("role_state", role_state);//用户身份  1-超级管理员
         editor.commit();
     }
 
@@ -164,67 +148,6 @@ public class PreferencesUtil {
     }
 
     /**
-     * 获取到用户IM登录密码
-     *
-     * @param context
-     * @return
-     */
-    public static String getUserIMPassword(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        imPassword = pref.getString("imPassword", "");
-        return imPassword;
-    }
-
-    /**
-     * 获取到用户角色，role_id大于0为管理员，可以发起会议
-     *
-     * @param context
-     * @return
-     */
-    public static String getRoleId(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        roleId = pref.getString("role_id","");
-        return roleId;
-    }
-
-
-    /**
-     * 获取到用户角色所在党支部
-     *
-     * @param context
-     * @return
-     */
-    public static String getBranch(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        branch = pref.getString("branch","");
-        return branch;
-    }
-
-    /**
-     * 获取到用户角色电话
-     *
-     * @param context
-     * @return
-     */
-    public static String getPhone(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        phone = pref.getString("phone","");
-        return phone;
-    }
-
-    /**
-     * 获取到用户角色,1-超级管理员,可查看学习统计以及上传下达等
-     *
-     * @param context
-     * @return
-     */
-    public static String getRoleState(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        role_state = pref.getString("role_state","");
-        return role_state;
-    }
-
-    /**
      * 注销用户,清空所有数据
      *
      * @param context
@@ -237,7 +160,6 @@ public class PreferencesUtil {
                 "userinfo", context.MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
-
     }
 
     /**
@@ -265,183 +187,43 @@ public class PreferencesUtil {
         return isShowNewGuide;
     }
 
-    /********************************************************* 集合 **************************************************/
-
     /**
-     * 必选人员
-     * 保存Array集合Json
-     *
-     * @param context
-     * @param arrayJson
+     * 保存历史记录
      */
-    public static void saveBiXuanJson(Context context, String arrayJson) {
-        editor = context.getSharedPreferences("bixuan", Context.MODE_PRIVATE)
+    public static void saveSearchRecord(Context context, String recordStr) {
+        List<String> mRecordList = getSearchRecordList(context);
+        mRecordList.add(0,recordStr);
+        editor = context.getSharedPreferences("record", Context.MODE_PRIVATE)
                 .edit();
-        editor.putString("bixuan", arrayJson);
+        editor.putString("record", gson.toJson(mRecordList));
         editor.commit();
     }
 
     /**
-     * 必选人员
-     * 获取Array集合Json
+     * 获取历史记录
      *
      * @param context
      * @return
      */
-    public static String getBiXuanJson(Context context) {
-        pref = context.getSharedPreferences("bixuan", context.MODE_PRIVATE);
-        arrayJson1 = pref.getString("bixuan", "");
-        return arrayJson1;
+    public static List<String> getSearchRecordList(Context context) {
+        pref = context.getSharedPreferences("record", context.MODE_PRIVATE);
+        String mRecord = pref.getString("record", "");
+        List<String> mRecordList = gson.fromJson(mRecord, new TypeToken<List<String>>() {
+        }.getType());
+        return mRecordList;
     }
 
     /**
-     * 可选人员
-     * 保存Array集合Json
-     *
-     * @param context
-     * @param arrayJson
-     */
-    public static void saveKeXuanJson(Context context, String arrayJson) {
-        editor = context.getSharedPreferences("kexuan", Context.MODE_PRIVATE)
-                .edit();
-        editor.putString("kexuan", arrayJson);
-        editor.commit();
-    }
-
-    /**
-     * 可选人员
-     * 获取Array集合Json
+     * 清空历史记录
      *
      * @param context
      * @return
      */
-    public static String getKeXuanJson(Context context) {
-        pref = context.getSharedPreferences("kexuan", context.MODE_PRIVATE);
-        arrayJson = pref.getString("kexuan", "");
-        return arrayJson;
-    }
-
-    /**
-     * 讨论组人员
-     * 保存Array集合Json
-     *
-     * @param context
-     * @param arrayJson
-     */
-    public static void saveGroupJson(Context context, String arrayJson) {
-        editor = context.getSharedPreferences("group", Context.MODE_PRIVATE)
-                .edit();
-        editor.putString("group", arrayJson);
-        editor.commit();
-    }
-
-    /**
-     * 讨论组人员
-     * 获取Array集合Json
-     *
-     * @param context
-     * @return
-     */
-    public static String getGroupJson(Context context) {
-        pref = context.getSharedPreferences("group", context.MODE_PRIVATE);
-        arrayJson = pref.getString("group", "");
-        return arrayJson;
-    }
-
-    /**
-     * 清空选中的用户的数据
-     *
-     * @param context
-     */
-    public static void cleanArrayJson(Context context) {
+    public static void cleanSearchRecord(Context context) {
         editor = context.getSharedPreferences(
-                "bixuan", context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor.commit();
-        editor = context.getSharedPreferences(
-                "kexuan", context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor = context.getSharedPreferences(
-                "group", context.MODE_PRIVATE).edit();
+                "record", context.MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
     }
 
-    /**
-     * 保存当前是否为第一次登陆
-     *
-     * @param context
-     * @param tag 0-表示第一次登陆，1表示第二次登陆
-     */
-    public static void saveTAG(Context context, int tag) {
-        editor = context.getSharedPreferences("tag", Context.MODE_PRIVATE)
-                .edit();
-        editor.putInt("tag", tag);
-        editor.commit();
-    }
-
-    /**
-     * 获取标记值，判断当前是否是第一次登陆
-     *
-     * @param context
-     * @return
-     */
-    public static int getTAG(Context context) {
-        pref = context.getSharedPreferences("tag", context.MODE_PRIVATE);
-        TAG = pref.getInt("tag", 0);
-        return TAG;
-    }
-
-    /**
-     * 敏感词
-     * 保存Array集合Json
-     *
-     * @param context
-     * @param sensitiveWordsJson
-     */
-    public static void saveSensitiveWordsJson(Context context, String sensitiveWordsJson) {
-        editor = context.getSharedPreferences("sensitiveWordsJson", Context.MODE_PRIVATE)
-                .edit();
-        editor.putString("sensitiveWordsJson", sensitiveWordsJson);
-        editor.commit();
-    }
-
-    /**
-     * 敏感词
-     * 获取Array集合Json
-     *
-     * @param context
-     * @return
-     */
-    public static String getSensitiveWordsJson(Context context) {
-        pref = context.getSharedPreferences("sensitiveWordsJson", context.MODE_PRIVATE);
-        sensitiveWordsJson = pref.getString("sensitiveWordsJson", "");
-        return sensitiveWordsJson;
-    }
-
-
-    /**
-     * 保存host
-     *
-     * @param context
-     * @param host
-     */
-    public static void saveHost(Context context, String host) {
-        editor = context.getSharedPreferences("host", Context.MODE_PRIVATE)
-                .edit();
-        editor.putString("host", host);//token
-        editor.commit();
-    }
-
-    /**
-     * 获取host
-     *
-     * @param context
-     * @return
-     */
-    public static String getHost(Context context) {
-        pref = context.getSharedPreferences("host", context.MODE_PRIVATE);
-        host = pref.getString("host", Constants.host);
-        return host;
-    }
 }

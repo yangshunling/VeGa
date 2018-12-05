@@ -1,5 +1,6 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.base.MyApplication;
 import com.jingwei.vega.rxhttp.okhttp.LogInterceptor;
 import com.jingwei.vega.rxhttp.okhttp.TokenInterceptor;
@@ -20,7 +21,6 @@ public class ServiceAPI {
 
     private static RetrofitAPI retrofitAPI;
 
-    private static String host;
 
     /**
      * 创建Retrofit
@@ -28,11 +28,9 @@ public class ServiceAPI {
      * @return
      */
     public static RetrofitAPI Retrofit() {
-        host = PreferencesUtil.getHost(MyApplication.getContext());
-
         if (retrofitAPI == null) {
             retrofitAPI = new Retrofit.Builder()
-                    .baseUrl("http://" + host +"/api/")
+                    .baseUrl(Constants.host)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(getOkhttpClient())
