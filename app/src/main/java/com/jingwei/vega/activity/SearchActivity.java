@@ -1,5 +1,8 @@
 package com.jingwei.vega.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 public class SearchActivity extends BaseActivity {
@@ -32,6 +36,8 @@ public class SearchActivity extends BaseActivity {
     TextView mTvSearchCancel;
     @BindView(R.id.iv_clean_record)
     ImageView mIvCleanRecord;
+    @BindView(R.id.iv_clean_content)
+    ImageView mIvCleanContent;
 
     private String tag = "";
     private String content = "";
@@ -54,12 +60,12 @@ public class SearchActivity extends BaseActivity {
         mEtContent.setFocusableInTouchMode(true);
         mEtContent.requestFocus();
         mRecordList = PreferencesUtil.getSearchRecordList(this);
+        initAdapter();
+
         tag = getIntent().getStringExtra("tag");
     }
 
-    @Override
-    public void initData() {
-
+    private void initAdapter() {
         mIdFlowlayout.setAdapter(new TagAdapter<String>(mRecordList) {
             @Override
             public View getView(FlowLayout parent, int position, String strings) {
@@ -68,11 +74,57 @@ public class SearchActivity extends BaseActivity {
                 return tv;
             }
         });
+    }
+
+    @Override
+    public void initData() {
+
+
         mIdFlowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                showToast(mRecordList.get(position));
+                content = mRecordList.get(position);
+                returnData();
                 return false;
+            }
+        });
+
+        mTvSearchCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        mIvCleanRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+                builder.setTitle("删除记录");
+                builder.setMessage("确定要删除全部的历史记录吗？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PreferencesUtil.cleanSearchRecord(SearchActivity.this);
+                        mRecordList.clear();
+                        initAdapter();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+
+            }
+        });
+
+        mIvCleanContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEtContent.setText("");
             }
         });
 
@@ -84,13 +136,6 @@ public class SearchActivity extends BaseActivity {
                     returnData();
                 }
                 return false;
-            }
-        });
-
-        mTvSearchCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEtContent.setText("");
             }
         });
     }
@@ -105,7 +150,7 @@ public class SearchActivity extends BaseActivity {
     private void returnData() {
         if (tag.equals("home")) {
             EventBus.getDefault().post(new SearchRecordEvent(content));
+            finish();
         }
     }
-
 }

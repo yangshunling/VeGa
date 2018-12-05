@@ -16,6 +16,7 @@ import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.ScheduleEvent;
+import com.jingwei.vega.moudle.SearchRecordEvent;
 import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.utils.ListViewUtil;
 
@@ -111,6 +112,12 @@ public class HomeFargment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void scheduleTask(ScheduleEvent event) {
         mRlBanner.setCurrentItem(event.getIndex(), false);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void searcheTask(SearchRecordEvent event) {
+        mEtContent.setText(event.getContent());
+        showToast(event.getContent());
     }
 
     @Override

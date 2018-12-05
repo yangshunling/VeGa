@@ -25,13 +25,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
-                android:hint="搜索店铺"
+                android:hint="请输入你要搜索的关键字"
                 android:imeOptions="actionSearch"
                 android:padding="5dp"
+                android:lines="1"
                 android:textColorHint="@color/gray2"
                 android:textSize="13dp"/>
 
             <ImageView
+                android:id="@+id/iv_clean_content"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_alignParentEnd="true"
