@@ -32,4 +32,8 @@
     <color name="line_color">#D5A9FB</color>
     <!-- 透明色 -->
     <color name="tran_color">#33000000</color>
+    <!-- 底部线条颜色 -->
+    <color name="underline_color">#500195</color>
+    <!-- 价格红色 -->
+    <color name="price_red">#C70000</color>
 </resources>

@@ -5,193 +5,266 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <com.jingwei.vega.refresh.SpringView
+        android:id="@+id/spring"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:Spring_type="follow">
 
-        <ImageView
-            android:id="@+id/my_bg"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/my_bg" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/title_bar_height"
-            android:layout_marginTop="10dp"
-            android:padding="5dp">
-
-            <ImageView
-                android:id="@+id/iv_left_finish"
-                android:layout_width="@dimen/title_image_size"
-                android:layout_height="@dimen/title_image_size"
-                android:padding="@dimen/title_image_padding"
-                android:src="@drawable/icon_back" />
-        </RelativeLayout>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="10dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/rl_shop"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_height="200dp">
 
                     <ImageView
-                        android:id="@+id/iv_image"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/app_logo" />
+                        android:id="@+id/my_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@drawable/my_bg" />
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/title_bar_height"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/iv_left_finish"
+                            android:layout_width="@dimen/title_image_size"
+                            android:layout_height="@dimen/title_image_size"
+                            android:padding="@dimen/title_image_padding"
+                            android:src="@drawable/icon_back" />
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:textStyle="bold" />
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:orientation="vertical"
+                            android:padding="10dp">
 
-                            <ImageView
-                                android:layout_width="13dp"
-                                android:layout_height="13dp"
-                                android:src="@drawable/icon_xin" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/iv_image"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/app_logo" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/tv_name"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:textSize="16dp"
+                                        android:textStyle="bold" />
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:gravity="center_vertical"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="13dp"
+                                            android:layout_height="13dp"
+                                            android:src="@drawable/icon_xin" />
+
+                                        <TextView
+                                            android:id="@+id/tv_xin"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:textColor="@color/black"
+                                            android:textSize="13dp" />
+
+                                        <ImageView
+                                            android:layout_width="13dp"
+                                            android:layout_height="13dp"
+                                            android:layout_marginLeft="20dp"
+                                            android:src="@drawable/icon_xin" />
+
+                                        <TextView
+                                            android:id="@+id/tv_dian"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="5dp"
+                                            android:textColor="@color/black"
+                                            android:textSize="13dp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="center">
+
+                                    <com.came.viewbguilib.ButtonBgUi
+                                        android:id="@+id/bt_save"
+                                        android:layout_width="80dp"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dp"
+                                        android:text="关注"
+                                        android:textColor="@color/white"
+                                        android:textSize="13dp"
+                                        android:visibility="gone"
+                                        app:defaultColor="@color/black"
+                                        app:isRipple="true"
+                                        app:pressedColor="@color/app_color"
+                                        app:raoundRadius="100dp"
+                                        app:strokeColor="@color/black"
+                                        app:strokeWidth="1dp" />
+
+                                    <com.came.viewbguilib.ButtonBgUi
+                                        android:id="@+id/bt_cancel"
+                                        android:layout_width="80dp"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dp"
+                                        android:text="取消关注"
+                                        android:textColor="@color/gray2"
+                                        android:textSize="13dp"
+                                        app:defaultColor="@color/white"
+                                        app:isRipple="true"
+                                        app:pressedColor="@color/app_color"
+                                        app:raoundRadius="100dp"
+                                        app:strokeColor="@color/gray2"
+                                        app:strokeWidth="1dp" />
+                                </RelativeLayout>
+                            </LinearLayout>
 
                             <TextView
-                                android:id="@+id/tv_xin"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:textColor="@color/black"
-                                android:textSize="13dp" />
-
-                            <ImageView
-                                android:layout_width="13dp"
-                                android:layout_height="13dp"
-                                android:layout_marginLeft="20dp"
-                                android:src="@drawable/icon_xin" />
+                                android:layout_marginTop="5dp"
+                                android:ellipsize="end"
+                                android:lines="1"
+                                android:padding="3dp"
+                                android:text="主营产品：欧美女装"
+                                android:textColor="@color/gray"
+                                android:textSize="12dp" />
 
                             <TextView
-                                android:id="@+id/tv_dian"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:textColor="@color/black"
-                                android:textSize="13dp" />
+                                android:ellipsize="end"
+                                android:lines="1"
+                                android:padding="3dp"
+                                android:text="某某品牌店一些介绍巴拉巴拉某某品牌店一些介绍巴拉巴拉。"
+                                android:textColor="@color/gray"
+                                android:textSize="12dp" />
                         </LinearLayout>
+                    </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:text="新品推荐"
+                        android:textColor="@color/gray5"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_new_recommend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="最新"
+                                android:textColor="@color/gray3"
+                                android:textSize="12dp" />
+
+                            <TextView
+                                android:layout_width="50dp"
+                                android:layout_height="2dp"
+                                android:background="@color/underline_color" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:gravity="right"
+                            android:text="价格"
+                            android:textColor="@color/gray3"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/price_arrow_up" />
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center">
+                    <include layout="@layout/include_line_small" />
 
-                        <com.came.viewbguilib.ButtonBgUi
-                            android:id="@+id/bt_save"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:padding="2dp"
-                            android:text="关注"
-                            android:textColor="@color/white"
-                            android:textSize="13dp"
-                            android:visibility="gone"
-                            app:defaultColor="@color/black"
-                            app:isRipple="true"
-                            app:pressedColor="@color/app_color"
-                            app:raoundRadius="100dp"
-                            app:strokeColor="@color/black"
-                            app:strokeWidth="1dp" />
-
-                        <com.came.viewbguilib.ButtonBgUi
-                            android:id="@+id/bt_cancel"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:padding="2dp"
-                            android:text="取消关注"
-                            android:textColor="@color/gray2"
-                            android:textSize="13dp"
-                            app:defaultColor="@color/white"
-                            app:isRipple="true"
-                            app:pressedColor="@color/app_color"
-                            app:raoundRadius="100dp"
-                            app:strokeColor="@color/gray2"
-                            app:strokeWidth="1dp" />
-                    </RelativeLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
                 </LinearLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="主营产品：欧美女装"
-                    android:textSize="12dp"
-                    android:padding="3dp"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/gray"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="某某品牌店一些介绍巴拉巴拉某某品牌店一些介绍巴拉巴拉。"
-                    android:textSize="12dp"
-                    android:padding="3dp"
-                    android:textColor="@color/gray"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="新品推荐"
-        android:textSize="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/gray5"
-        android:textStyle="bold"
-        />
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
-
-
+        </ScrollView>
+    </com.jingwei.vega.refresh.SpringView>
 </LinearLayout>

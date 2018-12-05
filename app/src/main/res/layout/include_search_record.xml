@@ -25,7 +25,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_alignParentEnd="true"
-            android:src="@mipmap/icon_delete_product"/>
+            android:src="@drawable/icon_delete_product"/>
     </RelativeLayout>
 
     <com.zhy.view.flowlayout.TagFlowLayout
