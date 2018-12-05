@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-public class GoodsLibActivity extends BaseActivity {
+public class GoodsLibActivity extends BaseActivity{
 
     @BindView(R.id.et_phone)
     EditText mEtPhone;

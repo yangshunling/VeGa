@@ -1,14 +1,10 @@
 package com.jingwei.vega.fragment;
 
-import android.os.Handler;
-import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
-import com.gigamole.infinitecycleviewpager.OnInfiniteCyclePageTransformListener;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;

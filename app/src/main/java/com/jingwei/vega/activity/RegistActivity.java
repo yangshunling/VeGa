@@ -84,7 +84,7 @@ public class RegistActivity extends BaseActivity {
         else if (TextUtil.isEmpty(confirmPassword))
             showToast("确认密码不能为空");
         else if (!password.equals(confirmPassword))
-            showToast("两次密码不一致");
+            showToast("两次密码输入不一致");
         else 
             regist();
 
