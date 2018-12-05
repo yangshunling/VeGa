@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.BannerListAdapter;
@@ -126,7 +127,7 @@ public class HomeFargment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),SearchActivity.class);
-                intent.putExtra("tag","home");
+                intent.putExtra("tag",Constants.HOMEFRAGMENT);
                 startActivity(intent);
             }
         });

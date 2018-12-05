@@ -10,10 +10,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.moudle.SearchRecordEvent;
 import com.jingwei.vega.utils.PreferencesUtil;
+import com.jingwei.vega.utils.SoftKeyboardUtils;
 import com.jingwei.vega.utils.TextUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -39,7 +41,7 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.iv_clean_content)
     ImageView mIvCleanContent;
 
-    private String tag = "";
+    private Integer tag;
     private String content = "";
 
     private List<String> mRecordList = new ArrayList<>();
@@ -62,7 +64,7 @@ public class SearchActivity extends BaseActivity {
         mRecordList = PreferencesUtil.getSearchRecordList(this);
         initAdapter();
 
-        tag = getIntent().getStringExtra("tag");
+        tag = getIntent().getIntExtra("tag", -1);
     }
 
     private void initAdapter() {
@@ -78,7 +80,6 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
 
         mIdFlowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
@@ -117,7 +118,6 @@ public class SearchActivity extends BaseActivity {
                         dialog.dismiss();
                     }
                 }).create().show();
-
             }
         });
 
@@ -148,9 +148,15 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void returnData() {
-        if (tag.equals("home")) {
+        if (tag == Constants.HOMEFRAGMENT) {
             EventBus.getDefault().post(new SearchRecordEvent(content));
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SoftKeyboardUtils.hideSoftKeyboard(this);
     }
 }
