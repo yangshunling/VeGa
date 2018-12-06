@@ -2,6 +2,8 @@ package com.jingwei.vega.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +50,12 @@ public class HomeFargment extends BaseFragment {
     private HomeListAdapter mListAdapter;
     private Timer timer = new Timer();
 
-    private Integer pagerIndex = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            mRlBanner.setCurrentItem(mRlBanner.getRealItem() + 1);
+        }
+    };
 
     @Override
     public int getContentView() {
@@ -57,7 +64,6 @@ public class HomeFargment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -101,19 +107,9 @@ public class HomeFargment extends BaseFragment {
     private void startSchedule() {
         timer.schedule(new TimerTask() {
             public void run() {
-                EventBus.getDefault().post(new ScheduleEvent(pagerIndex));
+                mHandler.sendEmptyMessage(0);
             }
         }, 3000, 3000);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MainThread)
-    public void scheduleTask(ScheduleEvent event) {
-        mRlBanner.setCurrentItem(mRlBanner.getRealItem() + 1);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MainThread)
-    public void searcheTask(SearchRecordEvent event) {
-
     }
 
     @Override
@@ -132,20 +128,16 @@ public class HomeFargment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.HOMEFRAGMENT) {
-            String msg = data.getStringExtra("content");
-            mEtContent.setText(msg);
-            showToast(msg);
+            if (data != null) {
+                String msg = data.getStringExtra("content");
+                mEtContent.setText(msg);
+                showToast(msg);
+            }
         }
     }
 
     @Override
     public void onClick(View v) {
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }
