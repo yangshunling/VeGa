@@ -95,17 +95,12 @@ public class HomeFargment extends BaseFragment {
     private void initBanner() {
         mRlBanner.setAdapter(new BannerListAdapter(getActivity(), mBannerList));
         mRlBanner.setInterpolator(new LinearInterpolator());
-        mRlBanner.startAutoScroll(true);
-//        startSchedule();
+        startSchedule();
     }
 
     private void startSchedule() {
         timer.schedule(new TimerTask() {
             public void run() {
-                pagerIndex++;
-                if (pagerIndex == mBannerList.size()) {
-                    pagerIndex = 0;
-                }
                 EventBus.getDefault().post(new ScheduleEvent(pagerIndex));
             }
         }, 3000, 3000);
@@ -113,7 +108,7 @@ public class HomeFargment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void scheduleTask(ScheduleEvent event) {
-        mRlBanner.setCurrentItem(event.getIndex(), false);
+        mRlBanner.setCurrentItem(mRlBanner.getRealItem() + 1);
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
