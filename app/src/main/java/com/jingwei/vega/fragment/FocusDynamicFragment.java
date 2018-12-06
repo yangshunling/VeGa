@@ -2,6 +2,8 @@ package com.jingwei.vega.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +44,24 @@ public class FocusDynamicFragment extends BaseFragment {
     private MyAdapter mMyAdapter;
     private List<DynamicBean> mBeanList = new ArrayList<>();
 
+    private int mImgCount = 0;
+    private List<String> imgList;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    showToast(msg.obj + "");
+                    break;
+                case 2:
+                    showToast(msg.obj + "");
+                    break;
+            }
+        }
+    };
+
     @Override
     public int getContentView() {
         return R.layout.fragment_focus_dynamic;
@@ -78,25 +98,35 @@ public class FocusDynamicFragment extends BaseFragment {
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                showToast("图片正在保存...");
-                downloadImage(position);
+                imgList = mBeanList.get(position).getUrlList();
+                if (imgList != null && imgList.size() != 0) {
+                    showToast("图片正在保存成功...");
+                    for (int i = 0; i < imgList.size(); i++) {
+                        downloadImage(i);
+                    }
+                }
             }
         });
     }
 
-    private void downloadImage(int position) {
-        String fileUrl = mBeanList.get(position).getUrlList().get(0);
+    private void downloadImage(int index) {
+
+        String fileUrl = imgList.get(index);
         String filePath = Constants.IMAGEPATH;
         String fileName = System.currentTimeMillis() + ".jpg";
+
         DownloadUtil.get().download(fileUrl, filePath, fileName, new DownloadUtil.OnDownloadListener() {
             @Override
             public void onDownloadSuccess(File file) {
-                showToast("图片保存成功!");
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri uri = Uri.fromFile(file);
                 intent.setData(uri);
                 getActivity().sendBroadcast(intent);
-                Log.v("TAG", "图库同步完成");
+                //计数
+                mImgCount++;
+                if (mImgCount == imgList.size()) {
+                    mHandler.sendMessage(mHandler.obtainMessage(0, "图片保存成功"));
+                }
             }
 
             @Override
@@ -106,7 +136,7 @@ public class FocusDynamicFragment extends BaseFragment {
 
             @Override
             public void onDownloadFailed(Exception e) {
-                showToast("下载失败：" + e.getMessage());
+                mHandler.sendMessage(mHandler.obtainMessage(2, "下载失败：" + e.getMessage()));
             }
         });
     }
