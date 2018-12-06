@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="180dp"
             app:icvp_max_page_scale="0.8"
-            android:layout_marginTop="-18dp"
+            android:layout_marginTop="-20dp"
             android:layout_marginBottom="-18dp"
             app:icvp_min_page_scale="0.7"/>
 
