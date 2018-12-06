@@ -1,15 +1,23 @@
 package com.jingwei.vega.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.DemoActivity;
+import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.ClassificationImageAdapter;
 import com.jingwei.vega.adapter.ClassificationListAdapter;
 import com.jingwei.vega.base.BaseFragment;
@@ -21,12 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ClassificationFragment extends BaseFragment {
+
     @BindView(R.id.lv_left)
     ListView mLvLeft;
     @BindView(R.id.rv_right)
     RecyclerView mRvRight;
+    @BindView(R.id.et_content)
+    EditText mEtContent;
 
     private ClassificationListAdapter mLeftListAdapter;
     private List<ClassificationLeftBean> mLeftList = new ArrayList<>();
@@ -105,6 +119,22 @@ public class ClassificationFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
 
+    }
+
+    @OnClick(R.id.et_content)
+    public void onViewClicked() {
+        Intent intent = new Intent(getActivity(), SearchActivity.class);
+        startActivityForResult(intent, Constants.CLASSIFICATIONFRAGMENT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.CLASSIFICATIONFRAGMENT) {
+            String msg = data.getStringExtra("content");
+            mEtContent.setText(msg);
+            showToast(msg);
+        }
     }
 
     public class MyAdapter extends BaseQuickAdapter<ClassificationRightBean, BaseViewHolder> {

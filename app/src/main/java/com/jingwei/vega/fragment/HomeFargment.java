@@ -2,6 +2,7 @@ package com.jingwei.vega.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,8 +118,7 @@ public class HomeFargment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void searcheTask(SearchRecordEvent event) {
-        mEtContent.setText(event.getContent());
-        showToast(event.getContent());
+
     }
 
     @Override
@@ -126,11 +126,21 @@ public class HomeFargment extends BaseFragment {
         mEtContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),SearchActivity.class);
-                intent.putExtra("tag",Constants.HOMEFRAGMENT);
-                startActivity(intent);
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("name", Constants.DEMOACTIVITY);
+                startActivityForResult(intent, Constants.HOMEFRAGMENT);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.HOMEFRAGMENT) {
+            String msg = data.getStringExtra("content");
+            mEtContent.setText(msg);
+            showToast(msg);
+        }
     }
 
     @Override

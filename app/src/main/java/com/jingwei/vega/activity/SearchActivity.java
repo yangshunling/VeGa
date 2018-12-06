@@ -2,12 +2,14 @@ package com.jingwei.vega.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jingwei.vega.Constants;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 public class SearchActivity extends BaseActivity {
@@ -41,7 +44,7 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.iv_clean_content)
     ImageView mIvCleanContent;
 
-    private Integer tag;
+    private Integer name;
     private String content = "";
 
     private List<String> mRecordList = new ArrayList<>();
@@ -62,9 +65,8 @@ public class SearchActivity extends BaseActivity {
         mEtContent.setFocusableInTouchMode(true);
         mEtContent.requestFocus();
         mRecordList = PreferencesUtil.getSearchRecordList(this);
+        name = getIntent().getIntExtra("name", -1);
         initAdapter();
-
-        tag = getIntent().getIntExtra("tag", -1);
     }
 
     private void initAdapter() {
@@ -90,44 +92,6 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        mTvSearchCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        mIvCleanRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
-                builder.setTitle("删除记录");
-                builder.setMessage("确定要删除全部的历史记录吗？");
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PreferencesUtil.cleanSearchRecord(SearchActivity.this);
-                        mRecordList.clear();
-                        initAdapter();
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create().show();
-            }
-        });
-
-        mIvCleanContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mEtContent.setText("");
-            }
-        });
-
         mEtContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -148,10 +112,10 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void returnData() {
-        if (tag == Constants.HOMEFRAGMENT) {
-            EventBus.getDefault().post(new SearchRecordEvent(content));
-            finish();
-        }
+        Intent intent = new Intent();
+        intent.putExtra("content", content);
+        setResult(100, intent);
+        finish();
     }
 
     @Override
@@ -164,5 +128,37 @@ public class SearchActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SoftKeyboardUtils.hideSoftKeyboard(this);
+    }
+
+    @OnClick({R.id.iv_clean_content, R.id.tv_search_cancel, R.id.iv_clean_record})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_clean_content:
+                mEtContent.setText("");
+                break;
+            case R.id.tv_search_cancel:
+                finish();
+                break;
+            case R.id.iv_clean_record:
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+                builder.setTitle("删除记录");
+                builder.setMessage("确定要删除全部的历史记录吗？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PreferencesUtil.cleanSearchRecord(SearchActivity.this);
+                        mRecordList.clear();
+                        initAdapter();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+                break;
+        }
     }
 }
