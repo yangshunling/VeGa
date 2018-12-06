@@ -1,13 +1,17 @@
 package com.jingwei.vega.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseFragment;
@@ -15,12 +19,15 @@ import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.okhttp.DownloadUtil;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +72,41 @@ public class FocusDynamicFragment extends BaseFragment {
             @Override
             public void onLoadmore() {
 
+            }
+        });
+
+        mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                showToast("图片正在保存...");
+                downloadImage(position);
+            }
+        });
+    }
+
+    private void downloadImage(int position) {
+        String fileUrl = mBeanList.get(position).getUrlList().get(0);
+        String filePath = Constants.IMAGEPATH;
+        String fileName = System.currentTimeMillis() + ".jpg";
+        DownloadUtil.get().download(fileUrl, filePath, fileName, new DownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                showToast("图片保存成功!");
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(file);
+                intent.setData(uri);
+                getActivity().sendBroadcast(intent);
+                Log.v("TAG", "图库同步完成");
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+                Log.v("TAG", "进度：" + progress);
+            }
+
+            @Override
+            public void onDownloadFailed(Exception e) {
+                showToast("下载失败：" + e.getMessage());
             }
         });
     }
@@ -114,6 +156,8 @@ public class FocusDynamicFragment extends BaseFragment {
             CustomGridView gridView = helper.getView(R.id.image_list);
             gridView.setAdapter(new DynamicImageAdapter(getActivity(), item.getUrlList()));
             helper.setText(R.id.tv_time, item.getTime());
+            //点击事件
+            helper.addOnClickListener(R.id.bt_save);
         }
     }
 }

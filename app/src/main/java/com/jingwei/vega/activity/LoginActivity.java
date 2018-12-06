@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.came.viewbguilib.ButtonBgUi;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.callback.PermissionsCallback;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.RetrofitAPI;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
@@ -63,7 +64,17 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        requestPermissions(new PermissionsCallback() {
+            @Override
+            public void onAccept() {
 
+            }
+
+            @Override
+            public void onDenied() {
+
+            }
+        });
     }
 
     @Override
