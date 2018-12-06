@@ -1,13 +1,10 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,7 +13,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
-import com.jingwei.vega.activity.DemoActivity;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.ClassificationImageAdapter;
 import com.jingwei.vega.adapter.ClassificationListAdapter;
@@ -29,9 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class ClassificationFragment extends BaseFragment {
 
