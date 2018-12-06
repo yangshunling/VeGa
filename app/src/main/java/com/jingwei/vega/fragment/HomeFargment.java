@@ -132,9 +132,11 @@ public class HomeFargment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.HOMEFRAGMENT) {
-            String msg = data.getStringExtra("content");
-            mEtContent.setText(msg);
-            showToast(msg);
+            if (data != null) {
+                String msg = data.getStringExtra("content");
+                mEtContent.setText(msg);
+                showToast(msg);
+            }
         }
     }
 
