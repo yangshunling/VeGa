@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:fillViewport="true"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -23,11 +23,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp">
 
-                    <ImageView
-                        android:id="@+id/my_bg"
+                    <com.youth.banner.Banner
+                        android:id="@+id/banner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/my_bg" />
+                        android:layout_height="wrap_content" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -133,18 +132,21 @@
                 <include layout="@layout/include_line_big" />
 
                 <ListView
+                    android:id="@+id/lv_product_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></ListView>
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:scrollbars="none"></ListView>
             </LinearLayout>
+        </ScrollView>
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/icon_iscollect"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="40dp"
-                android:layout_marginBottom="40dp"
-                />
-        </RelativeLayout>
-    </ScrollView>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/icon_iscollect" />
+    </RelativeLayout>
+
 </LinearLayout>

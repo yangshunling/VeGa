@@ -1,18 +1,13 @@
 package com.jingwei.vega.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.R;
@@ -24,7 +19,6 @@ import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.utils.AppUtils;
-import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
 import com.zyyoona7.popup.EasyPopup;
@@ -36,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by cxc on 2018/12/3.
@@ -185,7 +180,8 @@ public class MarketShopsActivity extends BaseActivity{
         @Override
         protected void convert(BaseViewHolder helper, HomeBean.CardBean item) {
             helper.setText(R.id.tv_market_shops_list_item,item.getName());
-            GlideUtil.setRoundImage(MarketShopsActivity.this,item.getUrl(),10, (ImageView) helper.getView(R.id.iv_market_shops_list_item));
+
+            GlideUtil.setImage(MarketShopsActivity.this,item.getUrl(), (ImageView) helper.getView(R.id.iv_market_shops_list_item));
         }
     }
 
