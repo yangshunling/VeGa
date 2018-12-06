@@ -30,7 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by cxc on 2018/12/3.
