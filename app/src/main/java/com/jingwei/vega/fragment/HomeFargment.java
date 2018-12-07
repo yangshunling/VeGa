@@ -142,4 +142,10 @@ public class HomeFargment extends BaseFragment {
     public void onClick(View v) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
 }

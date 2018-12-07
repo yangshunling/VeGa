@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.GoodsListActivity;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.ClassificationImageAdapter;
 import com.jingwei.vega.adapter.ClassificationListAdapter;
@@ -142,6 +143,12 @@ public class ClassificationFragment extends BaseFragment {
             helper.setText(R.id.tv_title, item.getTitle());
             CustomGridView gridView = helper.getView(R.id.right_image_list);
             gridView.setAdapter(new ClassificationImageAdapter(getActivity(), item.getUrlList()));
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    startActivity(new Intent(getActivity(),GoodsListActivity.class));
+                }
+            });
         }
     }
 }
