@@ -56,8 +56,7 @@ public class DownloadUtil {
                 int len = 0;
                 FileOutputStream fos = null;
                 try {
-                    // TODO: 2018/4/4 文件读写异常，创建文件必须先判断文件夹是都存在并创建，然后在创建文件，如果直接创建文件，会抛出异常 
-                    //创建文件夹
+                    //创建文件路径
                     File file_dir = new File(fileDir);
                     if (!file_dir.exists()) {
                         file_dir.mkdirs();
@@ -84,13 +83,9 @@ public class DownloadUtil {
                     try {
                         if (is != null)
                             is.close();
-                    } catch (IOException e) {
-                    }
-                    try {
                         if (fos != null)
                             fos.close();
                     } catch (IOException e) {
-
                     }
                 }
             }
