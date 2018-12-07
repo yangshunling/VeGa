@@ -83,5 +83,5 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'//流式标签
     implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'//UI
     implementation 'com.github.zyyoona7:EasyPopup:1.1.1'//EasyPopup
-    compile 'com.youth.banner:banner:1.4.10'//轮播图
+    implementation 'com.youth.banner:banner:1.4.10'//轮播图
 }

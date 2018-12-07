@@ -102,6 +102,8 @@ public class HomeFargment extends BaseFragment {
         mRlBanner.setAdapter(new BannerListAdapter(getActivity(), mBannerList));
         mRlBanner.setInterpolator(new LinearInterpolator());
         startSchedule();
+        mRlBanner.requestFocus();
+        mRlBanner.setFocusableInTouchMode(true);
     }
 
     private void startSchedule() {
