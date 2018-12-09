@@ -13,8 +13,8 @@ public class RxResultFunc<T> implements Func1<RxMoudle<T>, T> {
 
     @Override
     public T call(RxMoudle<T> httpResult) {
-        if (httpResult.getCode() != 0) {
-            throw new RxApiException(httpResult.getCode(),httpResult.getMassage());
+        if (!httpResult.isSucceed()) {
+            throw new RxApiException(httpResult.getCode(), httpResult.getMessage());
         }
         return httpResult.getData();
     }

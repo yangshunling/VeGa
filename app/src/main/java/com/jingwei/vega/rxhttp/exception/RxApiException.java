@@ -10,7 +10,7 @@ import de.greenrobot.event.EventBus;
  */
 public class RxApiException extends RuntimeException {
 
-    public RxApiException(int resultCode, String message) {
+    public RxApiException(String resultCode, String message) {
         this(getRxExceptionMessage(resultCode, message));
     }
 
@@ -24,8 +24,8 @@ public class RxApiException extends RuntimeException {
      * @param code
      * @return
      */
-    private static String getRxExceptionMessage(int code, String message) {
-        if (code == 401 || code == 402) {
+    private static String getRxExceptionMessage(String code, String message) {
+        if (code.equals("Y00-000403")) {
             //Token过期，需要重新登录
             EventBus.getDefault().post(new TokenLose());
         }

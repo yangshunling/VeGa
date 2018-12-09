@@ -86,8 +86,7 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_login:
-//                validationData();
-                startActivity(new Intent(this, MainActivity.class));
+                validationData();
                 break;
             case R.id.tv_regist:
                 startActivity(new Intent(this, RegistActivity.class));
@@ -111,7 +110,7 @@ public class LoginActivity extends BaseActivity {
 
     private void login(String phone, String password) {
         ServiceAPI.Retrofit().userLogin(ParamBuilder.newBody()
-                .addBody("username", phone)
+                .addBody("mobile", phone)
                 .addBody("password", password)
                 .bulidBody())
                 .map(new RxResultFunc<String>())
@@ -120,7 +119,7 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new RxSubscriber<String>(LoginActivity.this) {
                     @Override
                     public void onNext(String token) {
-                        PreferencesUtil.saveToken(LoginActivity.this, token);
+//                        PreferencesUtil.saveToken(LoginActivity.this, token);
                     }
                 });
     }

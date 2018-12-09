@@ -5,24 +5,45 @@ package com.jingwei.vega.rxhttp.rxjava;
  */
 public class RxMoudle<T> {
 
+
+    /**
+     * success : TRUE
+     * code : Y00-000200
+     * message : SUCCESS
+     * data : {}
+     * succeed : true
+     * failed : false
+     */
+
+    private String success;
+    private String code;
     private String message;
-    private int code;
     private T data;
+    private boolean succeed;
+    private boolean failed;
 
-    public String getMassage() {
-        return message;
+    public String getSuccess() {
+        return success;
     }
 
-    public void setMassage(String massage) {
-        this.message = massage;
+    public void setSuccess(String success) {
+        this.success = success;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {
@@ -31,5 +52,21 @@ public class RxMoudle<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public boolean isSucceed() {
+        return succeed;
+    }
+
+    public void setSucceed(boolean succeed) {
+        this.succeed = succeed;
+    }
+
+    public boolean isFailed() {
+        return failed;
+    }
+
+    public void setFailed(boolean failed) {
+        this.failed = failed;
     }
 }

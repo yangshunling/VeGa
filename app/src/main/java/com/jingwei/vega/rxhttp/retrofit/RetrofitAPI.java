@@ -22,21 +22,21 @@ public interface RetrofitAPI {
      * 用户登录
      */
     @Multipart
-    @POST("index/agency/login")
+    @POST("api/user/login")
     Observable<RxMoudle<String>> userLogin(@PartMap Map<String, RequestBody> params);
 
     /**
      * 发验证码
      */
     @Multipart
-    @POST("index/agency/login")
+    @POST("api/mobile/send")
     Observable<RxMoudle<String>> sendCode(@PartMap Map<String, RequestBody> params);
 
     /**
      * 用户注册
      */
     @Multipart
-    @POST("index/agency/login")
+    @POST("api/user/register")
     Observable<RxMoudle<String>> userRegist(@PartMap Map<String, RequestBody> params);
 
 

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import java.util.logging.Logger;
+
 public class MyApplication extends Application {
 
     private static Context context;
@@ -11,6 +13,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         /**
          * 获取Context
          */
