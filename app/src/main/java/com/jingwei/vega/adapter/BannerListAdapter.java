@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.utils.GlideUtil;
 
 import java.util.List;
@@ -16,9 +18,9 @@ import java.util.List;
 public class BannerListAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<String> mBannerList;
+    private List<BannerListBean.ListBean> mBannerList;
 
-    public BannerListAdapter(Context mContext,List<String> mBannerList) {
+    public BannerListAdapter(Context mContext, List<BannerListBean.ListBean> mBannerList) {
         this.mContext = mContext;
         this.mBannerList = mBannerList;
     }
@@ -35,13 +37,13 @@ public class BannerListAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner,null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner, null);
         ImageView imageView = view.findViewById(R.id.iv_item_banner);
-        GlideUtil.setImage(mContext,mBannerList.get(position),imageView);
+        GlideUtil.setImage(mContext, Constants.host + mBannerList.get(position).getPath(), imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, position+"->"+mBannerList.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mBannerList.get(position).getLink(), Toast.LENGTH_SHORT).show();
             }
         });
         container.addView(view);

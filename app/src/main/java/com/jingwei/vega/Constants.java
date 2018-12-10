@@ -5,7 +5,7 @@ import android.os.Environment;
 public class Constants {
 
     /******************************** 服务器地址 **************************/
-    public static String host = "http://game.lkfcni.cn";//外网测试
+    public static String host = "http://game.lkfcni.cn/api/";//外网测试
 
 
     /******************************** 搜索条件 **************************/

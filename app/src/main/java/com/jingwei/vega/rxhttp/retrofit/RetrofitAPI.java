@@ -1,10 +1,12 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
+import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.Map;
 
 import okhttp3.RequestBody;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
@@ -22,24 +24,28 @@ public interface RetrofitAPI {
      * 用户登录
      */
     @Multipart
-    @POST("api/user/login")
-    Observable<RxMoudle<String>> userLogin(@PartMap Map<String, RequestBody> params);
+    @POST("user/login")
+    Observable<RxMoudle<Object>> userLogin(@PartMap Map<String, RequestBody> params);
 
     /**
      * 发验证码
      */
     @Multipart
-    @POST("api/mobile/send")
-    Observable<RxMoudle<String>> sendCode(@PartMap Map<String, RequestBody> params);
+    @POST("mobile/send")
+    Observable<RxMoudle<Object>> sendCode(@PartMap Map<String, RequestBody> params);
 
     /**
      * 用户注册
      */
     @Multipart
-    @POST("api/user/register")
-    Observable<RxMoudle<String>> userRegist(@PartMap Map<String, RequestBody> params);
+    @POST("user/register")
+    Observable<RxMoudle<Object>> userRegist(@PartMap Map<String, RequestBody> params);
 
-
+    /**
+     * 首页轮播图
+     */
+    @GET("index/adv")
+    Observable<RxMoudle<BannerListBean>> getBanner();
 
 
     /********************************* chengxc******************************/

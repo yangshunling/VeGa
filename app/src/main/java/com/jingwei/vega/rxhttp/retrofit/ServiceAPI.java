@@ -51,7 +51,7 @@ public class ServiceAPI {
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(new LogInterceptor())
-                .addInterceptor(new TokenInterceptor())
+//                .addInterceptor(new TokenInterceptor())
                 .build();
     }
 

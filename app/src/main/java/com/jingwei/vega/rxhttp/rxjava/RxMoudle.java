@@ -1,10 +1,9 @@
 package com.jingwei.vega.rxhttp.rxjava;
 
 /**
- * Created by liukun on 16/3/5.
+ * Created by Anonymous on 18/12/10.
  */
 public class RxMoudle<T> {
-
 
     /**
      * success : TRUE

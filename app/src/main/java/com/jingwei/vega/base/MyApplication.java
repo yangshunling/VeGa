@@ -14,6 +14,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        com.orhanobut.logger.Logger.init("okhttp");
         /**
          * 获取Context
          */

@@ -58,6 +58,7 @@
                 android:background="@null"
                 android:hint="请输入密码"
                 android:padding="15dp"
+                android:inputType="textPassword"
                 android:textColorHint="@color/gray2"
                 android:textSize="13dp"/>
         </com.gcssloop.widget.RCRelativeLayout>

@@ -1,6 +1,5 @@
 package com.jingwei.vega.activity;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,7 +10,6 @@ import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
-import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.utils.TextUtil;
 import com.jingwei.vega.view.VerifyCodeButton;
 
@@ -66,6 +64,7 @@ public class RegistActivity extends BaseActivity {
                 validationPhone();
                 break;
             case R.id.bt_regist:
+                regist();
                 break;
         }
     }
@@ -87,13 +86,13 @@ public class RegistActivity extends BaseActivity {
                     .addBody("mobile", phone)
                     .addBody("type", "REGISTER")
                     .bulidBody())
-                    .map(new RxResultFunc<String>())
+                    .map(new RxResultFunc<Object>())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscriber<String>(RegistActivity.this) {
+                    .subscribe(new RxSubscriber<Object>(RegistActivity.this,"正在发送...") {
                         @Override
-                        public void onNext(String message) {
-                            Log.v("TAG1",message);
+                        public void onNext(Object message) {
+                            mBtnVerifyCode.start();
                         }
                     });
         }
@@ -121,15 +120,15 @@ public class RegistActivity extends BaseActivity {
                     .addBody("password", password)
                     .addBody("r_password", confirmPassword)
                     .bulidBody())
-                    .map(new RxResultFunc<String>())
+                    .map(new RxResultFunc<Object>())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscriber<String>(RegistActivity.this) {
+                    .subscribe(new RxSubscriber<Object>(RegistActivity.this,"正在注册...") {
                         @Override
-                        public void onNext(String message) {
-                            Log.v("TAG",message);
+                        public void onNext(Object message) {
+                            showToast("恭喜注册成功");
+                            finish();
                         }
                     });
-
     }
 }

@@ -113,13 +113,13 @@ public class LoginActivity extends BaseActivity {
                 .addBody("mobile", phone)
                 .addBody("password", password)
                 .bulidBody())
-                .map(new RxResultFunc<String>())
+                .map(new RxResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<String>(LoginActivity.this) {
+                .subscribe(new RxSubscriber<Object>(LoginActivity.this,"正在登录...") {
                     @Override
-                    public void onNext(String token) {
-//                        PreferencesUtil.saveToken(LoginActivity.this, token);
+                    public void onNext(Object token) {
+                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     }
                 });
     }

@@ -32,11 +32,10 @@ public class LogInterceptor implements Interceptor {
                     sb.append(body.encodedName(i) + "=" + body.encodedValue(i) + "\n");
                 }
                 sb.delete(sb.length() - 1, sb.length());
-                Logger.i("请求地址:\n" + response.request().url().toString() + "\n\n" +
-                        "请求参数体:\n" + sb.toString() + "\n\n" +
-                        "返回参数:\n" + content);
+                Logger.i("请求参数体:\n" + sb.toString());
             }
         }
+        Logger.v("请求地址:\n" + response.request().url().toString() + "\n" + "返回参数:\n" + content);
         Logger.json(content);
         return response.newBuilder()
                 .body(okhttp3.ResponseBody.create(mediaType, content))
