@@ -33,7 +33,7 @@ import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HomeFargment extends BaseFragment {
+public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.home_list)
     ListView mHomeList;

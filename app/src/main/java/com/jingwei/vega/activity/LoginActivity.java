@@ -60,8 +60,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initTitleBar() {
         hintTitleBar();
-        if (PreferencesUtil.getLoginState(LoginActivity.this)){
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        if (PreferencesUtil.getLoginState(LoginActivity.this)) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
     }
@@ -120,11 +120,11 @@ public class LoginActivity extends BaseActivity {
                 .map(new RxResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<Object>(LoginActivity.this,"正在登录...") {
+                .subscribe(new RxSubscriber<Object>(LoginActivity.this, "正在登录...") {
                     @Override
                     public void onNext(Object token) {
-                        PreferencesUtil.saveLoginState(LoginActivity.this,true);
-                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                        PreferencesUtil.saveLoginState(LoginActivity.this, true);
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
                 });
     }

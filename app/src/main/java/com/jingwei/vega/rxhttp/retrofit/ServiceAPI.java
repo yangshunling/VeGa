@@ -55,7 +55,6 @@ public class ServiceAPI {
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(new LogInterceptor())
                 .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MyApplication.getContext())))
-//                .addInterceptor(new TokenInterceptor())
                 .build();
     }
 

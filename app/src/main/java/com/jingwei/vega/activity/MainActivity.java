@@ -10,7 +10,7 @@ import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.fragment.ClassificationFragment;
 import com.jingwei.vega.fragment.FocusFragment;
-import com.jingwei.vega.fragment.HomeFargment;
+import com.jingwei.vega.fragment.HomeFragment;
 import com.jingwei.vega.fragment.MeFragment;
 import com.jingwei.vega.view.TitleBar;
 
@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
-    private HomeFargment mHomeFragment;
+    private HomeFragment mHomeFragment;
     private ClassificationFragment mClassificationFragment;
     private FocusFragment mFocusFragment;
     private MeFragment mMeFragment;
@@ -74,14 +74,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         manager = getSupportFragmentManager();
         transaction = manager.beginTransaction();
         //创建Fragment
-        mHomeFragment = new HomeFargment();
-        mClassificationFragment = new ClassificationFragment();
-        mFocusFragment = new FocusFragment();
-        mMeFragment = new MeFragment();
-        //添加Fragment
-        transaction.add(R.id.main_content, mClassificationFragment);
-        transaction.add(R.id.main_content, mFocusFragment);
-        transaction.add(R.id.main_content, mMeFragment);
+        mHomeFragment = new HomeFragment();
         transaction.add(R.id.main_content, mHomeFragment);
         transaction.commit();
     }
@@ -91,6 +84,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         initStatusBar();
         switch (position) {
             case 0:
+                if (mHomeFragment==null){
+                    mHomeFragment = new HomeFragment();
+                    transaction.add(R.id.main_content, mHomeFragment);
+                }
                 transaction = manager.beginTransaction();
                 hintFragment(transaction);
                 transaction.show(mHomeFragment);
@@ -98,21 +95,36 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 break;
             case 1:
                 transaction = manager.beginTransaction();
-                hintFragment(transaction);
-                transaction.show(mClassificationFragment);
+                if (mClassificationFragment==null){
+                    mClassificationFragment = new ClassificationFragment();
+                    transaction.add(R.id.main_content, mClassificationFragment);
+                }else {
+                    hintFragment(transaction);
+                    transaction.show(mClassificationFragment);
+                }
                 transaction.commit();
                 break;
             case 2:
                 transaction = manager.beginTransaction();
-                hintFragment(transaction);
-                transaction.show(mFocusFragment);
+                if (mFocusFragment==null){
+                    mFocusFragment = new FocusFragment();
+                    transaction.add(R.id.main_content, mFocusFragment);
+                }else {
+                    hintFragment(transaction);
+                    transaction.show(mFocusFragment);
+                }
                 transaction.commit();
                 break;
             case 3:
                 setTransparent();
                 transaction = manager.beginTransaction();
-                hintFragment(transaction);
-                transaction.show(mMeFragment);
+                if (mMeFragment==null){
+                    mMeFragment = new MeFragment();
+                    transaction.add(R.id.main_content, mMeFragment);
+                }else {
+                    hintFragment(transaction);
+                    transaction.show(mMeFragment);
+                }
                 transaction.commit();
                 break;
         }

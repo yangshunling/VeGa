@@ -4,9 +4,8 @@ import android.os.Environment;
 
 public class Constants {
 
-    /******************************** 服务器地址 **************************/
-    public static String HOST = "http://game.lkfcni.cn/api/";//host
-
+    /******************************** HOST **************************/
+    public static String HOST = "http://game.lkfcni.cn/api/";//服务器host
     public static String IMAGEHOST = "https://image.lkfcni.cn/";//图片host
 
 
