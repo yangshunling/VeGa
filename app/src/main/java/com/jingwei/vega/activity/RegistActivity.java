@@ -100,7 +100,7 @@ public class RegistActivity extends BaseActivity {
 
     private void regist() {
         String phone = mEtPhone.getText().toString().trim();
-        String code = mBtnVerifyCode.getText().toString().trim();
+        String code = mEtValidation.getText().toString().trim();
         String password = mEtPassword.getText().toString().trim();
         String confirmPassword = mEtConfirmPassword.getText().toString().trim();
         if (TextUtil.isEmpty(phone))
