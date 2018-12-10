@@ -62,6 +62,7 @@ public class LoginActivity extends BaseActivity {
         hintTitleBar();
         if (PreferencesUtil.getLoginState(LoginActivity.this)){
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
         }
     }
 
