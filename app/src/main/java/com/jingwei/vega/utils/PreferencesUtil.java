@@ -21,8 +21,6 @@ public class PreferencesUtil {
     private static Boolean isShowNewGuide;
 
     private static Boolean isLogin;
-    private static String userName;
-    private static String userId;
     private static String token;
     private static int appVersionCode;
 
@@ -80,36 +78,14 @@ public class PreferencesUtil {
     }
 
     /**
-     * 登录成功之后保存用户的登录状态和用户信息
+     * 登录成功之后保存登录状态
      *
-     * @param context
      * @param isLogin
      */
-    public static void saveUserInfo(Context context, Boolean isLogin, String username, String userid, String imPassword, String role_id,
-                                    String branch, String phone, String role_state) {
-        editor = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE)
+    public static void saveLoginState(Context context, Boolean isLogin) {
+        editor = context.getSharedPreferences("isLogin", Context.MODE_PRIVATE)
                 .edit();
         editor.putBoolean("isLogin", isLogin);//登录状态
-        editor.putString("username", username);//用户名
-        editor.putString("userid", userid);//用户ID
-        editor.putString("imPassword", imPassword);//IM登录密码
-        editor.putString("role_id", role_id);//角色id，大于0表示管理员
-        editor.putString("branch", branch);//所属党支部
-        editor.putString("phone", phone);//用户手机号
-        editor.putString("role_state", role_state);//用户身份  1-超级管理员
-        editor.commit();
-    }
-
-    /**
-     * 更换用户名
-     *
-     * @param context
-     * @param username
-     */
-    public static void setUserName(Context context, String username) {
-        editor = context.getSharedPreferences("userinfo", Context.MODE_PRIVATE)
-                .edit();
-        editor.putString("username", username);//用户名
         editor.commit();
     }
 
@@ -120,48 +96,9 @@ public class PreferencesUtil {
      * @return
      */
     public static Boolean getLoginState(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
+        pref = context.getSharedPreferences("isLogin", context.MODE_PRIVATE);
         isLogin = pref.getBoolean("isLogin", false);
         return isLogin;
-    }
-
-    /**
-     * 获取到用户名
-     *
-     * @param context
-     * @return
-     */
-    public static String getUserName(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        userName = pref.getString("username", "");
-        return userName;
-    }
-
-    /**
-     * 获取到用户ID
-     *
-     * @param context
-     * @return
-     */
-    public static String getUserID(Context context) {
-        pref = context.getSharedPreferences("userinfo", context.MODE_PRIVATE);
-        userId = pref.getString("userid", "");
-        return userId;
-    }
-
-    /**
-     * 注销用户,清空所有数据
-     *
-     * @param context
-     */
-    public static void clean(Context context) {
-        /**
-         * 清空SharedPreferences中的数值，来进行实现注销登录
-         */
-        editor = context.getSharedPreferences(
-                "userinfo", context.MODE_PRIVATE).edit();
-        editor.clear();
-        editor.commit();
     }
 
     /**

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jingwei.vega.R;
 import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.moudle.bean.HomeBean;
+import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.utils.ListViewUtil;
 
 import java.util.List;
@@ -20,9 +21,9 @@ import java.util.List;
 public class HomeListAdapter extends BaseAdapter {
 
     private Context context;
-    private List<HomeBean> mBeanList;
+    private List<MarketListBean.ListBeanX.ListBean> mBeanList;
 
-    public HomeListAdapter(Context context, List<HomeBean> mBeanList) {
+    public HomeListAdapter(Context context, List<MarketListBean.ListBeanX.ListBean> mBeanList) {
         this.context = context;
         this.mBeanList = mBeanList;
     }
@@ -66,8 +67,8 @@ public class HomeListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        viewHolder.mTvHomeTitle.setText(mBeanList.get(position).getTitle());
-        viewHolder.mLvHomeList.setAdapter(new ItemHomeListAdapter(context,mBeanList.get(position).getCardBeans()));
+        viewHolder.mTvHomeTitle.setText(mBeanList.get(position).getName());
+//        viewHolder.mLvHomeList.setAdapter(new ItemHomeListAdapter(context,mBeanList.get(position).getCardBeans()));
         ListViewUtil.setListViewHeightBasedOnChildren(viewHolder.mLvHomeList);
         return convertView;
     }

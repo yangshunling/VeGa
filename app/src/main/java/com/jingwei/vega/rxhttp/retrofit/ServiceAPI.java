@@ -30,7 +30,7 @@ public class ServiceAPI {
     public static RetrofitAPI Retrofit() {
         if (retrofitAPI == null) {
             retrofitAPI = new Retrofit.Builder()
-                    .baseUrl(Constants.host)
+                    .baseUrl(Constants.HOST)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(getOkhttpClient())

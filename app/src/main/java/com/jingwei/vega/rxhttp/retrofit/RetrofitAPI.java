@@ -1,6 +1,7 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
 import com.jingwei.vega.moudle.bean.BannerListBean;
+import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.Map;
@@ -46,6 +47,12 @@ public interface RetrofitAPI {
      */
     @GET("index/adv")
     Observable<RxMoudle<BannerListBean>> getBanner();
+
+    /**
+     * 市场列表
+     */
+    @GET("index/market")
+    Observable<RxMoudle<MarketListBean>> getMarketList();
 
 
     /********************************* chengxc******************************/

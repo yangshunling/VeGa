@@ -18,6 +18,7 @@ import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.HomeBean;
+import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
@@ -42,7 +43,7 @@ public class HomeFargment extends BaseFragment {
     EditText mEtContent;
 
     private BannerListBean mBannerList;
-    private List<HomeBean> mBeanList = new ArrayList<>();
+    private MarketListBean mMarketList;
     private HomeListAdapter mListAdapter;
     private Timer timer = new Timer();
 
@@ -64,23 +65,11 @@ public class HomeFargment extends BaseFragment {
 
     @Override
     public void initData() {
-        //轮播图测试数据
+        //轮播图
         getBannerList();
-        //列表测试数据
-        for (int i = 0; i < 3; i++) {
-            HomeBean homeBean = new HomeBean();
-            homeBean.setTitle("市场推荐 //");
-            List<HomeBean.CardBean> cb = new ArrayList<>();
-            for (int j = 0; j < 4; j++) {
-                HomeBean.CardBean bean = new HomeBean.CardBean();
-                bean.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543834276504&di=558d8d0aae63b7992d2aa9f8ef851307&imgtype=0&src=http%3A%2F%2Ffile25.mafengwo.net%2FM00%2F66%2FD8%2FwKgB4lMcWvyAE9xYAAC8zPK6yMw35.jpeg");
-                bean.setName("杭州" + j);
-                cb.add(bean);
-            }
-            homeBean.setCardBeans(cb);
-            mBeanList.add(homeBean);
-        }
-        initListview();
+        //市场列表
+        getMarketList();
+
     }
 
     private void getBannerList() {
@@ -97,13 +86,6 @@ public class HomeFargment extends BaseFragment {
                 });
     }
 
-    private void initListview() {
-        //列表
-        mListAdapter = new HomeListAdapter(getActivity(), mBeanList);
-        mHomeList.setAdapter(mListAdapter);
-        ListViewUtil.setListViewHeightBasedOnChildren(mHomeList);
-    }
-
     private void initBanner() {
         mRlBanner.setAdapter(new BannerListAdapter(getActivity(), mBannerList.getList()));
         mRlBanner.setInterpolator(new LinearInterpolator());
@@ -111,6 +93,28 @@ public class HomeFargment extends BaseFragment {
         mRlBanner.requestFocus();
         mRlBanner.setFocusableInTouchMode(true);
     }
+
+    private void getMarketList() {
+        ServiceAPI.Retrofit().getMarketList()
+                .map(new RxResultFunc<MarketListBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<MarketListBean>(getActivity()) {
+                    @Override
+                    public void onNext(MarketListBean bean) {
+                        mMarketList = bean;
+                        initMarketList();
+                    }
+                });
+    }
+
+    private void initMarketList() {
+        //列表
+        mListAdapter = new HomeListAdapter(getActivity(), mMarketList.getList().getList());
+        mHomeList.setAdapter(mListAdapter);
+        ListViewUtil.setListViewHeightBasedOnChildren(mHomeList);
+    }
+
 
     private void startSchedule() {
         timer.schedule(new TimerTask() {

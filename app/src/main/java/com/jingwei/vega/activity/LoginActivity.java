@@ -60,6 +60,9 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initTitleBar() {
         hintTitleBar();
+        if (PreferencesUtil.getLoginState(LoginActivity.this)){
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        }
     }
 
     @Override
@@ -119,6 +122,7 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new RxSubscriber<Object>(LoginActivity.this,"正在登录...") {
                     @Override
                     public void onNext(Object token) {
+                        PreferencesUtil.saveLoginState(LoginActivity.this,true);
                         startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     }
                 });
