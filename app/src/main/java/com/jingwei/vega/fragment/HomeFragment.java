@@ -42,8 +42,9 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.et_content)
     EditText mEtContent;
 
-    private BannerListBean mBannerList;
-    private MarketListBean mMarketList;
+    private List<BannerListBean.ListBean> mBannerList = new ArrayList<>();
+    private BannerListAdapter mBannerListAdapter;
+    private List<MarketListBean.ListBeanX.ListBean> mMarketList = new ArrayList<>();
     private HomeListAdapter mListAdapter;
     private Timer timer = new Timer();
 
@@ -61,6 +62,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
+        initMarketList();
+        initBanner();
     }
 
     @Override
@@ -69,7 +72,6 @@ public class HomeFragment extends BaseFragment {
         getBannerList();
         //市场列表
         getMarketList();
-
     }
 
     private void getBannerList() {
@@ -80,16 +82,17 @@ public class HomeFragment extends BaseFragment {
                 .subscribe(new RxSubscriber<BannerListBean>(getActivity()) {
                     @Override
                     public void onNext(BannerListBean bean) {
-                        mBannerList = bean;
+                        mBannerList = bean.getList();
                         initBanner();
+                        startSchedule();
                     }
                 });
     }
 
     private void initBanner() {
-        mRlBanner.setAdapter(new BannerListAdapter(getActivity(), mBannerList.getList()));
+        mBannerListAdapter = new BannerListAdapter(getActivity(), mBannerList);
+        mRlBanner.setAdapter(mBannerListAdapter);
         mRlBanner.setInterpolator(new LinearInterpolator());
-        startSchedule();
         mRlBanner.requestFocus();
         mRlBanner.setFocusableInTouchMode(true);
     }
@@ -102,7 +105,7 @@ public class HomeFragment extends BaseFragment {
                 .subscribe(new RxSubscriber<MarketListBean>(getActivity()) {
                     @Override
                     public void onNext(MarketListBean bean) {
-                        mMarketList = bean;
+                        mMarketList = bean.getList().getList();
                         initMarketList();
                     }
                 });
@@ -110,7 +113,7 @@ public class HomeFragment extends BaseFragment {
 
     private void initMarketList() {
         //列表
-        mListAdapter = new HomeListAdapter(getActivity(), mMarketList.getList().getList());
+        mListAdapter = new HomeListAdapter(getActivity(), mMarketList);
         mHomeList.setAdapter(mListAdapter);
         ListViewUtil.setListViewHeightBasedOnChildren(mHomeList);
     }
