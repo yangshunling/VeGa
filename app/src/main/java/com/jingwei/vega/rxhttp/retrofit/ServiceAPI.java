@@ -1,5 +1,8 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.base.MyApplication;
 import com.jingwei.vega.rxhttp.okhttp.LogInterceptor;
@@ -51,6 +54,7 @@ public class ServiceAPI {
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(new LogInterceptor())
+                .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MyApplication.getContext())))
 //                .addInterceptor(new TokenInterceptor())
                 .build();
     }
