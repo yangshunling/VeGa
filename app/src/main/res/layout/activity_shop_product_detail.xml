@@ -40,14 +40,6 @@
                             android:layout_height="@dimen/title_image_size"
                             android:padding="@dimen/title_image_padding"
                             android:src="@drawable/icon_back_white" />
-
-                        <ImageView
-                            android:id="@+id/iv_right_share"
-                            android:layout_width="@dimen/title_image_size"
-                            android:layout_height="@dimen/title_image_size"
-                            android:layout_alignParentRight="true"
-                            android:padding="@dimen/title_image_padding"
-                            android:src="@drawable/icon_share_white" />
                     </RelativeLayout>
 
                 </RelativeLayout>
