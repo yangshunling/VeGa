@@ -84,7 +84,6 @@ public class HomeFragment extends BaseFragment {
                     public void onNext(BannerListBean bean) {
                         mBannerList = bean.getList();
                         initBanner();
-                        startSchedule();
                     }
                 });
     }
@@ -95,6 +94,7 @@ public class HomeFragment extends BaseFragment {
         mRlBanner.setInterpolator(new LinearInterpolator());
         mRlBanner.requestFocus();
         mRlBanner.setFocusableInTouchMode(true);
+        startSchedule();
     }
 
     private void getMarketList() {

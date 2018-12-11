@@ -1,6 +1,7 @@
 package com.jingwei.vega.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,15 +9,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jingwei.vega.R;
+import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.ClassificationLeftBean;
 
 import java.util.List;
 
 public class ClassificationListAdapter extends BaseAdapter {
     private Context context;
-    private List<ClassificationLeftBean> mList;
+    private List<CategoryByOneBean.ListBean> mList;
 
-    public ClassificationListAdapter(Context context, List<ClassificationLeftBean> mList) {
+    public ClassificationListAdapter(Context context, List<CategoryByOneBean.ListBean> mList) {
         this.context = context;
         this.mList = mList;
     }
@@ -57,6 +59,7 @@ public class ClassificationListAdapter extends BaseAdapter {
             viewHolder.mTvTag.setVisibility(View.VISIBLE);
         else
             viewHolder.mTvTag.setVisibility(View.INVISIBLE);
+
         viewHolder.mTvLeft.setText(mList.get(position).getName());
 
         return convertView;

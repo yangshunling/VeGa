@@ -1,6 +1,8 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
 import com.jingwei.vega.moudle.bean.BannerListBean;
+import com.jingwei.vega.moudle.bean.CategoryByOneBean;
+import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
@@ -11,6 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -54,6 +57,17 @@ public interface RetrofitAPI {
     @GET("index/market")
     Observable<RxMoudle<MarketListBean>> getMarketList();
 
+    /**
+     * 商品一级分类
+     */
+    @GET("category/root_list")
+    Observable<RxMoudle<CategoryByOneBean>> getCategoryByOne();
+
+    /**
+     * 商品二三级分类
+     */
+    @GET("category/{parentId}/list")
+    Observable<RxMoudle<CategoryByTwoBean>> getCategoryByTwo(@Path("parentId") String parentId);
 
     /********************************* chengxc******************************/
 

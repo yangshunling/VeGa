@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jingwei.vega.R;
+import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.ClassificationRightBean;
 import com.jingwei.vega.utils.GlideUtil;
 
@@ -22,9 +23,9 @@ import java.util.List;
 public class ClassificationImageAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ClassificationRightBean.Bean> mBeanList;
+    private List<CategoryByTwoBean.ListBean.SonListBean> mBeanList;
 
-    public ClassificationImageAdapter(Context context, List<ClassificationRightBean.Bean> mBeanList) {
+    public ClassificationImageAdapter(Context context, List<CategoryByTwoBean.ListBean.SonListBean> mBeanList) {
         this.context = context;
         this.mBeanList = mBeanList;
     }
@@ -60,7 +61,7 @@ public class ClassificationImageAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        GlideUtil.setImage(context, mBeanList.get(position).getUrl(), viewHolder.mIvClassificationImage);
+        GlideUtil.setImage(context, mBeanList.get(position).getIcon(), viewHolder.mIvClassificationImage);
         viewHolder.mTvClassificationName.setText(mBeanList.get(position).getName());
         return convertView;
     }

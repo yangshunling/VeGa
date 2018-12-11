@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -18,8 +19,14 @@ import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.ClassificationImageAdapter;
 import com.jingwei.vega.adapter.ClassificationListAdapter;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.bean.BannerListBean;
+import com.jingwei.vega.moudle.bean.CategoryByOneBean;
+import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.ClassificationLeftBean;
 import com.jingwei.vega.moudle.bean.ClassificationRightBean;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.view.CustomGridView;
 
 import java.util.ArrayList;
@@ -27,6 +34,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ClassificationFragment extends BaseFragment {
 
@@ -38,10 +47,10 @@ public class ClassificationFragment extends BaseFragment {
     EditText mEtContent;
 
     private ClassificationListAdapter mLeftListAdapter;
-    private List<ClassificationLeftBean> mLeftList = new ArrayList<>();
+    private List<CategoryByOneBean.ListBean> mLeftList = new ArrayList<>();
 
     private MyAdapter mMyAdapter;
-    private List<ClassificationRightBean> mRightList = new ArrayList<>();
+    private List<CategoryByTwoBean.ListBean> mRightList = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -50,9 +59,7 @@ public class ClassificationFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
-        //listview
-        mLeftListAdapter = new ClassificationListAdapter(getActivity(), mLeftList);
-        mLvLeft.setAdapter(mLeftListAdapter);
+        getCategoryByOne();
         //recycleview
         mMyAdapter = new MyAdapter(R.layout.item_classification_recycle, mRightList);
         mMyAdapter.setEmptyView(getEmptyView());
@@ -70,45 +77,46 @@ public class ClassificationFragment extends BaseFragment {
                 }
                 mLeftList.get(position).setTag(true);
                 mLeftListAdapter.notifyDataSetChanged();
-
-                //右侧测试数据
-                for (int i = 1; i < 5; i++) {
-                    ClassificationRightBean bean = new ClassificationRightBean();
-                    bean.setTitle("咕咕店铺" + i);
-
-                    List<ClassificationRightBean.Bean> beans = new ArrayList<>();
-                    for (int j = 1; j < 10; j++) {
-                        ClassificationRightBean.Bean url = new ClassificationRightBean.Bean();
-                        url.setName("短裤");
-                        url.setUrl("http://life.southmoney.com/tuwen/UploadFiles_6871/201801/20180129110733180.jpg");
-                        beans.add(url);
-                    }
-                    bean.setUrlList(beans);
-
-                    mRightList.add(bean);
-                }
-                mMyAdapter.replaceData(mRightList);
             }
         });
     }
 
     @Override
     public void initData() {
-        //左侧测试数据
-        for (int i = 0; i < 30; i++) {
-            if (i == 0) {
-                ClassificationLeftBean classificationLeftBean = new ClassificationLeftBean();
-                classificationLeftBean.setName("推荐分类");
-                classificationLeftBean.setTag(true);
-                mLeftList.add(classificationLeftBean);
-            } else {
-                ClassificationLeftBean classificationLeftBean = new ClassificationLeftBean();
-                classificationLeftBean.setName("分类" + i);
-                classificationLeftBean.setTag(false);
-                mLeftList.add(classificationLeftBean);
-            }
-        }
-        mLeftListAdapter.notifyDataSetChanged();
+
+    }
+
+    private void getCategoryByOne() {
+        ServiceAPI.Retrofit().getCategoryByOne()
+                .map(new RxResultFunc<CategoryByOneBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<CategoryByOneBean>(getActivity()) {
+                    @Override
+                    public void onNext(CategoryByOneBean bean) {
+                        mLeftList = bean.getList();
+                        if (mLeftList.size() != 0) {
+                            mLeftList.get(0).setTag(true);
+                            getCategoryByTwo(mLeftList.get(0).getId());
+                            mLeftListAdapter = new ClassificationListAdapter(getActivity(), mLeftList);
+                            mLvLeft.setAdapter(mLeftListAdapter);
+                        }
+                    }
+                });
+    }
+
+    private void getCategoryByTwo(int id) {
+        ServiceAPI.Retrofit().getCategoryByTwo(id + "")
+                .map(new RxResultFunc<CategoryByTwoBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<CategoryByTwoBean>(getActivity()) {
+                    @Override
+                    public void onNext(CategoryByTwoBean bean) {
+                        mRightList = bean.getList();
+                        mMyAdapter.replaceData(mRightList);
+                    }
+                });
     }
 
     @Override
@@ -132,21 +140,20 @@ public class ClassificationFragment extends BaseFragment {
         }
     }
 
-    public class MyAdapter extends BaseQuickAdapter<ClassificationRightBean, BaseViewHolder> {
+    public class MyAdapter extends BaseQuickAdapter<CategoryByTwoBean.ListBean, BaseViewHolder> {
         public MyAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, ClassificationRightBean item) {
-
-            helper.setText(R.id.tv_title, item.getTitle());
+        protected void convert(BaseViewHolder helper, CategoryByTwoBean.ListBean item) {
+            helper.setText(R.id.tv_title, item.getName());
             CustomGridView gridView = helper.getView(R.id.right_image_list);
-            gridView.setAdapter(new ClassificationImageAdapter(getActivity(), item.getUrlList()));
+            gridView.setAdapter(new ClassificationImageAdapter(getActivity(), item.getSonList()));
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startActivity(new Intent(getActivity(),GoodsListActivity.class));
+                    startActivity(new Intent(getActivity(), GoodsListActivity.class));
                 }
             });
         }
