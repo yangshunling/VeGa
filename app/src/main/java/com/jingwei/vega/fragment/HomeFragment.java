@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
@@ -95,6 +97,7 @@ public class HomeFragment extends BaseFragment {
                         } else {
                             mRlBanner.notifyDataSetChanged();
                         }
+                        mSpring.onFinishFreshAndLoad();
                     }
                 });
     }
@@ -122,6 +125,7 @@ public class HomeFragment extends BaseFragment {
                         } else {
                             mListAdapter.notifyDataSetChanged();
                         }
+                        mSpring.onFinishFreshAndLoad();
                     }
                 });
     }
@@ -150,6 +154,14 @@ public class HomeFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 intent.putExtra("name", Constants.DEMOACTIVITY);
                 startActivityForResult(intent, Constants.HOMEFRAGMENT);
+            }
+        });
+
+        mHomeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MarketShopsActivity.class);
+                startActivity(intent);
             }
         });
 

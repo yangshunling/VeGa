@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.jingwei.vega.R;
 import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
+import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.utils.ListViewUtil;
 
 import java.util.List;
@@ -51,30 +53,22 @@ public class HomeListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(
                     R.layout.item_home_list, null);
 
-            viewHolder.mTvHomeTitle = (TextView) convertView.findViewById(R.id.tv_home_title);
-            viewHolder.mLvHomeList = (ListView) convertView.findViewById(R.id.lv_home_list);
-
-            viewHolder.mLvHomeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(context,MarketShopsActivity.class);
-                    context.startActivity(intent);
-                }
-            });
+            viewHolder.mIvHomeListItem = (ImageView) convertView.findViewById(R.id.iv_home_list_item);
+            viewHolder.mTvHomeListItem = (TextView) convertView.findViewById(R.id.tv_home_list_item);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         //初始化
-        viewHolder.mTvHomeTitle.setText(mBeanList.get(position).getName());
-//        viewHolder.mLvHomeList.setAdapter(new ItemHomeListAdapter(context,mBeanList.get(position).getCardBeans()));
-        ListViewUtil.setListViewHeightBasedOnChildren(viewHolder.mLvHomeList);
+        viewHolder.mTvHomeListItem.setText(mBeanList.get(position).getName());
+        GlideUtil.setImage(context, mBeanList.get(position).getPic(), viewHolder.mIvHomeListItem);
         return convertView;
     }
 
     static class ViewHolder {
-        TextView mTvHomeTitle;
-        ListView mLvHomeList;
+        ImageView mIvHomeListItem;
+        TextView mTvHomeListItem;
     }
 }

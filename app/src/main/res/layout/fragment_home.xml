@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    app:Spring_type="follow"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:Spring_type="follow">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,12 +31,59 @@
                 app:icvp_max_page_scale="0.8"
                 app:icvp_min_page_scale="0.7"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="市场推荐 //"
+                android:textColor="@color/gray5"
+                android:textSize="15dp"
+                android:textStyle="bold"/>
+
             <ListView
                 android:id="@+id/home_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"
-                android:scrollbars="none"/>
+                android:scrollbars="none"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="全部商品 //"
+                android:textColor="@color/gray5"
+                android:textSize="15dp"
+                android:textStyle="bold"/>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/my_bg"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:text="商品库"
+                    android:textColor="@color/white"
+                    android:textSize="17dp"/>
+
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 </com.jingwei.vega.refresh.SpringView>
