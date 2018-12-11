@@ -84,13 +84,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         initStatusBar();
         switch (position) {
             case 0:
+                transaction = manager.beginTransaction();
                 if (mHomeFragment==null){
                     mHomeFragment = new HomeFragment();
                     transaction.add(R.id.main_content, mHomeFragment);
+                }else {
+                    hintFragment(transaction);
+                    transaction.show(mHomeFragment);
                 }
-                transaction = manager.beginTransaction();
-                hintFragment(transaction);
-                transaction.show(mHomeFragment);
                 transaction.commit();
                 break;
             case 1:

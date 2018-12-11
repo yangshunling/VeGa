@@ -1,10 +1,13 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,8 +20,10 @@ import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.BannerListBean;
-import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
+import com.jingwei.vega.refresh.DefaultFooter;
+import com.jingwei.vega.refresh.DefaultHeader;
+import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
@@ -30,6 +35,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -41,6 +48,8 @@ public class HomeFragment extends BaseFragment {
     HorizontalInfiniteCycleViewPager mRlBanner;
     @BindView(R.id.et_content)
     EditText mEtContent;
+    @BindView(R.id.spring)
+    SpringView mSpring;
 
     private List<BannerListBean.ListBean> mBannerList = new ArrayList<>();
     private BannerListAdapter mBannerListAdapter;
@@ -62,16 +71,14 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
-        initMarketList();
-        initBanner();
+        getMarketList();
+        getBannerList();
+        mSpring.setHeader(new DefaultHeader(getActivity()));
+        mSpring.setFooter(new DefaultFooter(getActivity()));
     }
 
     @Override
     public void initData() {
-        //轮播图
-        getBannerList();
-        //市场列表
-        getMarketList();
     }
 
     private void getBannerList() {
@@ -83,7 +90,11 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onNext(BannerListBean bean) {
                         mBannerList = bean.getList();
-                        initBanner();
+                        if (mBannerListAdapter == null) {
+                            initBanner();
+                        } else {
+                            mRlBanner.notifyDataSetChanged();
+                        }
                     }
                 });
     }
@@ -106,7 +117,11 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onNext(MarketListBean bean) {
                         mMarketList = bean.getList().getList();
-                        initMarketList();
+                        if (mListAdapter == null) {
+                            initMarketList();
+                        } else {
+                            mListAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
     }
@@ -137,6 +152,19 @@ public class HomeFragment extends BaseFragment {
                 startActivityForResult(intent, Constants.HOMEFRAGMENT);
             }
         });
+
+        mSpring.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                getBannerList();
+                getMarketList();
+            }
+
+            @Override
+            public void onLoadmore() {
+
+            }
+        });
     }
 
     @Override
@@ -146,7 +174,6 @@ public class HomeFragment extends BaseFragment {
             if (data != null) {
                 String msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
-                showToast(msg);
             }
         }
     }
