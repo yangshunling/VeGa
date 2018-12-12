@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.greenrobot.event.EventBus;
 
 /**
  * BaseActivity基类

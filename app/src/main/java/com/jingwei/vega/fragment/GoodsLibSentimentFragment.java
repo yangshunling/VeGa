@@ -1,5 +1,6 @@
 package com.jingwei.vega.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.ShopProductDetailActivity;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.SearchMsgEvent;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,6 +39,8 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     RecyclerView mRvList;
     @BindView(R.id.spring)
     SpringView mSpring;
+    @BindView(R.id.iv_arrow_top)
+    ImageView mIvArrowTop;
 
     private Integer pager = 1;
 
@@ -49,6 +54,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
+        EventBus.getDefault().register(this);
         mSpring.setHeader(new DefaultHeader(getActivity()));
         mSpring.setFooter(new DefaultFooter(getActivity()));
         mMyAdapter = new MyAdapter(R.layout.item_goods_lib_recycle, mBeanList);
@@ -68,6 +74,22 @@ public class GoodsLibSentimentFragment extends BaseFragment {
             @Override
             public void onLoadmore() {
                 onLoadmoreData("", pager++);
+            }
+        });
+
+        mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), ShopProductDetailActivity.class);
+                intent.putExtra("id", mBeanList.get(position).getId());
+                startActivity(intent);
+            }
+        });
+
+        mIvArrowTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRvList.scrollToPosition(0);
             }
         });
     }
@@ -136,5 +158,11 @@ public class GoodsLibSentimentFragment extends BaseFragment {
             helper.setText(R.id.tv_goods_lib_introduce, item.getName());
             helper.setText(R.id.tv_goods_lib_price, "¥" + item.getPrice());
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
