@@ -40,9 +40,9 @@
             android:id="@+id/image_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:horizontalSpacing="5dp"
             android:numColumns="3"
-            android:layout_marginTop="5dp"
             android:scrollbars="none"
             android:verticalSpacing="5dp"/>
 
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:gravity="right"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <com.came.viewbguilib.ButtonBgUi
                 android:id="@+id/bt_save"
@@ -67,6 +67,22 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:text="一键存图"
+                android:textColor="@color/black"
+                android:textSize="14dp"
+                app:defaultColor="@color/white"
+                app:isRipple="true"
+                app:pressedColor="@color/app_color"
+                app:raoundRadius="100dp"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp"/>
+
+            <com.came.viewbguilib.ButtonBgUi
+                android:id="@+id/bt_copy"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:padding="2dp"
+                android:text="文案复制"
                 android:textColor="@color/black"
                 android:textSize="14dp"
                 app:defaultColor="@color/white"

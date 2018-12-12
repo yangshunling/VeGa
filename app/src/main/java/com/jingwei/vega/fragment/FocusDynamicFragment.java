@@ -1,5 +1,8 @@
 package com.jingwei.vega.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
@@ -98,12 +101,24 @@ public class FocusDynamicFragment extends BaseFragment {
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                imgList = mBeanList.get(position).getUrlList();
-                if (imgList != null && imgList.size() != 0) {
-                    showToast("图片正在保存成功...");
-                    for (int i = 0; i < imgList.size(); i++) {
-                        downloadImage(i);
-                    }
+                switch (view.getId()) {
+                    case R.id.bt_save:
+                        imgList = mBeanList.get(position).getUrlList();
+                        if (imgList != null && imgList.size() != 0) {
+                            showToast("图片正在保存成功...");
+                            for (int i = 0; i < imgList.size(); i++) {
+                                downloadImage(i);
+                            }
+                        }
+                        break;
+                    case R.id.bt_copy:
+                        ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        // 创建普通字符型ClipData
+                        ClipData mClipData = ClipData.newPlainText("Label", mBeanList.get(position).getContent());
+                        // 将ClipData内容放到系统剪贴板里。
+                        cm.setPrimaryClip(mClipData);
+                        showToast("复制成功");
+                        break;
                 }
             }
         });
@@ -188,6 +203,7 @@ public class FocusDynamicFragment extends BaseFragment {
             helper.setText(R.id.tv_time, item.getTime());
             //点击事件
             helper.addOnClickListener(R.id.bt_save);
+            helper.addOnClickListener(R.id.bt_copy);
         }
     }
 }
