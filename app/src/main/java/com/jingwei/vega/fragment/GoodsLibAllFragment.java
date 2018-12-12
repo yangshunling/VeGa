@@ -86,7 +86,7 @@ public class GoodsLibAllFragment extends BaseFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(), ShopProductDetailActivity.class);
-                intent.putExtra("id", mBeanList.get(position).getId());
+                intent.putExtra("id", mBeanList.get(position).getId() + "");
                 startActivity(intent);
             }
         });

@@ -21,13 +21,15 @@ import butterknife.BindView;
  * 商品详情界面
  */
 
-public class ShopProductDetailActivity extends BaseActivity{
+public class ShopProductDetailActivity extends BaseActivity {
 
     @BindView(R.id.banner)
     Banner mBanner;
 
     @BindView(R.id.lv_product_detail)
     ListView mListView;
+
+    private String pid = "";
 
     private ProductDetailAdapter mProductDetailAdapter;
 
@@ -52,6 +54,7 @@ public class ShopProductDetailActivity extends BaseActivity{
         //抢占焦点
         mBanner.requestFocus();
         mBanner.setFocusableInTouchMode(true);
+        pid = getIntent().getStringExtra("id");
     }
 
     @Override
