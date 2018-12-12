@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
@@ -29,6 +30,7 @@ import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
+import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.utils.ListViewUtil;
 
 import java.util.ArrayList;
