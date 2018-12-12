@@ -1,6 +1,7 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,14 +11,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.moudle.bean.HomeBean;
+import com.jingwei.vega.moudle.bean.MarketListBean;
+import com.jingwei.vega.moudle.bean.MarketShopListBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.AppUtils;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
@@ -30,6 +38,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cxc on 2018/12/3.
@@ -52,14 +62,26 @@ public class MarketShopsActivity extends BaseActivity{
     @BindView(R.id.tv_tran)
     TextView mTran;//透明罩子
 
+    @BindView(R.id.iv_turn_to_top)
+    ImageView mIvTurnToTop;//滑动显示
+
     private EasyPopup mCirclePop;
 
     private MarketShopsAdapter mMarketShopsAdapter;
-    private List<DynamicBean> mBeanList = new ArrayList<>();
+    private List<MarketShopListBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
     //选择市场商铺dialog的适配
     private DialogMarketShopsAdapter mDialogMarketShopsAdapter;
-    private List<HomeBean.CardBean> cb = new ArrayList<>();
+
+    //用户选中的市场id
+     private int marketId;
+     //市场列表
+    private List<MarketListBean.ListBeanX.ListBean> mMarketList;
+
+    private int pager = 0;
+
+    //当前是否为向上滑动
+    private boolean isTurnToUp = false;
 
     @Override
     public int getContentView() {
@@ -73,6 +95,9 @@ public class MarketShopsActivity extends BaseActivity{
 
     @Override
     public void initView() {
+        marketId = getIntent().getExtras().getInt("marketId",0);
+        mMarketList = (List<MarketListBean.ListBeanX.ListBean>) getIntent().getExtras().getSerializable("marketList");
+
         mSpring.setHeader(new DefaultHeader(MarketShopsActivity.this));
         mSpring.setFooter(new DefaultFooter(MarketShopsActivity.this));
         mMarketShopsAdapter = new MarketShopsAdapter(R.layout.item_market_shops_recycle, mBeanList);
@@ -83,30 +108,93 @@ public class MarketShopsActivity extends BaseActivity{
 
     @Override
     public void initData() {
-        //测试数据
-        for (int i = 0; i < 20; i++) {
-            DynamicBean bean = new DynamicBean();
-            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
-            bean.setName("咕咕店铺");
-            bean.setContent("由于这是付费推广，而且不能保证有交易，所以在宝贝选择上、价格控制、悬挂频道和方式都是很有讲究的。");
 
-            List<String> url = new ArrayList<>();
-            url.add("http://life.southmoney.com/tuwen/UploadFiles_6871/201801/20180129110733180.jpg");
-            url.add("http://imgsrc.baidu.com/imgad/pic/item/37d12f2eb9389b50768d956e8e35e5dde7116e9f.jpg");
-            url.add("http://image.fvideo.cn/uploadfile/2015/06/04/img28567642935153.jpg");
+        getMarkerShopList();
 
-            bean.setUrlList(url);
-            bean.setTime("2018/02/01 22:38");
-            mBeanList.add(bean);
-        }
-        mMarketShopsAdapter.replaceData(mBeanList);
+        setListener();
+    }
 
+    private void setListener() {
         mMarketShopsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(MarketShopsActivity.this,ShopActivity.class));
             }
         });
+
+        //上拉下拉
+        mSpring.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                pager = 1;
+                getMarkerShopList();
+            }
+
+            @Override
+            public void onLoadmore() {
+                pager++;
+                getMarkerShopList();
+            }
+        });
+
+        //RecyclerView滑动监听
+        mRvMarketShops.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int mScrollThreshold;
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                mScrollThreshold = newState;
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                boolean isSignificantDelta = Math.abs(dy) > mScrollThreshold;
+                if (isSignificantDelta) {
+                    if (dy > 0) {
+                        //向上滑动
+                        mIvTurnToTop.setBackground(getResources().getDrawable(R.drawable.turn_to_top_white));
+                        isTurnToUp = true;
+                    } else {
+                        //向下滑动
+                        mIvTurnToTop.setBackground(getResources().getDrawable(R.drawable.turn_to_top_gray));
+                        isTurnToUp = false;
+                    }
+                }
+            }
+        });
+    }
+
+    //获取市场商铺列表
+    private void getMarkerShopList() {
+        ServiceAPI.Retrofit().postMarketShopList(ParamBuilder.newParams()
+                .addParam("marketId", marketId+"")
+                .addParam("pageNumber", pager + "")
+                .bulidParam())
+                .map(new RxResultFunc<MarketShopListBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<MarketShopListBean>(MarketShopsActivity.this,true) {
+                    @Override
+                    public void onNext(MarketShopListBean bean) {
+                        if (bean.getPageList().getList().size() != 0) {
+                            if (pager == 1) {
+                                mBeanList = bean.getPageList().getList();
+                            } else {
+                                mBeanList.addAll(bean.getPageList().getList());
+                            }
+                            mMarketShopsAdapter.replaceData(mBeanList);
+                        } else {
+                            if (pager > 1) {
+                                showToast(getResources().getString(R.string.no_more_date));
+                            }else{
+                                mBeanList.clear();
+                                mMarketShopsAdapter.replaceData(mBeanList);
+                            }
+                        }
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
     }
 
     @OnClick({R.id.rl_choose_market_shops})
@@ -114,6 +202,14 @@ public class MarketShopsActivity extends BaseActivity{
         switch (view.getId()) {
             case R.id.rl_choose_market_shops:
                 showMarketShops();
+                break;
+
+            case R.id.iv_turn_to_top:
+                //当前属于向上滑动得状态，点击此按钮会滚动到第一个数据
+                if(isTurnToUp){
+                    mRvMarketShops.scrollTo(0,0);
+                }
+
                 break;
         }
     }
@@ -139,16 +235,7 @@ public class MarketShopsActivity extends BaseActivity{
         //Recycler适配
         RecyclerView mRv = mCirclePop.findViewById(R.id.dialog_rv_top_market_shops);
 
-        cb.clear();
-
-        for (int j = 0; j < 4; j++) {
-            HomeBean.CardBean bean = new HomeBean.CardBean();
-            bean.setUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543834276504&di=558d8d0aae63b7992d2aa9f8ef851307&imgtype=0&src=http%3A%2F%2Ffile25.mafengwo.net%2FM00%2F66%2FD8%2FwKgB4lMcWvyAE9xYAAC8zPK6yMw35.jpeg");
-            bean.setName("杭州"+j);
-            cb.add(bean);
-        }
-
-        mDialogMarketShopsAdapter = new DialogMarketShopsAdapter(R.layout.item_dialog_market_shops, cb);
+        mDialogMarketShopsAdapter = new DialogMarketShopsAdapter(R.layout.item_dialog_market_shops, mMarketList);
         //设置当前数据为空时，显示空的图片界面
         mDialogMarketShopsAdapter.setEmptyView(getEmptyView());
         mRv.setAdapter(mDialogMarketShopsAdapter);
@@ -157,7 +244,9 @@ public class MarketShopsActivity extends BaseActivity{
         mDialogMarketShopsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                showToast("你点击了："+cb.get(position).getName());
+                marketId = mMarketList.get(position).getId();
+                pager = 1;
+                getMarkerShopList();
                 mCirclePop.dismiss();
             }
         });
@@ -171,32 +260,48 @@ public class MarketShopsActivity extends BaseActivity{
     }
 
     //顶部popupWindow适配
-    public class DialogMarketShopsAdapter extends BaseQuickAdapter<HomeBean.CardBean, BaseViewHolder> {
+    public class DialogMarketShopsAdapter extends BaseQuickAdapter<MarketListBean.ListBeanX.ListBean, BaseViewHolder> {
         public DialogMarketShopsAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, HomeBean.CardBean item) {
+        protected void convert(BaseViewHolder helper, MarketListBean.ListBeanX.ListBean item) {
             helper.setText(R.id.tv_market_shops_list_item,item.getName());
 
-            GlideUtil.setImage(MarketShopsActivity.this,item.getUrl(), (ImageView) helper.getView(R.id.iv_market_shops_list_item));
+            GlideUtil.setImage(MarketShopsActivity.this, Constants.IMAGEHOST+item.getPic(), (ImageView) helper.getView(R.id.iv_market_shops_list_item));
         }
     }
 
     //详情显示适配
-    public class MarketShopsAdapter extends BaseQuickAdapter<DynamicBean, BaseViewHolder> {
+    public class MarketShopsAdapter extends BaseQuickAdapter<MarketShopListBean.PageListBean.ListBean, BaseViewHolder> {
         public MarketShopsAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, DynamicBean item) {
-            GlideUtil.setCircleImage(MarketShopsActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_image));
+        protected void convert(BaseViewHolder helper, MarketShopListBean.PageListBean.ListBean item) {
+            GlideUtil.setCircleImage(MarketShopsActivity.this, Constants.IMAGEHOST+item.getHeadImg(), (ImageView) helper.getView(R.id.iv_image));
             helper.setText(R.id.tv_name, item.getName());
-            helper.setText(R.id.tv_content, item.getContent());
+            helper.setText(R.id.tv_content, item.getRemark());
+
+            List<String> imageList = new ArrayList<>();
+            if(item.getImages() != null && item.getImages().size()>0){
+                for(int i = 0; i < item.getImages().size(); i++){
+                    imageList.add(Constants.IMAGEHOST+item.getImages().get(i).getPath());
+                }
+            }
             CustomGridView gridView = helper.getView(R.id.image_list);
-            gridView.setAdapter(new DynamicImageAdapter(MarketShopsActivity.this, item.getUrlList()));
+            gridView.setAdapter(new DynamicImageAdapter(MarketShopsActivity.this,imageList));
+
+            //是否已关注
+            if(item.isIsLove()){
+                helper.setGone(R.id.bt_is_love,true);
+                helper.setGone(R.id.bt_love,false);
+            }else{
+                helper.setGone(R.id.bt_is_love,false);
+                helper.setGone(R.id.bt_love,true);
+            }
         }
     }
 

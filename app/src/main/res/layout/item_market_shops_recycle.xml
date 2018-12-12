@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
     app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,33 +40,57 @@
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
-            <com.came.viewbguilib.ButtonBgUi
-                android:id="@+id/bt_save"
-                android:layout_width="50dp"
+            <RelativeLayout
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:padding="2dp"
-                android:text="关注"
-                android:textColor="@color/white"
-                android:textSize="13dp"
-                app:defaultColor="@color/black"
-                app:isRipple="true"
-                app:pressedColor="@color/app_color"
-                app:raoundRadius="100dp"
-                app:strokeColor="@color/black"
-                app:strokeWidth="1dp" />
+                android:layout_alignParentRight="true">
+
+                <com.came.viewbguilib.ButtonBgUi
+                    android:id="@+id/bt_is_love"
+                    android:visibility="gone"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="2dp"
+                    android:text="@string/is_love"
+                    android:textColor="@color/gray2"
+                    android:textSize="13dp"
+                    app:defaultColor="@color/white"
+                    app:isRipple="true"
+                    app:pressedColor="@color/app_color"
+                    app:raoundRadius="100dp"
+                    app:strokeColor="@color/gray2"
+                    app:strokeWidth="1dp" />
+
+                <com.came.viewbguilib.ButtonBgUi
+                    android:id="@+id/bt_love"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="2dp"
+                    android:text="@string/love"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    app:defaultColor="@color/black"
+                    app:isRipple="true"
+                    app:pressedColor="@color/app_color"
+                    app:raoundRadius="100dp"
+                    app:strokeColor="@color/black"
+                    app:strokeWidth="1dp" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textSize="12dp"
             android:layout_marginTop="3dp"
-            android:textColor="@color/gray3"/>
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/gray3"
+            android:textSize="12dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,11 +102,11 @@
                 android:id="@+id/image_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:horizontalSpacing="5dp"
                 android:numColumns="3"
-                android:layout_marginTop="5dp"
                 android:scrollbars="none"
-                android:verticalSpacing="5dp"/>
+                android:verticalSpacing="5dp" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

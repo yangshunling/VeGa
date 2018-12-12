@@ -5,6 +5,7 @@ import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
+import com.jingwei.vega.moudle.bean.MarketShopListBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.Map;
@@ -79,6 +80,11 @@ public interface RetrofitAPI {
 
     /********************************* chengxc******************************/
 
+    /**
+     * 市场商铺列表
+     */
+    @GET("supplier/list")
+    Observable<RxMoudle<MarketShopListBean>> postMarketShopList(@QueryMap Map<String, String> params);
 
 
 

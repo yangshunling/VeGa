@@ -1,45 +1,47 @@
 package com.jingwei.vega.moudle.bean;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class MarketListBean implements Serializable{
-
+/**
+ * Created by cxc on 2018/12/12.
+ * 商铺集合
+ */
+public class MarketShopListBean {
     /**
-     * list : {"pageNum":1,"pageSize":10,"size":3,"orderBy":null,"startRow":1,"endRow":3,"total":3,"pages":1,"list":[{"id":3,"name":"\b北京","pic":"admin/d75e2195cb3d4087a773d6dc98e8b91c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":2,"name":"上海","pic":"admin/93f299abb0fc490995cb9aafcfef9e7c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":1,"name":"杭州","pic":"admin/22a45d61284a46f4b962503e9ce2e0b2.png","status":1,"createdAt":1544284800000,"updatedAt":1544284800000}],"firstPage":1,"prePage":0,"nextPage":0,"lastPage":1,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1]}
+     * pageList : {"pageNum":0,"pageSize":0,"size":0,"orderBy":null,"startRow":0,"endRow":0,"total":0,"pages":0,"list":[{"images":[{"path":"admin/c251639f34ba40e1865a979729a2c7d8.png","type":"MAIN_PIC","createdAt":null}],"headImg":"admin/c251639f34ba40e1865a979729a2c7d8.png","name":"机汇网","isLove":true,"remark":"我要测试一下","id":1}],"firstPage":0,"prePage":0,"nextPage":0,"lastPage":0,"isFirstPage":false,"isLastPage":false,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":0,"navigatepageNums":null}
      */
 
-    private ListBeanX list;
+    private PageListBean pageList;
 
-    public ListBeanX getList() {
-        return list;
+    public PageListBean getPageList() {
+        return pageList;
     }
 
-    public void setList(ListBeanX list) {
-        this.list = list;
+    public void setPageList(PageListBean pageList) {
+        this.pageList = pageList;
     }
 
-    public static class ListBeanX implements Serializable{
+    public static class PageListBean {
         /**
-         * pageNum : 1
-         * pageSize : 10
-         * size : 3
+         * pageNum : 0
+         * pageSize : 0
+         * size : 0
          * orderBy : null
-         * startRow : 1
-         * endRow : 3
-         * total : 3
-         * pages : 1
-         * list : [{"id":3,"name":"\b北京","pic":"admin/d75e2195cb3d4087a773d6dc98e8b91c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":2,"name":"上海","pic":"admin/93f299abb0fc490995cb9aafcfef9e7c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":1,"name":"杭州","pic":"admin/22a45d61284a46f4b962503e9ce2e0b2.png","status":1,"createdAt":1544284800000,"updatedAt":1544284800000}]
-         * firstPage : 1
+         * startRow : 0
+         * endRow : 0
+         * total : 0
+         * pages : 0
+         * list : [{"images":[{"path":"admin/c251639f34ba40e1865a979729a2c7d8.png","type":"MAIN_PIC","createdAt":null}],"headImg":"admin/c251639f34ba40e1865a979729a2c7d8.png","name":"机汇网","isLove":true,"remark":"我要测试一下","id":1}]
+         * firstPage : 0
          * prePage : 0
          * nextPage : 0
-         * lastPage : 1
-         * isFirstPage : true
-         * isLastPage : true
+         * lastPage : 0
+         * isFirstPage : false
+         * isLastPage : false
          * hasPreviousPage : false
          * hasNextPage : false
-         * navigatePages : 8
-         * navigatepageNums : [1]
+         * navigatePages : 0
+         * navigatepageNums : null
          */
 
         private int pageNum;
@@ -59,8 +61,8 @@ public class MarketListBean implements Serializable{
         private boolean hasPreviousPage;
         private boolean hasNextPage;
         private int navigatePages;
+        private Object navigatepageNums;
         private List<ListBean> list;
-        private List<Integer> navigatepageNums;
 
         public int getPageNum() {
             return pageNum;
@@ -198,6 +200,14 @@ public class MarketListBean implements Serializable{
             this.navigatePages = navigatePages;
         }
 
+        public Object getNavigatepageNums() {
+            return navigatepageNums;
+        }
+
+        public void setNavigatepageNums(Object navigatepageNums) {
+            this.navigatepageNums = navigatepageNums;
+        }
+
         public List<ListBean> getList() {
             return list;
         }
@@ -206,37 +216,29 @@ public class MarketListBean implements Serializable{
             this.list = list;
         }
 
-        public List<Integer> getNavigatepageNums() {
-            return navigatepageNums;
-        }
-
-        public void setNavigatepageNums(List<Integer> navigatepageNums) {
-            this.navigatepageNums = navigatepageNums;
-        }
-
-        public static class ListBean implements Serializable{
+        public static class ListBean {
             /**
-             * id : 3
-             * name : 北京
-             * pic : admin/d75e2195cb3d4087a773d6dc98e8b91c.jpg
-             * status : 1
-             * createdAt : 1544457600000
-             * updatedAt : 1544457600000
+             * images : [{"path":"admin/c251639f34ba40e1865a979729a2c7d8.png","type":"MAIN_PIC","createdAt":null}]
+             * headImg : admin/c251639f34ba40e1865a979729a2c7d8.png
+             * name : 机汇网
+             * isLove : true
+             * remark : 我要测试一下
+             * id : 1
              */
 
-            private int id;
+            private String headImg;
             private String name;
-            private String pic;
-            private int status;
-            private long createdAt;
-            private long updatedAt;
+            private boolean isLove;
+            private String remark;
+            private int id;
+            private List<ImagesBean> images;
 
-            public int getId() {
-                return id;
+            public String getHeadImg() {
+                return headImg;
             }
 
-            public void setId(int id) {
-                this.id = id;
+            public void setHeadImg(String headImg) {
+                this.headImg = headImg;
             }
 
             public String getName() {
@@ -247,36 +249,72 @@ public class MarketListBean implements Serializable{
                 this.name = name;
             }
 
-            public String getPic() {
-                return pic;
+            public boolean isIsLove() {
+                return isLove;
             }
 
-            public void setPic(String pic) {
-                this.pic = pic;
+            public void setIsLove(boolean isLove) {
+                this.isLove = isLove;
             }
 
-            public int getStatus() {
-                return status;
+            public String getRemark() {
+                return remark;
             }
 
-            public void setStatus(int status) {
-                this.status = status;
+            public void setRemark(String remark) {
+                this.remark = remark;
             }
 
-            public long getCreatedAt() {
-                return createdAt;
+            public int getId() {
+                return id;
             }
 
-            public void setCreatedAt(long createdAt) {
-                this.createdAt = createdAt;
+            public void setId(int id) {
+                this.id = id;
             }
 
-            public long getUpdatedAt() {
-                return updatedAt;
+            public List<ImagesBean> getImages() {
+                return images;
             }
 
-            public void setUpdatedAt(long updatedAt) {
-                this.updatedAt = updatedAt;
+            public void setImages(List<ImagesBean> images) {
+                this.images = images;
+            }
+
+            public static class ImagesBean {
+                /**
+                 * path : admin/c251639f34ba40e1865a979729a2c7d8.png
+                 * type : MAIN_PIC
+                 * createdAt : null
+                 */
+
+                private String path;
+                private String type;
+                private Object createdAt;
+
+                public String getPath() {
+                    return path;
+                }
+
+                public void setPath(String path) {
+                    this.path = path;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                public Object getCreatedAt() {
+                    return createdAt;
+                }
+
+                public void setCreatedAt(Object createdAt) {
+                    this.createdAt = createdAt;
+                }
             }
         }
     }

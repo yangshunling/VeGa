@@ -33,6 +33,7 @@ import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.ListViewUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -164,6 +165,10 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MarketShopsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("marketId",mMarketList.get(position).getId());
+                bundle.putSerializable("marketList", (Serializable) mMarketList);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
