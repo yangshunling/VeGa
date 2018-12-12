@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.SearchEvent;
 import android.widget.EditText;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -15,12 +16,15 @@ import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.fragment.GoodsLibAllFragment;
 import com.jingwei.vega.fragment.GoodsLibLatestFragment;
 import com.jingwei.vega.fragment.GoodsLibSentimentFragment;
+import com.jingwei.vega.moudle.SearchMsgEvent;
+import com.jingwei.vega.utils.TextUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class GoodsLibActivity extends BaseActivity {
 
@@ -39,6 +43,7 @@ public class GoodsLibActivity extends BaseActivity {
     private final String[] mTitles = {
             "全部", "最新", "人气"};
     private ViewPagerAdapter mAdapter;
+    private Integer index = 0;
 
     @Override
     public int getContentView() {
@@ -67,7 +72,22 @@ public class GoodsLibActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
 
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                index = i;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     @OnClick(R.id.et_content)
@@ -80,9 +100,11 @@ public class GoodsLibActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.GOODSLIBACTIVITY) {
-            String msg = data.getStringExtra("content");
-            mEtContent.setText(msg);
-            showToast(msg);
+            if (data != null) {
+                String msg = data.getStringExtra("content");
+                mEtContent.setText(msg);
+                EventBus.getDefault().post(new SearchMsgEvent(msg));
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 public class MarketListBean {
 
     /**
-     * list : {"pageNum":1,"pageSize":10,"size":1,"orderBy":null,"startRow":1,"endRow":1,"total":1,"pages":1,"list":[{"id":1,"name":"杭州","pic":"admin/22a45d61284a46f4b962503e9ce2e0b2.png","status":1,"createdAt":1544284800000,"updatedAt":1544284800000}],"firstPage":1,"prePage":0,"nextPage":0,"lastPage":1,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1]}
+     * list : {"pageNum":1,"pageSize":10,"size":3,"orderBy":null,"startRow":1,"endRow":3,"total":3,"pages":1,"list":[{"id":3,"name":"\b北京","pic":"admin/d75e2195cb3d4087a773d6dc98e8b91c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":2,"name":"上海","pic":"admin/93f299abb0fc490995cb9aafcfef9e7c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":1,"name":"杭州","pic":"admin/22a45d61284a46f4b962503e9ce2e0b2.png","status":1,"createdAt":1544284800000,"updatedAt":1544284800000}],"firstPage":1,"prePage":0,"nextPage":0,"lastPage":1,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1]}
      */
 
     private ListBeanX list;
@@ -22,13 +22,13 @@ public class MarketListBean {
         /**
          * pageNum : 1
          * pageSize : 10
-         * size : 1
+         * size : 3
          * orderBy : null
          * startRow : 1
-         * endRow : 1
-         * total : 1
+         * endRow : 3
+         * total : 3
          * pages : 1
-         * list : [{"id":1,"name":"杭州","pic":"admin/22a45d61284a46f4b962503e9ce2e0b2.png","status":1,"createdAt":1544284800000,"updatedAt":1544284800000}]
+         * list : [{"id":3,"name":"\b北京","pic":"admin/d75e2195cb3d4087a773d6dc98e8b91c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":2,"name":"上海","pic":"admin/93f299abb0fc490995cb9aafcfef9e7c.jpg","status":1,"createdAt":1544457600000,"updatedAt":1544457600000},{"id":1,"name":"杭州","pic":"admin/22a45d61284a46f4b962503e9ce2e0b2.png","status":1,"createdAt":1544284800000,"updatedAt":1544284800000}]
          * firstPage : 1
          * prePage : 0
          * nextPage : 0
@@ -215,12 +215,12 @@ public class MarketListBean {
 
         public static class ListBean {
             /**
-             * id : 1
-             * name : 杭州
-             * pic : admin/22a45d61284a46f4b962503e9ce2e0b2.png
+             * id : 3
+             * name : 北京
+             * pic : admin/d75e2195cb3d4087a773d6dc98e8b91c.jpg
              * status : 1
-             * createdAt : 1544284800000
-             * updatedAt : 1544284800000
+             * createdAt : 1544457600000
+             * updatedAt : 1544457600000
              */
 
             private int id;

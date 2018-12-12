@@ -5,18 +5,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.GoodsLibActivity;
 import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.BannerListAdapter;
@@ -24,13 +25,11 @@ import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
-import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
-import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.utils.ListViewUtil;
 
 import java.util.ArrayList;
@@ -54,6 +53,8 @@ public class HomeFragment extends BaseFragment {
     EditText mEtContent;
     @BindView(R.id.spring)
     SpringView mSpring;
+    @BindView(R.id.cv_goods_lib)
+    CardView mCvGoodsLib;
 
     private List<BannerListBean.ListBean> mBannerList = new ArrayList<>();
     private BannerListAdapter mBannerListAdapter;
@@ -78,7 +79,6 @@ public class HomeFragment extends BaseFragment {
         getMarketList();
         getBannerList();
         mSpring.setHeader(new DefaultHeader(getActivity()));
-        mSpring.setFooter(new DefaultFooter(getActivity()));
     }
 
     @Override
@@ -164,6 +164,13 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MarketShopsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        mCvGoodsLib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),GoodsLibActivity.class));
             }
         });
 

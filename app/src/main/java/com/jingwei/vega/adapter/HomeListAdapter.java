@@ -2,6 +2,7 @@ package com.jingwei.vega.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.moudle.bean.HomeBean;
@@ -63,7 +65,7 @@ public class HomeListAdapter extends BaseAdapter {
 
         //初始化
         viewHolder.mTvHomeListItem.setText(mBeanList.get(position).getName());
-        GlideUtil.setImage(context, mBeanList.get(position).getPic(), viewHolder.mIvHomeListItem);
+        GlideUtil.setImage(context, Constants.IMAGEHOST + mBeanList.get(position).getPic(), viewHolder.mIvHomeListItem);
         return convertView;
     }
 

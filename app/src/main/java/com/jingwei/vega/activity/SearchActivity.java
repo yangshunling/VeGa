@@ -3,19 +3,15 @@ package com.jingwei.vega.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
-import com.jingwei.vega.moudle.SearchRecordEvent;
 import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.utils.SoftKeyboardUtils;
 import com.jingwei.vega.utils.TextUtil;
@@ -27,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
 
 public class SearchActivity extends BaseActivity {
 

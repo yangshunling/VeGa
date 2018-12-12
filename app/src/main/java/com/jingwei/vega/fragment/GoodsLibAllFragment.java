@@ -7,18 +7,29 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.SearchMsgEvent;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
+import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.GlideUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class GoodsLibAllFragment extends BaseFragment {
 
@@ -27,8 +38,10 @@ public class GoodsLibAllFragment extends BaseFragment {
     @BindView(R.id.spring)
     SpringView mSpring;
 
+    private Integer pager = 1;
+
     private MyAdapter mMyAdapter;
-    private List<GoodsLibBean> mBeanList = new ArrayList<>();
+    private List<GoodsLibBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -50,27 +63,57 @@ public class GoodsLibAllFragment extends BaseFragment {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-
+                onRefreshData("");
             }
 
             @Override
             public void onLoadmore() {
-
+                onLoadmoreData("", pager++);
             }
         });
     }
 
     @Override
     public void initData() {
-        //测试数据
-        for (int i = 0; i < 30; i++) {
-            GoodsLibBean bean = new GoodsLibBean();
-            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
-            bean.setIntroduce("【新品】防风外套男绿色宽松秋冬防风外套男绿色防风外套冬防风外冬防风外冬防风外冬防风外");
-            bean.setPrice("15000.00");
-            mBeanList.add(bean);
-        }
-        mMyAdapter.replaceData(mBeanList);
+        onRefreshData("");
+    }
+
+    private void onRefreshData(String searchName) {
+        ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
+                .addParam("name", searchName)
+                .addParam("sortBy", "")
+                .addParam("pageNumber", "1")
+                .bulidParam())
+                .map(new RxResultFunc<GoodsLibBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<GoodsLibBean>(getActivity()) {
+                    @Override
+                    public void onNext(GoodsLibBean bean) {
+                        mBeanList = bean.getPageList().getList();
+                        mMyAdapter.replaceData(mBeanList);
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
+    }
+
+    private void onLoadmoreData(String searchName, Integer pager) {
+        ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
+                .addParam("name", searchName)
+                .addParam("sortBy", "")
+                .addParam("pageNumber", pager + "")
+                .bulidParam())
+                .map(new RxResultFunc<GoodsLibBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<GoodsLibBean>(getActivity()) {
+                    @Override
+                    public void onNext(GoodsLibBean bean) {
+                        mBeanList.addAll(bean.getPageList().getList());
+                        mMyAdapter.replaceData(mBeanList);
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
     }
 
     @Override
@@ -78,16 +121,21 @@ public class GoodsLibAllFragment extends BaseFragment {
 
     }
 
-    public class MyAdapter extends BaseQuickAdapter<GoodsLibBean, BaseViewHolder> {
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void setQuestionEvent(SearchMsgEvent event) {
+        onRefreshData(event.getContent());
+    }
+
+    public class MyAdapter extends BaseQuickAdapter<GoodsLibBean.PageListBean.ListBean, BaseViewHolder> {
         public MyAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, GoodsLibBean item) {
-            GlideUtil.setImage(getActivity(), item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
-            helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
-            helper.setText(R.id.tv_goods_lib_price, item.getPrice());
+        protected void convert(BaseViewHolder helper, GoodsLibBean.PageListBean.ListBean item) {
+            GlideUtil.setImage(getActivity(), Constants.IMAGEHOST + item.getIconImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
+            helper.setText(R.id.tv_goods_lib_introduce, item.getName());
+            helper.setText(R.id.tv_goods_lib_price, "¥" + item.getPrice());
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.jingwei.vega.moudle;
 
-public class SearchRecordEvent {
+public class SearchMsgEvent {
     private String content;
 
-    public SearchRecordEvent(String content) {
+    public SearchMsgEvent(String content) {
         this.content = content;
     }
 

@@ -115,15 +115,15 @@ public class ShopActivity extends BaseActivity{
     @Override
     public void initData() {
         //测试数据
-        for (int i = 0; i < 10; i++) {
-            GoodsLibBean bean = new GoodsLibBean();
-            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
-            bean.setIntroduce("【新品】防风外套男绿色宽松秋冬防风外套男绿色防风外套冬防风外冬防风外冬防风外冬防风外");
-            bean.setPrice("￥15000.00");
-
-            mNewRecommendList.add(bean);
-            mNewList.add(bean);
-        }
+//        for (int i = 0; i < 10; i++) {
+//            GoodsLibBean bean = new GoodsLibBean();
+//            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
+//            bean.setIntroduce("【新品】防风外套男绿色宽松秋冬防风外套男绿色防风外套冬防风外冬防风外冬防风外冬防风外");
+//            bean.setPrice("￥15000.00");
+//
+//            mNewRecommendList.add(bean);
+//            mNewList.add(bean);
+//        }
         mNewRecommendAdapter.replaceData(mNewRecommendList);
         mNewAdapter.replaceData(mNewList);
     }
@@ -136,9 +136,9 @@ public class ShopActivity extends BaseActivity{
 
         @Override
         protected void convert(BaseViewHolder helper, GoodsLibBean item) {
-            GlideUtil.setImage(ShopActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
-            helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
-            helper.setText(R.id.tv_goods_lib_price, item.getPrice());
+//            GlideUtil.setImage(ShopActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
+//            helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
+//            helper.setText(R.id.tv_goods_lib_price, item.getPrice());
         }
     }
 
@@ -150,9 +150,9 @@ public class ShopActivity extends BaseActivity{
 
         @Override
         protected void convert(BaseViewHolder helper, GoodsLibBean item) {
-            GlideUtil.setImage(ShopActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
-            helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
-            helper.setText(R.id.tv_goods_lib_price, item.getPrice());
+//            GlideUtil.setImage(ShopActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
+//            helper.setText(R.id.tv_goods_lib_introduce, item.getIntroduce());
+//            helper.setText(R.id.tv_goods_lib_price, item.getPrice());
         }
     }
 }
