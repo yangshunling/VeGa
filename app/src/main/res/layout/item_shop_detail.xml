@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:lines="2"
         android:textColor="@color/gray5"
         android:textSize="12dp"/>
 

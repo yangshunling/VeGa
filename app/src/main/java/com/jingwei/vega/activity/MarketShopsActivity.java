@@ -79,7 +79,7 @@ public class MarketShopsActivity extends BaseActivity{
      //市场列表
     private List<MarketListBean.ListBeanX.ListBean> mMarketList;
 
-    private int pager = 0;
+    private int pager = 1;
 
     @Override
     public int getContentView() {
@@ -116,7 +116,9 @@ public class MarketShopsActivity extends BaseActivity{
         mMarketShopsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(MarketShopsActivity.this,ShopActivity.class));
+                Intent intent = new Intent(MarketShopsActivity.this,ShopActivity.class);
+                intent.putExtra("shopId",mBeanList.get(position).getId());
+                startActivity(intent);
             }
         });
 

@@ -41,7 +41,7 @@
                 android:textStyle="bold" />
 
             <RelativeLayout
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true">
 
@@ -66,6 +66,7 @@
                 <com.came.viewbguilib.ButtonBgUi
                     android:id="@+id/bt_love"
                     android:layout_width="60dp"
+                    android:visibility="visible"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
