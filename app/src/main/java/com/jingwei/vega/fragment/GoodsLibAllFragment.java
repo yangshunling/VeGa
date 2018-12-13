@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -138,6 +139,9 @@ public class GoodsLibAllFragment extends BaseFragment {
                         mBeanList.addAll(bean.getPageList().getList());
                         mMyAdapter.replaceData(mBeanList);
                         mSpring.onFinishFreshAndLoad();
+                        if (mBeanList==null||mBeanList.size()==0){
+                            showToast("没有更多数据");
+                        }
                     }
                 });
     }

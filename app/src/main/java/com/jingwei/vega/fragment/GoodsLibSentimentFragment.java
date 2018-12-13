@@ -133,6 +133,9 @@ public class GoodsLibSentimentFragment extends BaseFragment {
                         mBeanList.addAll(bean.getPageList().getList());
                         mMyAdapter.replaceData(mBeanList);
                         mSpring.onFinishFreshAndLoad();
+                        if (mBeanList==null||mBeanList.size()==0){
+                            showToast("没有更多数据");
+                        }
                     }
                 });
     }
