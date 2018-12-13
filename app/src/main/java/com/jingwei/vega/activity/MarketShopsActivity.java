@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -62,8 +63,8 @@ public class MarketShopsActivity extends BaseActivity{
     @BindView(R.id.tv_tran)
     TextView mTran;//透明罩子
 
-    @BindView(R.id.iv_turn_to_top)
-    ImageView mIvTurnToTop;//滑动显示
+    @BindView(R.id.btn_turn_to_top)
+    Button mBtnTurnToTop;//滑倒顶部按钮
 
     private EasyPopup mCirclePop;
 
@@ -79,9 +80,6 @@ public class MarketShopsActivity extends BaseActivity{
     private List<MarketListBean.ListBeanX.ListBean> mMarketList;
 
     private int pager = 0;
-
-    //当前是否为向上滑动
-    private boolean isTurnToUp = false;
 
     @Override
     public int getContentView() {
@@ -136,33 +134,6 @@ public class MarketShopsActivity extends BaseActivity{
                 getMarkerShopList();
             }
         });
-
-        //RecyclerView滑动监听
-        mRvMarketShops.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            int mScrollThreshold;
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                mScrollThreshold = newState;
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                boolean isSignificantDelta = Math.abs(dy) > mScrollThreshold;
-                if (isSignificantDelta) {
-                    if (dy > 0) {
-                        //向上滑动
-                        mIvTurnToTop.setBackground(getResources().getDrawable(R.drawable.turn_to_top_white));
-                        isTurnToUp = true;
-                    } else {
-                        //向下滑动
-                        mIvTurnToTop.setBackground(getResources().getDrawable(R.drawable.turn_to_top_gray));
-                        isTurnToUp = false;
-                    }
-                }
-            }
-        });
     }
 
     //获取市场商铺列表
@@ -204,12 +175,8 @@ public class MarketShopsActivity extends BaseActivity{
                 showMarketShops();
                 break;
 
-            case R.id.iv_turn_to_top:
-                //当前属于向上滑动得状态，点击此按钮会滚动到第一个数据
-                if(isTurnToUp){
-                    mRvMarketShops.scrollTo(0,0);
-                }
-
+            case R.id.btn_turn_to_top:
+                mRvMarketShops.scrollTo(0,0);
                 break;
         }
     }

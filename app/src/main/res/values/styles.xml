@@ -14,10 +14,8 @@
 
     <!-- 显示弹入弹出动画 -->
     <style name="TopDialog" parent="@style/Base.V7.Theme.AppCompat.Light.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-    <style name="BottomDialog.Animation" parent="Animation.AppCompat.Dialog">
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
         <item name="android:windowEnterAnimation">@anim/popup_enter</item>
         <item name="android:windowExitAnimation">@anim/popup_exit</item>
     </style>

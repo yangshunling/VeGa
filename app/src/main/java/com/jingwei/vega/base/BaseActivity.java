@@ -17,6 +17,7 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.jingwei.vega.R;
 import com.jingwei.vega.callback.PermissionsCallback;
 import com.jingwei.vega.view.TitleBar;
+import com.noober.background.BackgroundLibrary;
 
 import java.util.List;
 
@@ -39,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //xml
+        BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         //初始化沉浸式

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -59,15 +61,16 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_turn_to_top"
+    <Button
+        android:id="@+id/btn_turn_to_top"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/turn_to_top_gray"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:scaleType="centerCrop"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        app:bl_ripple_enable="true"
+        app:bl_unPressed_drawable="@drawable/turn_to_top_white"
+        app:bl_pressed_drawable="@drawable/turn_to_top_gray"
         />
 </RelativeLayout>
