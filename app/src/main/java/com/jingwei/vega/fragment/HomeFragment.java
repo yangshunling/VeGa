@@ -78,13 +78,13 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
-        getMarketList();
-        getBannerList();
         mSpring.setHeader(new DefaultHeader(getActivity()));
     }
 
     @Override
     public void initData() {
+        getMarketList();
+        getBannerList();
     }
 
     private void getBannerList() {
@@ -99,6 +99,7 @@ public class HomeFragment extends BaseFragment {
                         if (mBannerListAdapter == null) {
                             initBanner();
                         } else {
+                            mBannerListAdapter.notifyDataSetChanged();
                             mRlBanner.notifyDataSetChanged();
                         }
                         mSpring.onFinishFreshAndLoad();
@@ -166,7 +167,7 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MarketShopsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("marketId",mMarketList.get(position).getId());
+                bundle.putInt("marketId", mMarketList.get(position).getId());
                 bundle.putSerializable("marketList", (Serializable) mMarketList);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -176,7 +177,7 @@ public class HomeFragment extends BaseFragment {
         mCvGoodsLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),GoodsLibActivity.class));
+                startActivity(new Intent(getActivity(), GoodsLibActivity.class));
             }
         });
 
