@@ -43,7 +43,6 @@ public class GoodsLibActivity extends BaseActivity {
     private final String[] mTitles = {
             "全部", "最新", "人气"};
     private ViewPagerAdapter mAdapter;
-    private Integer index = 0;
 
     @Override
     public int getContentView() {
@@ -80,7 +79,6 @@ public class GoodsLibActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int i) {
-                index = i;
             }
 
             @Override

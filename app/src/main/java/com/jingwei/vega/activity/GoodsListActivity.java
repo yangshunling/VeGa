@@ -1,6 +1,7 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,9 @@ import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.fragment.GoodsLibAllFragment;
 import com.jingwei.vega.fragment.GoodsLibLatestFragment;
 import com.jingwei.vega.fragment.GoodsLibSentimentFragment;
+import com.jingwei.vega.fragment.GoodsListAllFragment;
+import com.jingwei.vega.fragment.GoodsListLatestFragment;
+import com.jingwei.vega.fragment.GoodsListSentimentFragment;
 
 import java.util.ArrayList;
 
@@ -29,14 +33,16 @@ public class GoodsListActivity extends BaseActivity {
     @BindView(R.id.et_content)
     EditText mEtContent;
 
-    private GoodsLibAllFragment mAllFragment;
-    private GoodsLibLatestFragment mLatestFragment;
-    private GoodsLibSentimentFragment mSentimentFragment;
+    private GoodsListAllFragment mAllFragment;
+    private GoodsListLatestFragment mLatestFragment;
+    private GoodsListSentimentFragment mSentimentFragment;
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
     private final String[] mTitles = {
             "全部", "最新", "人气"};
     private ViewPagerAdapter mAdapter;
+
+    private String id = "";
 
     @Override
     public int getContentView() {
@@ -50,9 +56,17 @@ public class GoodsListActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mAllFragment = new GoodsLibAllFragment();
-        mLatestFragment = new GoodsLibLatestFragment();
-        mSentimentFragment = new GoodsLibSentimentFragment();
+        id = getIntent().getStringExtra("id");
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id",id);//这里的values就是我们要传的值
+
+        mAllFragment = new GoodsListAllFragment();
+        mAllFragment.setArguments(bundle);
+        mLatestFragment = new GoodsListLatestFragment();
+        mLatestFragment.setArguments(bundle);
+        mSentimentFragment = new GoodsListSentimentFragment();
+        mSentimentFragment.setArguments(bundle);
         mFragments.add(mAllFragment);
         mFragments.add(mLatestFragment);
         mFragments.add(mSentimentFragment);

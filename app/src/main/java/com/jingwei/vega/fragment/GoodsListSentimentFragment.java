@@ -33,7 +33,7 @@ import de.greenrobot.event.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class GoodsLibSentimentFragment extends BaseFragment {
+public class GoodsListSentimentFragment extends BaseFragment {
 
     @BindView(R.id.rv_list)
     RecyclerView mRvList;
@@ -43,6 +43,8 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     ImageView mIvArrowTop;
 
     private Integer pager = 1;
+
+    private String id = "";
 
     private MyAdapter mMyAdapter;
     private List<GoodsLibBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
@@ -54,6 +56,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
+        id = getArguments().getString("id");
         EventBus.getDefault().register(this);
         mSpring.setHeader(new DefaultHeader(getActivity()));
         mSpring.setFooter(new DefaultFooter(getActivity()));
@@ -102,6 +105,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     private void onRefreshData(String searchName) {
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
+                .addParam("tagId", id)
                 .addParam("sortBy", "")
                 .addParam("pageNumber", "1")
                 .bulidParam())
@@ -121,6 +125,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     private void onLoadmoreData(String searchName, Integer pager) {
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
+                .addParam("tagId", id)
                 .addParam("sortBy", "")
                 .addParam("pageNumber", pager + "")
                 .bulidParam())

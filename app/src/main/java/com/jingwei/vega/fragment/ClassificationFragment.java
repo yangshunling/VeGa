@@ -149,14 +149,16 @@ public class ClassificationFragment extends BaseFragment {
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, CategoryByTwoBean.ListBean item) {
+        protected void convert(BaseViewHolder helper, final CategoryByTwoBean.ListBean item) {
             helper.setText(R.id.tv_title, item.getName());
             CustomGridView gridView = helper.getView(R.id.right_image_list);
             gridView.setAdapter(new ClassificationImageAdapter(getActivity(), item.getSonList()));
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    startActivity(new Intent(getActivity(), GoodsListActivity.class));
+                    Intent intent = new Intent(getActivity(), GoodsListActivity.class);
+                    intent.putExtra("id", item.getId() + "");
+                    startActivity(intent);
                 }
             });
         }
