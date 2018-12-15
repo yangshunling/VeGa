@@ -1,10 +1,18 @@
 package com.jingwei.vega.activity;
 
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.ProductDetailAdapter;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.moudle.bean.ShopNewBean;
+import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.ListViewUtil;
 import com.jingwei.vega.view.GlideImageLoader;
 import com.youth.banner.Banner;
@@ -15,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cxc on 2018/12/5.
@@ -29,13 +39,29 @@ public class ShopProductDetailActivity extends BaseActivity {
     @BindView(R.id.lv_product_detail)
     ListView mListView;
 
+    @BindView(R.id.iv_iscollect)
+    ImageView mIvIscollect;//收藏按钮
+
+    @BindView(R.id.tv_product_name)
+    TextView mTvProductName;//商品名称
+
+    @BindView(R.id.tv_product_price)
+    TextView mTvProductPrice;//商品价格
+
+    @BindView(R.id.tv_shop_name)
+    TextView mTvShopName;//商铺名称
+
     private String pid = "";
 
     private ProductDetailAdapter mProductDetailAdapter;
 
-    private List<String> bigPicBannerList = new ArrayList<>();
+    private ShopProductDetailBean mShopProductDetailBean;
 
-    private List<String> productDetailList = new ArrayList<>();
+    //轮播图
+    private List<String> bannerPics = new ArrayList<>();
+
+    //商品详情土
+    private List<String> productDetailPics = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -59,35 +85,50 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        bigPicBannerList.add("http://life.southmoney.com/tuwen/UploadFiles_6871/201801/20180129110733180.jpg");
-        bigPicBannerList.add("http://imgsrc.baidu.com/imgad/pic/item/37d12f2eb9389b50768d956e8e35e5dde7116e9f.jpg");
-        bigPicBannerList.add("http://image.fvideo.cn/uploadfile/2015/06/04/img28567642935153.jpg");
-        bigPicBannerList.add("http://pic1.win4000.com/tj/2018-09-27/5baca186a6da0.jpg");
-        bigPicBannerList.add("http://imgsrc.baidu.com/imgad/pic/item/5366d0160924ab18dcb75d0a3efae6cd7b890b6d.jpg");
-        bigPicBannerList.add("http://imgsrc.baidu.com/imgad/pic/item/03087bf40ad162d96101d0211adfa9ec8a13cd24.jpg");
-        bigPicBannerList.add("http://n.sinaimg.cn/sinacn00/453/w593h660/20181012/0fac-hkrzvkw6887569.jpg");
-        bigPicBannerList.add("http://pic.51yuansu.com/pic3/cover/01/26/61/59230a63c4f9f_610.jpg");
-        bigPicBannerList.add("http://image1.miss-no1.com/uploadfile/2016/02/29/img59104395993189.jpg");
+        ServiceAPI.Retrofit().getShopProductDetail(pid + "")
+                .map(new RxResultFunc<ShopProductDetailBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<ShopProductDetailBean>(ShopProductDetailActivity.this,true) {
+                    @Override
+                    public void onNext(ShopProductDetailBean bean) {
+                        mShopProductDetailBean = bean;
 
-        productDetailList.add("http://life.southmoney.com/tuwen/UploadFiles_6871/201801/20180129110733180.jpg");
-        productDetailList.add("http://imgsrc.baidu.com/imgad/pic/item/37d12f2eb9389b50768d956e8e35e5dde7116e9f.jpg");
-        productDetailList.add("http://image.fvideo.cn/uploadfile/2015/06/04/img28567642935153.jpg");
-        productDetailList.add("http://pic1.win4000.com/tj/2018-09-27/5baca186a6da0.jpg");
-        productDetailList.add("http://imgsrc.baidu.com/imgad/pic/item/5366d0160924ab18dcb75d0a3efae6cd7b890b6d.jpg");
-        productDetailList.add("http://imgsrc.baidu.com/imgad/pic/item/03087bf40ad162d96101d0211adfa9ec8a13cd24.jpg");
-        productDetailList.add("http://n.sinaimg.cn/sinacn00/453/w593h660/20181012/0fac-hkrzvkw6887569.jpg");
-        productDetailList.add("http://pic.51yuansu.com/pic3/cover/01/26/61/59230a63c4f9f_610.jpg");
-        productDetailList.add("http://image1.miss-no1.com/uploadfile/2016/02/29/img59104395993189.jpg");
+                        if (mShopProductDetailBean.getDetail().getIconImageList().size() > 0) {
+                            for (int i = 0; i < mShopProductDetailBean.getDetail().getIconImageList().size(); i++) {
+                                bannerPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getIconImageList().get(i).getPath());
+                            }
+                        }
 
-        initBanner();
+                        if(mShopProductDetailBean.getDetail().getPicturesList().size()>0){
+                            for (int i = 0; i < mShopProductDetailBean.getDetail().getPicturesList().size(); i++) {
+                                productDetailPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getPicturesList().get(i).getPath());
+                            }
+                        }
 
-        initListView();
+                        updateView();
+
+                        initBanner();
+
+                        initListView();
+                    }
+                });
     }
 
-    private void initListView() {
-        mProductDetailAdapter = new ProductDetailAdapter(ShopProductDetailActivity.this, productDetailList);
-        mListView.setAdapter(mProductDetailAdapter);
-        ListViewUtil.setListViewHeightBasedOnChildren(mListView);
+    //其余控件显示
+    private void updateView() {
+        //收藏
+        mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect()?
+                getResources().getDrawable(R.drawable.icon_iscollect):getResources().getDrawable(R.drawable.icon_uncollect));
+
+        //商品名称
+        mTvProductName.setText(mShopProductDetailBean.getDetail().getName());
+
+        //商品价格
+        mTvProductPrice.setText("￥"+mShopProductDetailBean.getDetail().getPrice());
+
+        //商铺名称
+        mTvShopName.setText(mShopProductDetailBean.getDetail().getSupplierName());
     }
 
     private void initBanner() {
@@ -96,7 +137,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         //设置图片集合
-        mBanner.setImages(bigPicBannerList);
+        mBanner.setImages(bannerPics);
         //设置banner动画效果
         mBanner.setBannerAnimation(Transformer.DepthPage);
         //设置自动轮播，默认为true
@@ -107,5 +148,11 @@ public class ShopProductDetailActivity extends BaseActivity {
         mBanner.setIndicatorGravity(BannerConfig.RIGHT);
         //banner设置方法全部调用完毕时最后调用
         mBanner.start();
+    }
+
+    private void initListView() {
+        mProductDetailAdapter = new ProductDetailAdapter(ShopProductDetailActivity.this, productDetailPics);
+        mListView.setAdapter(mProductDetailAdapter);
+        ListViewUtil.setListViewHeightBasedOnChildren(mListView);
     }
 }

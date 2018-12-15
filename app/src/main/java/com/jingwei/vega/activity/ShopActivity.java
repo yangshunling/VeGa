@@ -257,7 +257,7 @@ public class ShopActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(ShopActivity.this,ShopProductDetailActivity.class);
-                intent.putExtra("id",mNewRecommendList.get(position).getId());
+                intent.putExtra("id",mNewRecommendList.get(position).getId()+"");
                 startActivity(intent);
             }
         });
@@ -266,7 +266,7 @@ public class ShopActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(ShopActivity.this,ShopProductDetailActivity.class);
-                intent.putExtra("id",mNewList.get(position).getId());
+                intent.putExtra("id",mNewList.get(position).getId()+"");
                 startActivity(intent);
             }
         });

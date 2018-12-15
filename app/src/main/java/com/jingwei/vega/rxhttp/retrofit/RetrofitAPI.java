@@ -9,6 +9,7 @@ import com.jingwei.vega.moudle.bean.MarketShopListBean;
 import com.jingwei.vega.moudle.bean.ShopDetailBean;
 import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopNewRecommendBean;
+import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.Map;
@@ -107,4 +108,9 @@ public interface RetrofitAPI {
     @GET("product/list")
     Observable<RxMoudle<ShopNewBean>> getShopNew(@QueryMap Map<String, String> params);
 
+    /**
+     * 商品详情
+     */
+    @GET("product/detail/{id}")
+    Observable<RxMoudle<ShopProductDetailBean>> getShopProductDetail(@Path("id") String productId);
 }
