@@ -1,5 +1,6 @@
 package com.jingwei.vega.activity;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -35,6 +37,9 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     @BindView(R.id.banner)
     Banner mBanner;
+
+    @BindView(R.id.iv_left_finish)
+    ImageView mIvLeftFinish;
 
     @BindView(R.id.lv_product_detail)
     ListView mListView;
@@ -154,5 +159,33 @@ public class ShopProductDetailActivity extends BaseActivity {
         mProductDetailAdapter = new ProductDetailAdapter(ShopProductDetailActivity.this, productDetailPics);
         mListView.setAdapter(mProductDetailAdapter);
         ListViewUtil.setListViewHeightBasedOnChildren(mListView);
+    }
+
+    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_left_finish:
+                finish();
+                break;
+
+            case R.id.iv_iscollect://更改当前收藏状态
+                updateSaveProductState();
+                break;
+        }
+    }
+
+    private void updateSaveProductState() {
+        ServiceAPI.Retrofit().updateSaveProductState(mShopProductDetailBean.getDetail().getId() + "")
+                .map(new RxResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Object>(ShopProductDetailActivity.this,mShopProductDetailBean.getDetail().isCollect()?"正在取消收藏...":"正在收藏...") {
+                    @Override
+                    public void onNext(Object message) {
+                        mShopProductDetailBean.getDetail().setCollect(!mShopProductDetailBean.getDetail().isCollect());
+                        mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect()?
+                                getResources().getDrawable(R.drawable.icon_iscollect):getResources().getDrawable(R.drawable.icon_uncollect));
+                    }
+                });
     }
 }

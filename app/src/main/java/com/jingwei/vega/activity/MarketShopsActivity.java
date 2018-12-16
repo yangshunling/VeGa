@@ -20,6 +20,7 @@ import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.moudle.bean.MarketShopListBean;
+import com.jingwei.vega.moudle.bean.ShopDetailBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
@@ -119,6 +120,20 @@ public class MarketShopsActivity extends BaseActivity{
                 Intent intent = new Intent(MarketShopsActivity.this,ShopActivity.class);
                 intent.putExtra("shopId",mBeanList.get(position).getId());
                 startActivity(intent);
+            }
+        });
+
+        mMarketShopsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.bt_is_love://当前是已关注状态，点击取消关注
+                        updateLoveShopState(mBeanList.get(position).getId(),position);
+                        break;
+                    case R.id.bt_love://当前是未关注状态，点击关注
+                        updateLoveShopState(mBeanList.get(position).getId(),position);
+                        break;
+                }
             }
         });
 
@@ -228,6 +243,29 @@ public class MarketShopsActivity extends BaseActivity{
         mCirclePop.showAtAnchorView(mRlChooseMarketShops, YGravity.BELOW, XGravity.LEFT, 0, 0);
     }
 
+    /**
+     * 更改商铺关注状态，并进行局部刷新
+     * @param id  商铺id
+     * @param position 商铺列表id
+     */
+    private void updateLoveShopState(int id, final int position) {
+        ServiceAPI.Retrofit().updateLoveShopState(id + "")
+                .map(new RxResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Object>(MarketShopsActivity.this,mBeanList.get(position).isIsLove()?"正在取消关注...":"正在关注...") {
+                    @Override
+                    public void onNext(Object message) {
+                        MarketShopListBean.PageListBean.ListBean bean = mBeanList.get(position);
+                        bean.setIsLove(!bean.isIsLove());
+                        //刷新局部RecyclerView
+                        mMarketShopsAdapter.getData().set(position, bean);
+                        mBeanList.set(position, bean);
+                        mMarketShopsAdapter.notifyItemChanged(position, "com");
+                    }
+                });
+    }
+
     //顶部popupWindow适配
     public class DialogMarketShopsAdapter extends BaseQuickAdapter<MarketListBean.ListBeanX.ListBean, BaseViewHolder> {
         public DialogMarketShopsAdapter(int layoutResId, List data) {
@@ -271,6 +309,12 @@ public class MarketShopsActivity extends BaseActivity{
                 helper.setGone(R.id.bt_is_love,false);
                 helper.setGone(R.id.bt_love,true);
             }
+
+            //取消关注点击事件
+            helper.addOnClickListener(R.id.bt_is_love);
+
+            //关注点击事件
+            helper.addOnClickListener(R.id.bt_love);
         }
     }
 

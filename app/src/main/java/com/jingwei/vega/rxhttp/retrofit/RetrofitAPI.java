@@ -91,6 +91,12 @@ public interface RetrofitAPI {
     Observable<RxMoudle<MarketShopListBean>> postMarketShopList(@QueryMap Map<String, String> params);
 
     /**
+     * 商铺关注或取消关注
+     */
+    @GET("love/add/{supplierId}")
+    Observable<RxMoudle<Object>> updateLoveShopState(@Path("supplierId") String supplierId);
+
+    /**
      * 商铺详情列表
      */
     @GET("supplier/detail/{id}")
@@ -113,4 +119,10 @@ public interface RetrofitAPI {
      */
     @GET("product/detail/{id}")
     Observable<RxMoudle<ShopProductDetailBean>> getShopProductDetail(@Path("id") String productId);
+
+    /**
+     * 商品收藏或取消收藏
+     */
+    @GET("collect/{productId}/save")
+    Observable<RxMoudle<Object>> updateSaveProductState(@Path("productId") String productId);
 }

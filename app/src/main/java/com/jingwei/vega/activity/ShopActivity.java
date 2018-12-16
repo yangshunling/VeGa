@@ -80,6 +80,9 @@ public class ShopActivity extends BaseActivity {
     @BindView(R.id.iv_change_price)
     ImageView mIvChangePrice;//价格排序
 
+    //商铺详情
+    private ShopDetailBean mShopDetailBean;
+
     private boolean isPriceUp = true;//true-降序  false-升序
 
     //新品推荐
@@ -151,6 +154,7 @@ public class ShopActivity extends BaseActivity {
                 .subscribe(new RxSubscriber<ShopDetailBean>(ShopActivity.this) {
                     @Override
                     public void onNext(ShopDetailBean bean) {
+                        mShopDetailBean = bean;
                         //顶部背景图片
                         GlideUtil.setImage(ShopActivity.this, Constants.IMAGEHOST + bean.getDetail().getBackgroundPic(), mMyBg);
                         //商铺logo
@@ -272,7 +276,7 @@ public class ShopActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_change_price})
+    @OnClick({R.id.iv_change_price,R.id.bt_save,R.id.bt_cancel})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_change_price:
@@ -291,7 +295,39 @@ public class ShopActivity extends BaseActivity {
                     getNew();
                 }
                 break;
+
+            case R.id.bt_save://当前是未关注状态，点击进行关注
+                updateLoveShopState();
+                break;
+
+            case R.id.bt_cancel://当前是关注状态，点击进行取消关注
+                updateLoveShopState();
+                break;
         }
+    }
+
+    /**
+     * 取消或关注商铺
+     */
+    private void updateLoveShopState() {
+        ServiceAPI.Retrofit().updateLoveShopState(mShopDetailBean.getDetail().getId() + "")
+                .map(new RxResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Object>(ShopActivity.this,mShopDetailBean.getDetail().isIsLove()?"正在取消关注...":"正在关注...") {
+                    @Override
+                    public void onNext(Object message) {
+                        mShopDetailBean.getDetail().setIsLove(!mShopDetailBean.getDetail().isIsLove());
+                        //是否已关注
+                        if (mShopDetailBean.getDetail().isIsLove()) {
+                            mBtSave.setVisibility(View.GONE);
+                            mBtCancel.setVisibility(View.VISIBLE);
+                        } else {
+                            mBtSave.setVisibility(View.VISIBLE);
+                            mBtCancel.setVisibility(View.GONE);
+                        }
+                    }
+                });
     }
 
     //新品推荐适配
