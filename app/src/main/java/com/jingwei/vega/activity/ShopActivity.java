@@ -26,6 +26,7 @@ import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.GlideUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -340,7 +341,9 @@ public class ShopActivity extends BaseActivity {
         protected void convert(BaseViewHolder helper, ShopNewRecommendBean.PageListBean.ListBean item) {
             GlideUtil.setImage(ShopActivity.this, Constants.IMAGEHOST+item.getIconImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getName());
-            helper.setText(R.id.tv_goods_lib_price, "￥"+item.getPrice());
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            helper.setText(R.id.tv_goods_lib_price, "￥"+df.format(item.getPrice()));
         }
     }
 
@@ -354,7 +357,9 @@ public class ShopActivity extends BaseActivity {
         protected void convert(BaseViewHolder helper, ShopNewBean.PageListBean.ListBean item) {
             GlideUtil.setImage(ShopActivity.this, Constants.IMAGEHOST+item.getIconImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getName());
-            helper.setText(R.id.tv_goods_lib_price, "￥"+item.getPrice());
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            helper.setText(R.id.tv_goods_lib_price, "￥"+df.format(item.getPrice()));
         }
     }
 }

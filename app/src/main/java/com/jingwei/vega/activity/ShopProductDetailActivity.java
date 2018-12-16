@@ -20,6 +20,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +68,8 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     //商品详情土
     private List<String> productDetailPics = new ArrayList<>();
+
+    private DecimalFormat df = new DecimalFormat("0.0");
 
     @Override
     public int getContentView() {
@@ -130,7 +133,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         mTvProductName.setText(mShopProductDetailBean.getDetail().getName());
 
         //商品价格
-        mTvProductPrice.setText("￥"+mShopProductDetailBean.getDetail().getPrice());
+        mTvProductPrice.setText("￥"+df.format(mShopProductDetailBean.getDetail().getPrice()));
 
         //商铺名称
         mTvShopName.setText(mShopProductDetailBean.getDetail().getSupplierName());

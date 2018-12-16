@@ -3,15 +3,24 @@ package com.jingwei.vega.activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.moudle.bean.MyCollectProductsBean;
 import com.jingwei.vega.moudle.bean.ProductBean;
+import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -21,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 我的收藏界面
@@ -33,7 +44,9 @@ public class MyCollectActivity extends BaseActivity {
     SpringView mSpring;
 
     private MyAdapter mMyAdapter;
-    private List<ProductBean> mBeanList = new ArrayList<>();
+    private List<MyCollectProductsBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
+
+    private int pager = 1;
 
     @Override
     public int getContentView() {
@@ -47,11 +60,6 @@ public class MyCollectActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
-    }
-
-    @Override
-    public void initData() {
         mSpring.setHeader(new DefaultHeader(MyCollectActivity.this));
         mSpring.setFooter(new DefaultFooter(MyCollectActivity.this));
         mMyAdapter = new MyAdapter(R.layout.item_product_recycle, mBeanList);
@@ -62,49 +70,107 @@ public class MyCollectActivity extends BaseActivity {
                 .color(ContextCompat.getColor(MyCollectActivity.this, R.color.gray2))
                 .size(DisplayUtil.dp2px(MyCollectActivity.this, 0.5f))
                 .build());
+    }
 
-        //测试数据
-        for (int i = 0; i < 20; i++) {
-            ProductBean bean = new ProductBean();
-            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
-            bean.setName("连体裤");
-            bean.setDes("商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述商品描述活动描述");
-            bean.setPrice("1150.00");
-            mBeanList.add(bean);
-        }
-        mMyAdapter.replaceData(mBeanList);
-
+    @Override
+    public void initData() {
+        getMyCollectList();
 
         setListener();
+    }
+
+    private void getMyCollectList() {
+        ServiceAPI.Retrofit().getMyCollectList(ParamBuilder.newParams()
+                .addParam("pageNumber", pager + "")
+                .bulidParam())
+                .map(new RxResultFunc<MyCollectProductsBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<MyCollectProductsBean>(MyCollectActivity.this,true) {
+                    @Override
+                    public void onNext(MyCollectProductsBean myCollectProductsBean) {
+                        if (myCollectProductsBean.getPageList().getList().size() != 0) {
+                            if (pager == 1) {
+                                mBeanList = myCollectProductsBean.getPageList().getList();
+                            } else {
+                                mBeanList.addAll(myCollectProductsBean.getPageList().getList());
+                            }
+                            mMyAdapter.replaceData(mBeanList);
+                        } else {
+                            if (pager > 1) {
+                                showToast(getResources().getString(R.string.no_more_date));
+                            }else{
+                                mBeanList.clear();
+                                mMyAdapter.replaceData(mBeanList);
+                            }
+                        }
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
     }
 
     private void setListener() {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-
+                pager = 1;
+                getMyCollectList();
             }
 
             @Override
             public void onLoadmore() {
+                pager++;
+                getMyCollectList();
+            }
+        });
 
+        mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.iv_delete:
+                        deleteMyCollect(mBeanList.get(position).getId(),position);
+                        break;
+                }
             }
         });
     }
 
-    public class MyAdapter extends BaseQuickAdapter<ProductBean, BaseViewHolder> {
+    /**
+     * 取消收藏
+     * @param id 收藏的id，不是商品id
+     * @param position  列表中所在位置
+     */
+    private void deleteMyCollect(int id, final int position) {
+        ServiceAPI.Retrofit().updateSaveProductState(id+"")
+                .map(new RxResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Object>(MyCollectActivity.this,"正在取消收藏...") {
+                    @Override
+                    public void onNext(Object message) {
+                        mBeanList.remove(mBeanList.get(position));
+                        mMyAdapter.replaceData(mBeanList);
+                    }
+                });
+    }
+
+    public class MyAdapter extends BaseQuickAdapter<MyCollectProductsBean.PageListBean.ListBean, BaseViewHolder> {
         public MyAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, ProductBean item) {
-            GlideUtil.setImage(MyCollectActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_image));
-            helper.setText(R.id.tv_name,item.getName());
-            helper.setText(R.id.tv_des,item.getDes());
+        protected void convert(BaseViewHolder helper, MyCollectProductsBean.PageListBean.ListBean item) {
+            GlideUtil.setImage(MyCollectActivity.this, Constants.IMAGEHOST+item.getIconImage().get(0).getPath(), (ImageView) helper.getView(R.id.iv_image));
+            helper.setText(R.id.tv_name, item.getName());
+            helper.setText(R.id.tv_des, item.getRemark());
 
             DecimalFormat df = new DecimalFormat("0.00");
-            helper.setText(R.id.tv_price,"￥"+df.format(Double.parseDouble(item.getPrice())));
+            helper.setText(R.id.tv_price, "￥" + df.format(item.getPrice()));
+
+            //取消收藏按钮
+            helper.addOnClickListener(R.id.iv_delete);
         }
     }
 }

@@ -6,12 +6,15 @@ import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.moudle.bean.MarketShopListBean;
+import com.jingwei.vega.moudle.bean.MyCollectProductsBean;
 import com.jingwei.vega.moudle.bean.ShopDetailBean;
 import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopNewRecommendBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
+import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.RequestBody;
@@ -125,4 +128,16 @@ public interface RetrofitAPI {
      */
     @GET("collect/{productId}/save")
     Observable<RxMoudle<Object>> updateSaveProductState(@Path("productId") String productId);
+
+    /**
+     * 获取我的个人信息
+     */
+    @GET("user/info")
+    Observable<RxMoudle<UserInfoBean>> getUserInfo();
+
+    /**
+     * 我的收藏列表
+     */
+    @GET("collect/list")
+    Observable<RxMoudle<MyCollectProductsBean>> getMyCollectList(@QueryMap Map<String, String> params);
 }

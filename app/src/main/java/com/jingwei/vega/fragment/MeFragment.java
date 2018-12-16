@@ -12,11 +12,17 @@ import com.jingwei.vega.activity.MyCollectActivity;
 import com.jingwei.vega.activity.SettingActivity;
 import com.jingwei.vega.activity.VipCenterActivity;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.bean.UserInfoBean;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.view.CustomLinearLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MeFragment extends BaseFragment {
 
@@ -61,7 +67,17 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
+        ServiceAPI.Retrofit().getUserInfo()
+                .map(new RxResultFunc<UserInfoBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<UserInfoBean>(getActivity()) {
+                    @Override
+                    public void onNext(UserInfoBean bean) {
+                        mTvName.setText(bean.getNickName());
+                        mTvPhone.setText(bean.getMobile());
+                    }
+                });
     }
 
     @Override
