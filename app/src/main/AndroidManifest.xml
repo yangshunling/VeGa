@@ -47,6 +47,7 @@
         <activity android:name=".activity.GoodsLibActivity"/>
         <activity android:name=".activity.GoodsListActivity"/>
         <activity android:name=".activity.SearchActivity"/>
+        <activity android:name=".activity.UpdatePwdActivity"/>
     </application>
 
 </manifest>

@@ -51,6 +51,8 @@ public class MeFragment extends BaseFragment {
     CustomLinearLayout mLlAbout;
     Unbinder unbinder;
 
+    private UserInfoBean userInfoBean;
+
     @Override
     public int getContentView() {
         return R.layout.fragment_me;
@@ -75,6 +77,8 @@ public class MeFragment extends BaseFragment {
                 .subscribe(new RxSubscriber<UserInfoBean>(getActivity()) {
                     @Override
                     public void onNext(UserInfoBean bean) {
+                        userInfoBean = bean;
+
                         mTvName.setText(bean.getNickName());
                         mTvPhone.setText(bean.getMobile());
                         mIvVip.setBackground(bean.isIsMember()?getResources().getDrawable(R.drawable.icon_vip):getResources().getDrawable(R.drawable.icon_unvip));
@@ -94,7 +98,9 @@ public class MeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
-                startActivity(new Intent(getActivity(), SettingActivity.class));
+                Intent intent = new Intent(getActivity(),SettingActivity.class);
+                intent.putExtra("userInfo",userInfoBean);
+                startActivity(intent);
                 break;
             case R.id.ll_collection:
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));

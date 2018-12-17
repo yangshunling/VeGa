@@ -161,4 +161,11 @@ public interface RetrofitAPI {
      */
     @GET("about/info")
     Observable<RxMoudle<VegaInfoBean>> getVegaInfo();
+
+    /**
+     * 用户忘记密码
+     */
+    @Multipart
+    @POST("user/forget_password")
+    Observable<RxMoudle<Object>> userResetPwd(@PartMap Map<String, RequestBody> params);
 }

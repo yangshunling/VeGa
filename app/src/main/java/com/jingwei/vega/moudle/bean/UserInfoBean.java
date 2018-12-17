@@ -23,7 +23,7 @@ public class UserInfoBean implements Serializable{
     private String mobile;
     private String headImg;
     //1男，2女
-    private String sex;
+    private int sex;
     private String birth;
     //是否是会员
     private boolean isMember;
@@ -55,11 +55,11 @@ public class UserInfoBean implements Serializable{
         this.headImg = headImg;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
