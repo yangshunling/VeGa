@@ -54,17 +54,7 @@
             android:layout_marginBottom="35dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/tv_name"
-            android:src="@drawable/icon_vip"/>
-
-        <ImageView
-            android:id="@+id/iv_unvip"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_vip"
-            android:src="@drawable/icon_unvip"/>
+            android:background="@drawable/icon_vip"/>
 
         <TextView
             android:id="@+id/tv_phone"

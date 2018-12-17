@@ -1,10 +1,12 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.activity.AboutUsActivity;
 import com.jingwei.vega.activity.DownloadRecordActivity;
@@ -16,6 +18,7 @@ import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
+import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomLinearLayout;
 
 import butterknife.BindView;
@@ -36,8 +39,6 @@ public class MeFragment extends BaseFragment {
     TextView mTvName;
     @BindView(R.id.iv_vip)
     ImageView mIvVip;
-    @BindView(R.id.iv_unvip)
-    ImageView mIvUnvip;
     @BindView(R.id.tv_phone)
     TextView mTvPhone;
     @BindView(R.id.ll_collection)
@@ -76,6 +77,10 @@ public class MeFragment extends BaseFragment {
                     public void onNext(UserInfoBean bean) {
                         mTvName.setText(bean.getNickName());
                         mTvPhone.setText(bean.getMobile());
+                        mIvVip.setBackground(bean.isIsMember()?getResources().getDrawable(R.drawable.icon_vip):getResources().getDrawable(R.drawable.icon_unvip));
+                        if(!TextUtils.isEmpty(bean.getHeadImg())){
+                            GlideUtil.setImage(getActivity(),Constants.IMAGEHOST+bean.getHeadImg(),mUserIcon);
+                        }
                     }
                 });
     }

@@ -14,6 +14,7 @@ import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopNewRecommendBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
+import com.jingwei.vega.moudle.bean.VegaInfoBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.List;
@@ -154,4 +155,10 @@ public interface RetrofitAPI {
      */
     @GET("collect/list")
     Observable<RxMoudle<MyCollectProductsBean>> getMyCollectList(@QueryMap Map<String, String> params);
+
+    /**
+     * 关于vega
+     */
+    @GET("about/info")
+    Observable<RxMoudle<VegaInfoBean>> getVegaInfo();
 }

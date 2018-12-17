@@ -1,7 +1,6 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,13 +13,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
-import com.jingwei.vega.adapter.DynamicImageAdapter;
+import com.jingwei.vega.adapter.MarkShopPicAdapter;
 import com.jingwei.vega.base.BaseActivity;
-import com.jingwei.vega.moudle.bean.DynamicBean;
-import com.jingwei.vega.moudle.bean.HomeBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.moudle.bean.MarketShopListBean;
-import com.jingwei.vega.moudle.bean.ShopDetailBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
@@ -65,7 +61,7 @@ public class MarketShopsActivity extends BaseActivity{
     TextView mTran;//透明罩子
 
     @BindView(R.id.btn_turn_to_top)
-    Button mBtnTurnToTop;//滑倒顶部按钮
+    Button mBtnTurnToTop;//滑到顶部按钮
 
     private EasyPopup mCirclePop;
 
@@ -299,7 +295,7 @@ public class MarketShopsActivity extends BaseActivity{
                 }
             }
             CustomGridView gridView = helper.getView(R.id.image_list);
-//            gridView.setAdapter(new DynamicImageAdapter(MarketShopsActivity.this,imageList));
+            gridView.setAdapter(new MarkShopPicAdapter(MarketShopsActivity.this,imageList));
 
             //是否已关注
             if(item.isIsLove()){
