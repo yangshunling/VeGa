@@ -15,6 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.jingwei.vega.rxhttp.glide.OkHttpGlideModule"
+            android:value="GlideModule"/>
+
         <activity
             android:name=".activity.LoginActivity">
             <intent-filter>

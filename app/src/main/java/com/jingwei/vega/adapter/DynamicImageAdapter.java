@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.utils.GlideUtil;
@@ -20,9 +21,9 @@ import java.util.List;
 public class DynamicImageAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> mBeanList;
+    private List<DynamicBean.PageListBean.ListBean.ProductBean.PicturesBean> mBeanList;
 
-    public DynamicImageAdapter(Context context, List<String> mBeanList) {
+    public DynamicImageAdapter(Context context, List<DynamicBean.PageListBean.ListBean.ProductBean.PicturesBean> mBeanList) {
         this.context = context;
         this.mBeanList = mBeanList;
     }
@@ -57,7 +58,7 @@ public class DynamicImageAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        GlideUtil.setImage(context, mBeanList.get(position), viewHolder.mIvDynamicImage);
+        GlideUtil.setImage(context, Constants.IMAGEHOST + mBeanList.get(position).getPath(), viewHolder.mIvDynamicImage);
         return convertView;
     }
 

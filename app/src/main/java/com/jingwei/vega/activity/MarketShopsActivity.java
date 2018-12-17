@@ -299,7 +299,7 @@ public class MarketShopsActivity extends BaseActivity{
                 }
             }
             CustomGridView gridView = helper.getView(R.id.image_list);
-            gridView.setAdapter(new DynamicImageAdapter(MarketShopsActivity.this,imageList));
+//            gridView.setAdapter(new DynamicImageAdapter(MarketShopsActivity.this,imageList));
 
             //是否已关注
             if(item.isIsLove()){

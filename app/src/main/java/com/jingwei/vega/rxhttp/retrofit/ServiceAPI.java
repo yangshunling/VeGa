@@ -5,6 +5,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.base.MyApplication;
+import com.jingwei.vega.rxhttp.https.SSLSocketClient;
 import com.jingwei.vega.rxhttp.okhttp.LogInterceptor;
 import com.jingwei.vega.rxhttp.okhttp.TokenInterceptor;
 import com.jingwei.vega.utils.PreferencesUtil;
@@ -54,6 +55,8 @@ public class ServiceAPI {
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(new LogInterceptor())
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
                 .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MyApplication.getContext())))
                 .build();
     }
@@ -68,6 +71,8 @@ public class ServiceAPI {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
                 .build();
     }
 }

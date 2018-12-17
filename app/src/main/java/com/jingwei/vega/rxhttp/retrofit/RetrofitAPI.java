@@ -3,6 +3,7 @@ package com.jingwei.vega.rxhttp.retrofit;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
+import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.moudle.bean.MarketShopListBean;
@@ -84,6 +85,18 @@ public interface RetrofitAPI {
      */
     @GET("category/{parentId}/list")
     Observable<RxMoudle<CategoryByTwoBean>> getCategoryByTwo(@Path("parentId") String parentId);
+
+    /**
+     * 关注列表
+     */
+    @GET("category/{parentId}/list")
+    Observable<RxMoudle<CategoryByTwoBean>> getFocusList(@QueryMap Map<String, String> params);
+
+    /**
+     * 动态列表
+     */
+    @GET("love/dynamic")
+    Observable<RxMoudle<DynamicBean>> getDynamicList(@QueryMap Map<String, String> params);
 
     /********************************* chengxc******************************/
 
