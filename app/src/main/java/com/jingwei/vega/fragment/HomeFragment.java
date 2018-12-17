@@ -85,6 +85,9 @@ public class HomeFragment extends BaseFragment {
     public void initData() {
         getMarketList();
         getBannerList();
+        mEtContent.requestFocus();
+        mEtContent.setFocusableInTouchMode(true);
+        mEtContent.setEnabled(false);
     }
 
     private void getBannerList() {
@@ -111,8 +114,6 @@ public class HomeFragment extends BaseFragment {
         mBannerListAdapter = new BannerListAdapter(getActivity(), mBannerList);
         mRlBanner.setAdapter(mBannerListAdapter);
         mRlBanner.setInterpolator(new LinearInterpolator());
-        mRlBanner.requestFocus();
-        mRlBanner.setFocusableInTouchMode(true);
         startSchedule();
     }
 

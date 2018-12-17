@@ -43,8 +43,6 @@ public class ClassificationFragment extends BaseFragment {
     ListView mLvLeft;
     @BindView(R.id.rv_right)
     RecyclerView mRvRight;
-    @BindView(R.id.et_content)
-    EditText mEtContent;
 
     private ClassificationListAdapter mLeftListAdapter;
     private List<CategoryByOneBean.ListBean> mLeftList = new ArrayList<>();
@@ -123,24 +121,6 @@ public class ClassificationFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
 
-    }
-
-    @OnClick(R.id.et_content)
-    public void onViewClicked() {
-        Intent intent = new Intent(getActivity(), SearchActivity.class);
-        startActivityForResult(intent, Constants.CLASSIFICATIONFRAGMENT);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.CLASSIFICATIONFRAGMENT) {
-            if (data != null) {
-                String msg = data.getStringExtra("content");
-                mEtContent.setText(msg);
-                showToast(msg);
-            }
-        }
     }
 
     public class MyAdapter extends BaseQuickAdapter<CategoryByTwoBean.ListBean, BaseViewHolder> {

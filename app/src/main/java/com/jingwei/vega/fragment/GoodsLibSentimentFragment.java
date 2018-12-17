@@ -44,6 +44,8 @@ public class GoodsLibSentimentFragment extends BaseFragment {
 
     private Integer pager = 1;
 
+    private String searchName = "";
+
     private MyAdapter mMyAdapter;
     private List<GoodsLibBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
@@ -68,12 +70,12 @@ public class GoodsLibSentimentFragment extends BaseFragment {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                onRefreshData("");
+                onRefreshData();
             }
 
             @Override
             public void onLoadmore() {
-                onLoadmoreData("", pager++);
+                onLoadmoreData( pager++);
             }
         });
 
@@ -96,10 +98,10 @@ public class GoodsLibSentimentFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        onRefreshData("");
+        onRefreshData();
     }
 
-    private void onRefreshData(String searchName) {
+    private void onRefreshData() {
         pager = 1;
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
@@ -119,7 +121,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
                 });
     }
 
-    private void onLoadmoreData(String searchName, Integer pager) {
+    private void onLoadmoreData(Integer pager) {
         pager += 1;
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
@@ -149,7 +151,8 @@ public class GoodsLibSentimentFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void setQuestionEvent(LibSearchMsgEvent event) {
-        onRefreshData(event.getContent());
+        searchName = event.getContent();
+        onRefreshData();
     }
 
     public class MyAdapter extends BaseQuickAdapter<GoodsLibBean.PageListBean.ListBean, BaseViewHolder> {
