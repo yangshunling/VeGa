@@ -1,11 +1,9 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.SearchEvent;
 import android.widget.EditText;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -16,13 +14,11 @@ import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.fragment.GoodsLibAllFragment;
 import com.jingwei.vega.fragment.GoodsLibLatestFragment;
 import com.jingwei.vega.fragment.GoodsLibSentimentFragment;
-import com.jingwei.vega.moudle.SearchMsgEvent;
-import com.jingwei.vega.utils.TextUtil;
+import com.jingwei.vega.moudle.LibSearchMsgEvent;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
@@ -101,7 +97,7 @@ public class GoodsLibActivity extends BaseActivity {
             if (data != null) {
                 String msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
-                EventBus.getDefault().post(new SearchMsgEvent(msg));
+                EventBus.getDefault().post(new LibSearchMsgEvent(msg));
             }
         }
     }

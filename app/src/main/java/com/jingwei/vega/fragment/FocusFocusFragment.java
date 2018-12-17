@@ -12,6 +12,7 @@ import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.LibSearchMsgEvent;
 import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.moudle.bean.FocusBean;
 import com.jingwei.vega.refresh.DefaultFooter;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -52,6 +56,7 @@ public class FocusFocusFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
+        EventBus.getDefault().register(this);
         mSpring.setHeader(new DefaultHeader(getActivity()));
         mSpring.setFooter(new DefaultFooter(getActivity()));
         mMyAdapter = new MyAdapter(R.layout.item_focus_recycle, mBeanList);
@@ -143,5 +148,16 @@ public class FocusFocusFragment extends BaseFragment {
             helper.setText(R.id.tv_dian, item.getProductNumber() + "");
             helper.setText(R.id.tv_project, item.getMainProducts());
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void setQuestionEvent(LibSearchMsgEvent event) {
+//        getRefresh(event.getContent());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

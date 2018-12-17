@@ -1,29 +1,26 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
-import com.jingwei.vega.activity.GoodsLibActivity;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.ViewPagerAdapter;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.FocusSearchMsgEvent;
+import com.jingwei.vega.moudle.LibSearchMsgEvent;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
+import de.greenrobot.event.EventBus;
 
 public class FocusFragment extends BaseFragment {
 
@@ -89,7 +86,7 @@ public class FocusFragment extends BaseFragment {
             if (data != null) {
                 String msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
-                showToast(msg);
+                EventBus.getDefault().post(new FocusSearchMsgEvent(msg));
             }
         }
     }

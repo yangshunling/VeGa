@@ -12,7 +12,7 @@ import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.activity.ShopProductDetailActivity;
 import com.jingwei.vega.base.BaseFragment;
-import com.jingwei.vega.moudle.SearchMsgEvent;
+import com.jingwei.vega.moudle.LibSearchMsgEvent;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
@@ -148,7 +148,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void setQuestionEvent(SearchMsgEvent event) {
+    public void setQuestionEvent(LibSearchMsgEvent event) {
         onRefreshData(event.getContent());
     }
 

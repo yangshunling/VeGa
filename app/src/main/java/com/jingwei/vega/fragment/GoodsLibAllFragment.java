@@ -1,14 +1,10 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -16,7 +12,7 @@ import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.activity.ShopProductDetailActivity;
 import com.jingwei.vega.base.BaseFragment;
-import com.jingwei.vega.moudle.SearchMsgEvent;
+import com.jingwei.vega.moudle.LibSearchMsgEvent;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
@@ -31,8 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 import de.greenrobot.event.ThreadMode;
@@ -154,7 +148,7 @@ public class GoodsLibAllFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void setQuestionEvent(SearchMsgEvent event) {
+    public void setQuestionEvent(LibSearchMsgEvent event) {
         onRefreshData(event.getContent());
     }
 
