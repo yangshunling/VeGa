@@ -51,6 +51,8 @@ public class FocusDynamicFragment extends BaseFragment {
     @BindView(R.id.spring)
     SpringView mSpring;
 
+    private Integer pager = 1;
+
     private MyAdapter mMyAdapter;
     private List<DynamicBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
@@ -166,13 +168,13 @@ public class FocusDynamicFragment extends BaseFragment {
     @Override
     public void initData() {
         getRefresh();
-        getLoadmore();
     }
 
     private void getLoadmore() {
+        pager += 1;
         ServiceAPI.Retrofit().getDynamicList(ParamBuilder.newParams()
-                .addParam("name", "")
-                .addParam("pageNumber", "1")
+//                .addParam("name", "")
+                .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<DynamicBean>())
                 .subscribeOn(Schedulers.io())
@@ -180,17 +182,21 @@ public class FocusDynamicFragment extends BaseFragment {
                 .subscribe(new RxSubscriber<DynamicBean>(getActivity()) {
                     @Override
                     public void onNext(DynamicBean bean) {
-                        mBeanList = bean.getPageList().getList();
-                        mSpring.onFinishFreshAndLoad();
+                        mBeanList.addAll(bean.getPageList().getList());
                         mMyAdapter.replaceData(mBeanList);
+                        mSpring.onFinishFreshAndLoad();
+                        if (mBeanList == null || mBeanList.size() == 0) {
+                            showToast("没有更多数据");
+                        }
                     }
                 });
     }
 
     private void getRefresh() {
+        pager = 1;
         ServiceAPI.Retrofit().getDynamicList(ParamBuilder.newParams()
 //                .addParam("name", "")
-                .addParam("pageNumber", "1")
+                .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<DynamicBean>())
                 .subscribeOn(Schedulers.io())

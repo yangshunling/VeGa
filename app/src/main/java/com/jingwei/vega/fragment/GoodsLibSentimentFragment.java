@@ -100,10 +100,11 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     }
 
     private void onRefreshData(String searchName) {
+        pager = 1;
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("sortBy", "")
-                .addParam("pageNumber", "1")
+                .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<GoodsLibBean>())
                 .subscribeOn(Schedulers.io())
@@ -119,6 +120,7 @@ public class GoodsLibSentimentFragment extends BaseFragment {
     }
 
     private void onLoadmoreData(String searchName, Integer pager) {
+        pager += 1;
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("sortBy", "")

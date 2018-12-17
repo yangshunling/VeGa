@@ -106,10 +106,11 @@ public class GoodsLibAllFragment extends BaseFragment {
     }
 
     private void onRefreshData(String searchName) {
+        pager = 1;
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("sortBy", "")
-                .addParam("pageNumber", "1")
+                .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<GoodsLibBean>())
                 .subscribeOn(Schedulers.io())
@@ -125,6 +126,7 @@ public class GoodsLibAllFragment extends BaseFragment {
     }
 
     private void onLoadmoreData(String searchName, Integer pager) {
+        pager += 1;
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("sortBy", "")
@@ -139,7 +141,7 @@ public class GoodsLibAllFragment extends BaseFragment {
                         mBeanList.addAll(bean.getPageList().getList());
                         mMyAdapter.replaceData(mBeanList);
                         mSpring.onFinishFreshAndLoad();
-                        if (mBeanList==null||mBeanList.size()==0){
+                        if (mBeanList == null || mBeanList.size() == 0) {
                             showToast("没有更多数据");
                         }
                     }

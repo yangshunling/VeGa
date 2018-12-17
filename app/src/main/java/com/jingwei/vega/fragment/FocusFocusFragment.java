@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseFragment;
@@ -16,6 +17,10 @@ import com.jingwei.vega.moudle.bean.FocusBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
@@ -25,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class FocusFocusFragment extends BaseFragment {
 
@@ -33,8 +40,10 @@ public class FocusFocusFragment extends BaseFragment {
     @BindView(R.id.spring)
     SpringView mSpring;
 
+    private Integer pager = 1;
+
     private MyAdapter mMyAdapter;
-    private List<FocusBean> mBeanList = new ArrayList<>();
+    private List<FocusBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -60,29 +69,60 @@ public class FocusFocusFragment extends BaseFragment {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-
+                getRefresh();
             }
 
             @Override
             public void onLoadmore() {
-
+                getLoadmore();
             }
         });
     }
 
     @Override
     public void initData() {
-        //测试数据
-        for (int i = 0; i < 20; i++) {
-            FocusBean bean = new FocusBean();
-            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
-            bean.setName("咕咕店铺");
-            bean.setXin("15");
-            bean.setDian("125");
-            bean.setProject("主营产品：欧美女装");
-            mBeanList.add(bean);
-        }
-        mMyAdapter.replaceData(mBeanList);
+        getRefresh();
+    }
+
+    private void getLoadmore() {
+        pager += 1;
+        ServiceAPI.Retrofit().getFocusList(ParamBuilder.newParams()
+//                .addParam("name", "")
+                .addParam("pageNumber", pager + "")
+                .bulidParam())
+                .map(new RxResultFunc<FocusBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<FocusBean>(getActivity()) {
+                    @Override
+                    public void onNext(FocusBean bean) {
+                        mBeanList.addAll(bean.getPageList().getList());
+                        mMyAdapter.replaceData(mBeanList);
+                        mSpring.onFinishFreshAndLoad();
+                        if (mBeanList == null || mBeanList.size() == 0) {
+                            showToast("没有更多数据");
+                        }
+                    }
+                });
+    }
+
+    private void getRefresh() {
+        pager = 1;
+        ServiceAPI.Retrofit().getFocusList(ParamBuilder.newParams()
+//                .addParam("name", "")
+                .addParam("pageNumber", pager + "")
+                .bulidParam())
+                .map(new RxResultFunc<FocusBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<FocusBean>(getActivity()) {
+                    @Override
+                    public void onNext(FocusBean bean) {
+                        mBeanList = bean.getPageList().getList();
+                        mSpring.onFinishFreshAndLoad();
+                        mMyAdapter.replaceData(mBeanList);
+                    }
+                });
     }
 
     @Override
@@ -90,19 +130,18 @@ public class FocusFocusFragment extends BaseFragment {
 
     }
 
-    public class MyAdapter extends BaseQuickAdapter<FocusBean, BaseViewHolder> {
+    public class MyAdapter extends BaseQuickAdapter<FocusBean.PageListBean.ListBean, BaseViewHolder> {
         public MyAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, FocusBean item) {
-            GlideUtil.setCircleImage(getActivity(), item.getImage(), (ImageView) helper.getView(R.id.iv_image));
+        protected void convert(BaseViewHolder helper, FocusBean.PageListBean.ListBean item) {
+            GlideUtil.setCircleImage(getActivity(), Constants.IMAGEHOST + item.getHeadImg(), (ImageView) helper.getView(R.id.iv_image));
             helper.setText(R.id.tv_name, item.getName());
-            helper.setText(R.id.tv_xin, item.getXin());
-            helper.setText(R.id.tv_dian, item.getDian());
-            helper.setText(R.id.tv_project, item.getProject());
-
+            helper.setText(R.id.tv_xin, item.getNewProductNumber() + "");
+            helper.setText(R.id.tv_dian, item.getProductNumber() + "");
+            helper.setText(R.id.tv_project, item.getMainProducts());
         }
     }
 }

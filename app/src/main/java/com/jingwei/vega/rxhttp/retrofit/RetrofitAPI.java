@@ -4,6 +4,7 @@ import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.DynamicBean;
+import com.jingwei.vega.moudle.bean.FocusBean;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.moudle.bean.MarketShopListBean;
@@ -89,8 +90,8 @@ public interface RetrofitAPI {
     /**
      * 关注列表
      */
-    @GET("category/{parentId}/list")
-    Observable<RxMoudle<CategoryByTwoBean>> getFocusList(@QueryMap Map<String, String> params);
+    @GET("love/list")
+    Observable<RxMoudle<FocusBean>> getFocusList(@QueryMap Map<String, String> params);
 
     /**
      * 动态列表
