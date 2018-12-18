@@ -30,7 +30,8 @@
         </activity>
 
         <activity
-            android:name=".activity.MainActivity"/>
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.RegistActivity"/>
         <activity android:name=".activity.ForgetPwdActivity"/>
         <activity android:name=".activity.MarketShopsActivity"/>

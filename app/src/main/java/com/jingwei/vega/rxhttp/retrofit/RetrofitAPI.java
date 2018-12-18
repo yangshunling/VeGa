@@ -175,4 +175,11 @@ public interface RetrofitAPI {
     @Multipart
     @POST("user/update_password")
     Observable<RxMoudle<Object>> userUpdatePwd(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 修改用户信息
+     */
+    @Multipart
+    @POST("user/update")
+    Observable<RxMoudle<Object>> userUpdate(@PartMap Map<String, RequestBody> params);
 }

@@ -1,5 +1,6 @@
 package com.jingwei.vega.activity;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
@@ -12,9 +13,14 @@ import com.jingwei.vega.fragment.ClassificationFragment;
 import com.jingwei.vega.fragment.FocusFragment;
 import com.jingwei.vega.fragment.HomeFragment;
 import com.jingwei.vega.fragment.MeFragment;
+import com.jingwei.vega.moudle.TokenLose;
+import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.view.TitleBar;
 
 import butterknife.BindView;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 
 /**
  * MainActivity
@@ -49,6 +55,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
+
         initNavBar();
         initFragment();
     }
@@ -158,5 +166,18 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         if (mMeFragment != null) {
             transaction.hide(mMeFragment);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void tokenLose(TokenLose bean) {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        PreferencesUtil.saveLoginState(MainActivity.this, false);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

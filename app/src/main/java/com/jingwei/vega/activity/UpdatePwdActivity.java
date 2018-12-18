@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.came.viewbguilib.ButtonBgUi;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.moudle.TokenLose;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
@@ -16,6 +17,7 @@ import com.jingwei.vega.view.VerifyCodeButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -121,6 +123,7 @@ public class UpdatePwdActivity extends BaseActivity {
                         @Override
                         public void onNext(Object message) {
                             showToast("修改密码成功");
+                            EventBus.getDefault().post(new TokenLose());
                             finish();
                         }
                     });

@@ -70,6 +70,10 @@ public class MeFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        getUserInfo();
+    }
+
+    private void getUserInfo() {
         ServiceAPI.Retrofit().getUserInfo()
                 .map(new RxResultFunc<UserInfoBean>())
                 .subscribeOn(Schedulers.io())
@@ -115,5 +119,11 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), AboutUsActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserInfo();
     }
 }
