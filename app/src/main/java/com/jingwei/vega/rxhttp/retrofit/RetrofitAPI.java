@@ -168,4 +168,11 @@ public interface RetrofitAPI {
     @Multipart
     @POST("user/forget_password")
     Observable<RxMoudle<Object>> userResetPwd(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 用户修改密码
+     */
+    @Multipart
+    @POST("user/update_password")
+    Observable<RxMoudle<Object>> userUpdatePwd(@PartMap Map<String, RequestBody> params);
 }

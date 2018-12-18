@@ -67,7 +67,7 @@ public class UpdatePwdActivity extends BaseActivity {
                 validationPhone();
                 break;
             case R.id.bt_reset:
-                resetPwd();
+                updatePwd();
                 break;
         }
     }
@@ -81,34 +81,26 @@ public class UpdatePwdActivity extends BaseActivity {
     }
 
     private void sendPhoneCode() {
-        String phone = mTvPhone.getText().toString().trim();
-        if (TextUtil.isEmpty(phone))
-            showToast("手机号不能为空");
-        else {
-            ServiceAPI.Retrofit().sendCode(ParamBuilder.newBody()
-                    .addBody("mobile", phone)
-                    .addBody("type", "UPDATE_PASSWORD")
-                    .bulidBody())
-                    .map(new RxResultFunc<Object>())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscriber<Object>(UpdatePwdActivity.this,"正在发送...") {
-                        @Override
-                        public void onNext(Object message) {
-                            mBtnVerifyCode.start();
-                        }
-                    });
-        }
+        ServiceAPI.Retrofit().sendCode(ParamBuilder.newBody()
+                .addBody("mobile", phone)
+                .addBody("type", "UPDATE_PASSWORD")
+                .bulidBody())
+                .map(new RxResultFunc<Object>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Object>(UpdatePwdActivity.this, "正在发送...") {
+                    @Override
+                    public void onNext(Object message) {
+                        mBtnVerifyCode.start();
+                    }
+                });
     }
 
-    private void resetPwd() {
-        String phone = mTvPhone.getText().toString().trim();
+    private void updatePwd() {
         String code = mEtValidation.getText().toString().trim();
         String password = mEtPassword.getText().toString().trim();
         String confirmPassword = mEtConfirmPassword.getText().toString().trim();
-        if (TextUtil.isEmpty(phone))
-            showToast("手机号不能为空");
-        else if (TextUtil.isEmpty(code))
+        if (TextUtil.isEmpty(code))
             showToast("验证码不能为空");
         else if (TextUtil.isEmpty(password))
             showToast("密码不能为空");
@@ -117,8 +109,7 @@ public class UpdatePwdActivity extends BaseActivity {
         else if (!password.equals(confirmPassword))
             showToast("两次密码输入不一致");
         else
-            ServiceAPI.Retrofit().userResetPwd(ParamBuilder.newBody()
-                    .addBody("mobile", phone)
+            ServiceAPI.Retrofit().userUpdatePwd(ParamBuilder.newBody()
                     .addBody("code", code)
                     .addBody("password", password)
                     .addBody("r_password", confirmPassword)
@@ -126,7 +117,7 @@ public class UpdatePwdActivity extends BaseActivity {
                     .map(new RxResultFunc<Object>())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new RxSubscriber<Object>(UpdatePwdActivity.this,"正在修改...") {
+                    .subscribe(new RxSubscriber<Object>(UpdatePwdActivity.this, "正在修改...") {
                         @Override
                         public void onNext(Object message) {
                             showToast("修改密码成功");
