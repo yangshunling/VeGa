@@ -3,6 +3,7 @@ package com.jingwei.vega.activity;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -173,6 +174,23 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
         PreferencesUtil.saveLoginState(MainActivity.this, false);
         finish();
+    }
+
+    private long firstTime=0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK && event.getAction()==KeyEvent.ACTION_DOWN){
+            if (System.currentTimeMillis()-firstTime>2000){
+                showToast("再按一次退出程序");
+                firstTime=System.currentTimeMillis();
+            }else{
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

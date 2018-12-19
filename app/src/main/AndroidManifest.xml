@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.jingwei.vega"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jingwei.vega">
 
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".base.MyApplication"
@@ -18,37 +18,37 @@
 
         <meta-data
             android:name="com.jingwei.vega.rxhttp.glide.OkHttpGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
 
         <activity
             android:name=".activity.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activity.RegistActivity"/>
-        <activity android:name=".activity.ForgetPwdActivity"/>
-        <activity android:name=".activity.MarketShopsActivity"/>
-        <activity android:name=".activity.ShopActivity"/>
-        <activity android:name=".activity.ShopProductDetailActivity"/>
+            android:launchMode="singleTask" />
+        <activity android:name=".activity.RegistActivity" />
+        <activity android:name=".activity.ForgetPwdActivity" />
+        <activity android:name=".activity.MarketShopsActivity" />
+        <activity android:name=".activity.ShopActivity" />
+        <activity android:name=".activity.ShopProductDetailActivity" />
 
         <!-- 我的 -->
-        <activity android:name=".activity.MyCollectActivity"/>
-        <activity android:name=".activity.AboutUsActivity"/>
-        <activity android:name=".activity.VipCenterActivity"/>
-        <activity android:name=".activity.SettingActivity"/>
-        <activity android:name=".activity.DownloadRecordActivity"/>
-        <activity android:name=".activity.DownloadRecordDetailActivity"/>
-        <activity android:name=".activity.GoodsLibActivity"/>
-        <activity android:name=".activity.GoodsListActivity"/>
-        <activity android:name=".activity.SearchActivity"/>
-        <activity android:name=".activity.UpdatePwdActivity"/>
+        <activity android:name=".activity.MyCollectActivity" />
+        <activity android:name=".activity.AboutUsActivity" />
+        <activity android:name=".activity.VipCenterActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.DownloadRecordActivity" />
+        <activity android:name=".activity.DownloadRecordDetailActivity" />
+        <activity android:name=".activity.GoodsLibActivity" />
+        <activity android:name=".activity.GoodsListActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.UpdatePwdActivity" />
     </application>
 
 </manifest>
