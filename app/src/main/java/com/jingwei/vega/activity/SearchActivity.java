@@ -121,13 +121,18 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SoftKeyboardUtils.showSoftKeyboard(this);
+        SoftKeyboardUtils.showSoftKeyboard(mEtContent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SoftKeyboardUtils.hideSoftKeyboard(mEtContent);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SoftKeyboardUtils.hideSoftKeyboard(this);
     }
 
     @OnClick({R.id.iv_clean_content, R.id.tv_search_cancel, R.id.iv_clean_record})

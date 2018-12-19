@@ -83,6 +83,7 @@ public class GoodsLibActivity extends BaseActivity {
 
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments, mTitles);
         mViewpager.setAdapter(mAdapter);
+        mViewpager.setOffscreenPageLimit(2);
         mTablayout.setViewPager(mViewpager, mTitles, GoodsLibActivity.this, mFragments);
     }
 
@@ -119,7 +120,6 @@ public class GoodsLibActivity extends BaseActivity {
             if (data != null) {
                 msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
-                mViewpager.setCurrentItem(1);
                 EventBus.getDefault().post(new LibSearchMsgEvent(msg));
             }
         }
