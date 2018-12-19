@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.ClassificationRightBean;
@@ -54,14 +55,14 @@ public class ClassificationImageAdapter extends BaseAdapter {
                     R.layout.item_classification_image_gride, null);
 
             viewHolder.mIvClassificationImage = (ImageView) convertView.findViewById(R.id.iv_classification_image);
-            viewHolder.mTvClassificationName = (TextView)convertView.findViewById(R.id.tv_classification_name);
+            viewHolder.mTvClassificationName = (TextView) convertView.findViewById(R.id.tv_classification_name);
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        GlideUtil.setImage(context, mBeanList.get(position).getIcon(), viewHolder.mIvClassificationImage);
+        GlideUtil.setImage(context, Constants.IMAGEHOST + mBeanList.get(position).getIcon(), viewHolder.mIvClassificationImage);
         viewHolder.mTvClassificationName.setText(mBeanList.get(position).getName());
         return convertView;
     }
