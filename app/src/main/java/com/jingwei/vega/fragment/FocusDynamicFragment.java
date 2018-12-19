@@ -1,5 +1,6 @@
 package com.jingwei.vega.fragment;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -35,6 +36,7 @@ import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.view.CustomGridView;
+import com.jingwei.vega.view.ProgressDialogUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -64,16 +66,26 @@ public class FocusDynamicFragment extends BaseFragment {
     private int mImgCount = 0;
     private List<DynamicBean.PageListBean.ListBean.ProductBean.PicturesBean> imgList;
 
+    private ProgressDialog mBar;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    showToast(msg.obj + "");
+                    mBar.setMessage("正在保存：第 " + msg.obj + "/" + imgList.size() + " 张");
+                    break;
+                case 1:
+                    mBar.setMessage("正在保存：第 0/" + imgList.size() + " 张");
+                    mBar.dismiss();
+                    showToast("图片保存成功");
+                    mImgCount = 0;
                     break;
                 case 2:
-                    showToast(msg.obj + "");
+                    mBar.dismiss();
+                    showToast("图片保存失败");
+                    mImgCount = 0;
                     break;
             }
         }
@@ -99,6 +111,8 @@ public class FocusDynamicFragment extends BaseFragment {
                 .color(ContextCompat.getColor(getActivity(), R.color.gray2))
                 .size(DisplayUtil.dp2px(getActivity(), 0.5f))
                 .build());
+
+        mBar = ProgressDialogUtil.creatProgressBarDialog(getActivity());
     }
 
     @Override
@@ -122,7 +136,8 @@ public class FocusDynamicFragment extends BaseFragment {
                     case R.id.bt_save:
                         imgList = mBeanList.get(position).getProduct().getPictures();
                         if (imgList != null && imgList.size() != 0) {
-                            showToast("图片正在保存...");
+                            mBar.setMessage("正在保存：第 0/" + imgList.size() + " 张");
+                            mBar.show();
                             for (int i = 0; i < imgList.size(); i++) {
                                 downloadImage(i);
                             }
@@ -156,8 +171,9 @@ public class FocusDynamicFragment extends BaseFragment {
                 getActivity().sendBroadcast(intent);
                 //计数
                 mImgCount++;
+                mHandler.sendMessage(mHandler.obtainMessage(0, mImgCount));
                 if (mImgCount == imgList.size()) {
-                    mHandler.sendMessage(mHandler.obtainMessage(0, "图片保存成功"));
+                    mHandler.sendMessage(mHandler.obtainMessage(1, "图片保存成功"));
                 }
             }
 
