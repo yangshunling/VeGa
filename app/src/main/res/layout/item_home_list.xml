@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/my_bg"/>
+        android:src="@drawable/head_img_bg_normal"/>
 
     <TextView
         android:id="@+id/tv_home_list_item"

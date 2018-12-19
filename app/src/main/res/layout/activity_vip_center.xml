@@ -14,7 +14,7 @@
             android:id="@+id/my_bg"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/my_bg" />
+            android:background="@drawable/head_img_bg_normal" />
 
         <RelativeLayout
             android:layout_marginTop="10dp"
@@ -46,7 +46,7 @@
             android:layout_height="90dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="30dp"
-            android:src="@drawable/app_logo" />
+            android:src="@drawable/head_img_normal" />
 
         <TextView
             android:id="@+id/tv_name"

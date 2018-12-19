@@ -15,6 +15,7 @@ import com.jingwei.vega.moudle.bean.ShopNewRecommendBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.moudle.bean.VegaInfoBean;
+import com.jingwei.vega.moudle.bean.VipBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.List;
@@ -182,4 +183,17 @@ public interface RetrofitAPI {
     @Multipart
     @POST("user/update")
     Observable<RxMoudle<Object>> userUpdate(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 修改用户头像
+     */
+    @Multipart
+    @POST("user/update_headimg")
+    Observable<RxMoudle<Object>> userHeadIconUpdate(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 获取vip权限
+     */
+    @GET("user/vip_list")
+    Observable<RxMoudle<VipBean>> getVipList();
 }
