@@ -16,6 +16,9 @@ public class Constants {
     public static Integer CLASSIFICATIONFRAGMENT = 3;
     public static Integer FOCUSFRAGMENT = 4;
 
+    public static Integer MARKSHOP = 5;
+    public static Integer MYCOLLECT = 6;
+
 
     /******************************** 图片路径 **************************/
     public static String IMAGEPATH = Environment.getExternalStorageDirectory().getPath() + "/vega";

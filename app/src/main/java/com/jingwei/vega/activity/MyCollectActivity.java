@@ -1,9 +1,12 @@
 package com.jingwei.vega.activity;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,11 +45,16 @@ public class MyCollectActivity extends BaseActivity {
     RecyclerView mRvList;
     @BindView(R.id.spring)
     SpringView mSpring;
+    @BindView(R.id.et_content)
+    EditText mEtContent;
+
 
     private MyAdapter mMyAdapter;
     private List<MyCollectProductsBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
     private int pager = 1;
+
+    private String msg = "";
 
     @Override
     public int getContentView() {
@@ -81,12 +89,13 @@ public class MyCollectActivity extends BaseActivity {
 
     private void getMyCollectList() {
         ServiceAPI.Retrofit().getMyCollectList(ParamBuilder.newParams()
+                .addParam("productName", msg)
                 .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<MyCollectProductsBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<MyCollectProductsBean>(MyCollectActivity.this,true) {
+                .subscribe(new RxSubscriber<MyCollectProductsBean>(MyCollectActivity.this, true) {
                     @Override
                     public void onNext(MyCollectProductsBean myCollectProductsBean) {
                         if (myCollectProductsBean.getPageList().getList().size() != 0) {
@@ -99,7 +108,7 @@ public class MyCollectActivity extends BaseActivity {
                         } else {
                             if (pager > 1) {
                                 showToast(getResources().getString(R.string.no_more_date));
-                            }else{
+                            } else {
                                 mBeanList.clear();
                                 mMyAdapter.replaceData(mBeanList);
                             }
@@ -110,6 +119,15 @@ public class MyCollectActivity extends BaseActivity {
     }
 
     private void setListener() {
+        mEtContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyCollectActivity.this, SearchActivity.class);
+                intent.putExtra("name", mEtContent.getText().toString().trim());
+                startActivityForResult(intent, Constants.MYCOLLECT);
+            }
+        });
+
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
@@ -127,26 +145,40 @@ public class MyCollectActivity extends BaseActivity {
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.iv_delete:
-                        deleteMyCollect(mBeanList.get(position).getId(),position);
+                        deleteMyCollect(mBeanList.get(position).getId(), position);
                         break;
                 }
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.MYCOLLECT) {
+            if (data != null) {
+                msg = data.getStringExtra("content");
+                mEtContent.setText(msg);
+                pager = 1;
+                getMyCollectList();
+            }
+        }
+    }
+
     /**
      * 取消收藏
-     * @param id 收藏的id，不是商品id
-     * @param position  列表中所在位置
+     *
+     * @param id       收藏的id，不是商品id
+     * @param position 列表中所在位置
      */
     private void deleteMyCollect(int id, final int position) {
-        ServiceAPI.Retrofit().updateSaveProductState(id+"")
+        ServiceAPI.Retrofit().updateSaveProductState(id + "")
                 .map(new RxResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<Object>(MyCollectActivity.this,"正在取消收藏...") {
+                .subscribe(new RxSubscriber<Object>(MyCollectActivity.this, "正在取消收藏...") {
                     @Override
                     public void onNext(Object message) {
                         mBeanList.remove(mBeanList.get(position));
@@ -162,7 +194,7 @@ public class MyCollectActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, MyCollectProductsBean.PageListBean.ListBean item) {
-            GlideUtil.setImage(MyCollectActivity.this, Constants.IMAGEHOST+item.getIconImage().get(0).getPath(), (ImageView) helper.getView(R.id.iv_image));
+            GlideUtil.setImage(MyCollectActivity.this, Constants.IMAGEHOST + item.getIconImage().get(0).getPath(), (ImageView) helper.getView(R.id.iv_image));
             helper.setText(R.id.tv_name, item.getName());
             helper.setText(R.id.tv_des, item.getRemark());
 

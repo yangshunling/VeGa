@@ -2,14 +2,17 @@ package com.jingwei.vega.activity;
 
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.moudle.bean.DownloadProductBean;
@@ -34,9 +37,16 @@ public class DownloadRecordActivity extends BaseActivity {
     RecyclerView mRvList;
     @BindView(R.id.spring)
     SpringView mSpring;
+    @BindView(R.id.et_content)
+    EditText mEtContent;
+
 
     private MyAdapter mMyAdapter;
     private List<DownloadProductBean> mBeanList = new ArrayList<>();
+
+    private int pager = 1;
+
+    private String msg = "";
 
     @Override
     public int getContentView() {
@@ -82,6 +92,16 @@ public class DownloadRecordActivity extends BaseActivity {
     }
 
     private void setListener() {
+        mEtContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DownloadRecordActivity.this, SearchActivity.class);
+                intent.putExtra("name", mEtContent.getText().toString().trim());
+                startActivityForResult(intent, Constants.MYCOLLECT);
+            }
+        });
+
+
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
@@ -100,6 +120,19 @@ public class DownloadRecordActivity extends BaseActivity {
                 startActivity(new Intent(DownloadRecordActivity.this,DownloadRecordDetailActivity.class));
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.MYCOLLECT) {
+            if (data != null) {
+                msg = data.getStringExtra("content");
+                mEtContent.setText(msg);
+                pager = 1;
+//                getMyCollectList();
+            }
+        }
     }
 
     public class MyAdapter extends BaseQuickAdapter<DownloadProductBean, BaseViewHolder> {
