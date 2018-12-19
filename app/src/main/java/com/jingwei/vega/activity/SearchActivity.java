@@ -38,7 +38,7 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.iv_clean_content)
     ImageView mIvCleanContent;
 
-    private Integer name;
+    private String name;
     private String content = "";
 
     private List<String> mRecordList = new ArrayList<>();
@@ -55,11 +55,17 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        try {
+            name = getIntent().getStringExtra("name");
+        } catch (Exception e) {
+            content = "";
+        }
+        mEtContent.setText(name);
+
         mEtContent.setFocusable(true);
         mEtContent.setFocusableInTouchMode(true);
         mEtContent.requestFocus();
         mRecordList = PreferencesUtil.getSearchRecordList(this);
-        name = getIntent().getIntExtra("name", -1);
         initAdapter();
     }
 

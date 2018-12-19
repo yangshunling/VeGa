@@ -20,6 +20,7 @@ import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.moudle.FocusSearchMsgEvent;
 import com.jingwei.vega.moudle.LibSearchMsgEvent;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.DynamicBean;
@@ -77,6 +78,8 @@ public class FocusDynamicFragment extends BaseFragment {
             }
         }
     };
+
+    private String msg = "";
 
     @Override
     public int getContentView() {
@@ -178,7 +181,7 @@ public class FocusDynamicFragment extends BaseFragment {
     private void getLoadmore() {
         pager += 1;
         ServiceAPI.Retrofit().getDynamicList(ParamBuilder.newParams()
-//                .addParam("name", "")
+                .addParam("name", msg)
                 .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<DynamicBean>())
@@ -200,7 +203,7 @@ public class FocusDynamicFragment extends BaseFragment {
     private void getRefresh() {
         pager = 1;
         ServiceAPI.Retrofit().getDynamicList(ParamBuilder.newParams()
-//                .addParam("name", "")
+                .addParam("name", msg)
                 .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<DynamicBean>())
@@ -241,8 +244,9 @@ public class FocusDynamicFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MainThread)
-    public void setQuestionEvent(LibSearchMsgEvent event) {
-//        getRefresh(event.getContent());
+    public void setQuestionEvent(FocusSearchMsgEvent event) {
+        msg = event.getContent();
+        getRefresh();
     }
 
     @Override

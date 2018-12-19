@@ -76,6 +76,7 @@ public class FocusFragment extends BaseFragment {
     @OnClick(R.id.et_content)
     public void onViewClicked() {
         Intent intent = new Intent(getActivity(), SearchActivity.class);
+        intent.putExtra("name", mEtContent.getText().toString().trim());
         startActivityForResult(intent, Constants.FOCUSFRAGMENT);
     }
 

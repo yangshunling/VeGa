@@ -85,9 +85,6 @@ public class HomeFragment extends BaseFragment {
     public void initData() {
         getMarketList();
         getBannerList();
-        mEtContent.requestFocus();
-        mEtContent.setFocusableInTouchMode(true);
-        mEtContent.setEnabled(false);
     }
 
     private void getBannerList() {
@@ -158,7 +155,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
-                intent.putExtra("name", Constants.DEMOACTIVITY);
+                intent.putExtra("name", mEtContent.getText().toString().trim());
                 startActivityForResult(intent, Constants.HOMEFRAGMENT);
             }
         });
@@ -178,7 +175,9 @@ public class HomeFragment extends BaseFragment {
         mCvGoodsLib.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), GoodsLibActivity.class));
+                Intent intent = new Intent(getActivity(), GoodsLibActivity.class);
+                intent.putExtra("tag", "");
+                startActivity(intent);
             }
         });
 
@@ -203,6 +202,9 @@ public class HomeFragment extends BaseFragment {
             if (data != null) {
                 String msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
+                Intent intent = new Intent(getActivity(), GoodsLibActivity.class);
+                intent.putExtra("tag", msg);
+                startActivity(intent);
             }
         }
     }

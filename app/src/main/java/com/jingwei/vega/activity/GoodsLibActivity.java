@@ -1,10 +1,14 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jingwei.vega.Constants;
@@ -15,6 +19,7 @@ import com.jingwei.vega.fragment.GoodsLibAllFragment;
 import com.jingwei.vega.fragment.GoodsLibLatestFragment;
 import com.jingwei.vega.fragment.GoodsLibSentimentFragment;
 import com.jingwei.vega.moudle.LibSearchMsgEvent;
+import com.jingwei.vega.utils.TextUtil;
 
 import java.util.ArrayList;
 
@@ -40,6 +45,8 @@ public class GoodsLibActivity extends BaseActivity {
             "全部", "最新", "人气"};
     private ViewPagerAdapter mAdapter;
 
+    private String msg = "";
+
     @Override
     public int getContentView() {
         return R.layout.activity_goods_lib;
@@ -53,9 +60,23 @@ public class GoodsLibActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        msg = getIntent().getStringExtra("tag");
+        mEtContent.setText(msg);
+
+        if (!TextUtil.isEmpty(msg)){
+            hintTitleBar();
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("tag",msg);
+
         mAllFragment = new GoodsLibAllFragment();
+        mAllFragment.setArguments(bundle);
         mLatestFragment = new GoodsLibLatestFragment();
+        mLatestFragment.setArguments(bundle);
         mSentimentFragment = new GoodsLibSentimentFragment();
+        mSentimentFragment.setArguments(bundle);
+
         mFragments.add(mAllFragment);
         mFragments.add(mLatestFragment);
         mFragments.add(mSentimentFragment);
@@ -87,6 +108,7 @@ public class GoodsLibActivity extends BaseActivity {
     @OnClick(R.id.et_content)
     public void onViewClicked() {
         Intent intent = new Intent(GoodsLibActivity.this, SearchActivity.class);
+        intent.putExtra("name", mEtContent.getText().toString().trim());
         startActivityForResult(intent, Constants.GOODSLIBACTIVITY);
     }
 
@@ -95,8 +117,9 @@ public class GoodsLibActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.GOODSLIBACTIVITY) {
             if (data != null) {
-                String msg = data.getStringExtra("content");
+                msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
+                mViewpager.setCurrentItem(1);
                 EventBus.getDefault().post(new LibSearchMsgEvent(msg));
             }
         }

@@ -45,6 +45,7 @@ public class GoodsListSentimentFragment extends BaseFragment {
     private Integer pager = 1;
 
     private String id = "";
+    private String searchName = "";
 
     private MyAdapter mMyAdapter;
     private List<GoodsLibBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
@@ -61,7 +62,6 @@ public class GoodsListSentimentFragment extends BaseFragment {
         mSpring.setHeader(new DefaultHeader(getActivity()));
         mSpring.setFooter(new DefaultFooter(getActivity()));
         mMyAdapter = new MyAdapter(R.layout.item_goods_lib_recycle, mBeanList);
-        mMyAdapter.setEmptyView(getEmptyView());
         mRvList.setAdapter(mMyAdapter);
         mRvList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
     }
@@ -71,12 +71,12 @@ public class GoodsListSentimentFragment extends BaseFragment {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                onRefreshData("");
+                onRefreshData();
             }
 
             @Override
             public void onLoadmore() {
-                onLoadmoreData("", pager++);
+                onLoadmoreData(pager++);
             }
         });
 
@@ -99,10 +99,10 @@ public class GoodsListSentimentFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        onRefreshData("");
+        onRefreshData();
     }
 
-    private void onRefreshData(String searchName) {
+    private void onRefreshData() {
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("tagId", id)
@@ -122,7 +122,7 @@ public class GoodsListSentimentFragment extends BaseFragment {
                 });
     }
 
-    private void onLoadmoreData(String searchName, Integer pager) {
+    private void onLoadmoreData(Integer pager) {
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("tagId", id)
@@ -152,7 +152,8 @@ public class GoodsListSentimentFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MainThread)
     public void setQuestionEvent(LibSearchMsgEvent event) {
-        onRefreshData(event.getContent());
+        searchName = event.getContent();
+        onRefreshData();
     }
 
     public class MyAdapter extends BaseQuickAdapter<GoodsLibBean.PageListBean.ListBean, BaseViewHolder> {

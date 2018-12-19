@@ -56,11 +56,11 @@ public class GoodsLibLatestFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
+        searchName = getArguments().getString("tag");
         EventBus.getDefault().register(this);
         mSpring.setHeader(new DefaultHeader(getActivity()));
         mSpring.setFooter(new DefaultFooter(getActivity()));
         mMyAdapter = new MyAdapter(R.layout.item_goods_lib_recycle, mBeanList);
-        mMyAdapter.setEmptyView(getEmptyView());
         mRvList.setAdapter(mMyAdapter);
         mRvList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
     }

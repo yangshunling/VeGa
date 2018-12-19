@@ -18,11 +18,14 @@ import com.jingwei.vega.fragment.GoodsLibSentimentFragment;
 import com.jingwei.vega.fragment.GoodsListAllFragment;
 import com.jingwei.vega.fragment.GoodsListLatestFragment;
 import com.jingwei.vega.fragment.GoodsListSentimentFragment;
+import com.jingwei.vega.moudle.LibSearchMsgEvent;
+import com.jingwei.vega.moudle.ListSearchMsgEvent;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 public class GoodsListActivity extends BaseActivity {
 
@@ -84,6 +87,7 @@ public class GoodsListActivity extends BaseActivity {
     @OnClick(R.id.et_content)
     public void onViewClicked() {
         Intent intent = new Intent(GoodsListActivity.this, SearchActivity.class);
+        intent.putExtra("name", mEtContent.getText().toString().trim());
         startActivityForResult(intent, Constants.GOODSLIBACTIVITY);
     }
 
@@ -94,7 +98,8 @@ public class GoodsListActivity extends BaseActivity {
             if (data != null) {
                 String msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
-                showToast(msg);
+                mViewpager.setCurrentItem(1);
+                EventBus.getDefault().post(new ListSearchMsgEvent(msg));
             }
         }
     }
