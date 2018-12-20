@@ -37,11 +37,10 @@ public class BannerListAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_banner, null);
-        ImageView imageView = view.findViewById(R.id.iv_item_banner);
+        ImageView imageView = (ImageView) LayoutInflater.from(mContext).inflate(R.layout.item_banner, null);
         GlideUtil.setImage(mContext, Constants.IMAGEHOST + mBannerList.get(position).getPath(), imageView);
-        container.addView(view);
-        return view;
+        container.addView(imageView);
+        return imageView;
     }
 
     @Override
