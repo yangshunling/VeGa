@@ -3,6 +3,8 @@ package com.jingwei.vega.rxhttp.retrofit;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
+import com.jingwei.vega.moudle.bean.DownloadRecordBean;
+import com.jingwei.vega.moudle.bean.DownloadRecordDetailBean;
 import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.moudle.bean.FocusBean;
 import com.jingwei.vega.moudle.bean.GoodsLibBean;
@@ -192,8 +194,20 @@ public interface RetrofitAPI {
     Observable<RxMoudle<Object>> userHeadIconUpdate(@PartMap Map<String, RequestBody> params);
 
     /**
-     * 获取vip权限
+     * 获取vip权益列表
      */
     @GET("user/vip_list")
     Observable<RxMoudle<VipBean>> getVipList();
+
+    /**
+     * 获取下载记录列表
+     */
+    @GET("download_history/list")
+    Observable<RxMoudle<DownloadRecordBean>> getDownloadRecord(@QueryMap Map<String, String> params);
+
+    /**
+     * 获取下载记录详情
+     */
+    @GET("download_history/detail/{id}")
+    Observable<RxMoudle<DownloadRecordDetailBean>> getDownloadRecordDetail(@Path("id") String id);
 }

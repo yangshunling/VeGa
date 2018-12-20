@@ -15,10 +15,14 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
-import com.jingwei.vega.moudle.bean.DownloadProductBean;
+import com.jingwei.vega.moudle.bean.DownloadRecordBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
+import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
+import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
@@ -27,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 下载记录
@@ -40,9 +46,9 @@ public class DownloadRecordActivity extends BaseActivity {
     @BindView(R.id.et_content)
     EditText mEtContent;
 
-
     private MyAdapter mMyAdapter;
-    private List<DownloadProductBean> mBeanList = new ArrayList<>();
+    private List<DownloadRecordBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
+    private DownloadRecordBean mDownloadRecordBean;
 
     private int pager = 1;
 
@@ -60,11 +66,6 @@ public class DownloadRecordActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
-    }
-
-    @Override
-    public void initData() {
         mSpring.setHeader(new DefaultHeader(DownloadRecordActivity.this));
         mSpring.setFooter(new DefaultFooter(DownloadRecordActivity.this));
         mMyAdapter = new MyAdapter(R.layout.item_download_product_recycle, mBeanList);
@@ -75,20 +76,43 @@ public class DownloadRecordActivity extends BaseActivity {
                 .color(ContextCompat.getColor(DownloadRecordActivity.this, R.color.gray2))
                 .size(DisplayUtil.dp2px(DownloadRecordActivity.this, 0.5f))
                 .build());
+    }
 
-        //测试数据
-        for (int i = 0; i < 20; i++) {
-            DownloadProductBean bean = new DownloadProductBean();
-            bean.setImage("http://img18.3lian.com/d/file/201709/21/d8768c389b316e95ef29276c53a1e964.jpg");
-            bean.setName("连体裤");
-            bean.setShop("喵喵品牌店");
-            bean.setType("森系女装");
-            mBeanList.add(bean);
-        }
-        mMyAdapter.replaceData(mBeanList);
-
-
+    @Override
+    public void initData() {
+        getRefreshInfo();
         setListener();
+    }
+
+    private void getRefreshInfo() {
+        ServiceAPI.Retrofit().getDownloadRecord(ParamBuilder.newParams()
+                .addParam("pager", pager + "")
+                .bulidParam())
+                .map(new RxResultFunc<DownloadRecordBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<DownloadRecordBean>(DownloadRecordActivity.this, true) {
+                    @Override
+                    public void onNext(DownloadRecordBean bean) {
+                        mDownloadRecordBean = bean;
+                        if (bean.getPageList().getList().size() != 0) {
+                            if (pager == 1) {
+                                mBeanList = bean.getPageList().getList();
+                            } else {
+                                mBeanList.addAll(bean.getPageList().getList());
+                            }
+                            mMyAdapter.replaceData(mBeanList);
+                        } else {
+                            if (pager > 1) {
+                                showToast(getResources().getString(R.string.no_more_date));
+                            } else {
+                                mBeanList.clear();
+                                mMyAdapter.replaceData(mBeanList);
+                            }
+                        }
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
     }
 
     private void setListener() {
@@ -117,7 +141,9 @@ public class DownloadRecordActivity extends BaseActivity {
         mMyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(DownloadRecordActivity.this,DownloadRecordDetailActivity.class));
+                Intent intent = new Intent(DownloadRecordActivity.this,DownloadRecordDetailActivity.class);
+                intent.putExtra("id",mBeanList.get(position).getId());
+                startActivity(intent);
             }
         });
     }
@@ -135,17 +161,17 @@ public class DownloadRecordActivity extends BaseActivity {
         }
     }
 
-    public class MyAdapter extends BaseQuickAdapter<DownloadProductBean, BaseViewHolder> {
+    public class MyAdapter extends BaseQuickAdapter<DownloadRecordBean.PageListBean.ListBean, BaseViewHolder> {
         public MyAdapter(int layoutResId, List data) {
             super(layoutResId, data);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, DownloadProductBean item) {
-            GlideUtil.setImage(DownloadRecordActivity.this, item.getImage(), (ImageView) helper.getView(R.id.iv_image));
-            helper.setText(R.id.tv_name,item.getName());
-            helper.setText(R.id.tv_shop,item.getShop());
-            helper.setText(R.id.tv_type,item.getType());
+        protected void convert(BaseViewHolder helper, DownloadRecordBean.PageListBean.ListBean item) {
+            GlideUtil.setImage(DownloadRecordActivity.this, Constants.IMAGEHOST+item.getMainPic().getPath(), (ImageView) helper.getView(R.id.iv_image));
+            helper.setText(R.id.tv_name, item.getProductName());
+            helper.setText(R.id.tv_shop, item.getSupplierName());
+            helper.setText(R.id.tv_type, item.getMainProducts());
         }
     }
 }
