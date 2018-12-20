@@ -86,6 +86,7 @@ public class DownloadRecordActivity extends BaseActivity {
 
     private void getRefreshInfo() {
         ServiceAPI.Retrofit().getDownloadRecord(ParamBuilder.newParams()
+                .addParam("productName",msg)
                 .addParam("pager", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<DownloadRecordBean>())
@@ -156,7 +157,7 @@ public class DownloadRecordActivity extends BaseActivity {
                 msg = data.getStringExtra("content");
                 mEtContent.setText(msg);
                 pager = 1;
-//                getMyCollectList();
+                getRefreshInfo();
             }
         }
     }

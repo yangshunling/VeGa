@@ -48,7 +48,6 @@ public class MyCollectActivity extends BaseActivity {
     @BindView(R.id.et_content)
     EditText mEtContent;
 
-
     private MyAdapter mMyAdapter;
     private List<MyCollectProductsBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
