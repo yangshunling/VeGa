@@ -84,9 +84,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        initBanner();
         getMarketList();
-        getBannerList();
+        initBanner();
     }
 
     private void getBannerList() {
@@ -98,7 +97,7 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onNext(BannerListBean bean) {
                         mBannerList = bean.getList();
-                        if (mBannerList != null && mBannerList.size() > 0) {
+                        if (mBannerList == null && mBannerList.size() > 0) {
                             PreferencesUtil.saveBannerList(getActivity(),mBannerList);
                         }
                         mSpring.onFinishFreshAndLoad();
