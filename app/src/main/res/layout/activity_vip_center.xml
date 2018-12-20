@@ -227,12 +227,13 @@
         android:textSize="12dp" />
 
     <TextView
+        android:id="@+id/tv_remark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="3dp"
-        android:text="会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益会员权益"
+        android:text=""
         android:textColor="@color/gray"
         android:textSize="12dp" />
 </LinearLayout>

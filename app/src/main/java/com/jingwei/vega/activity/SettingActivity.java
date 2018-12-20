@@ -163,7 +163,7 @@ public class SettingActivity extends BaseActivity {
 
     //生日选择，用android原生日期选择器
     private void showDatePickDialog() {
-        new DatePickerDialog(SettingActivity.this, onDateSetListener, mYear, mMonth, mDay).show();
+        new DatePickerDialog(SettingActivity.this, onDateSetListener, mYear, (mMonth-1), mDay).show();
     }
 
     /**

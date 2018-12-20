@@ -40,6 +40,9 @@ public class VipCenterActivity extends BaseActivity {
     @BindView(R.id.tv_date)
     TextView mTvDate;
 
+    @BindView(R.id.tv_remark)
+    TextView mTvRemark;
+
     private UserInfoBean userInfoBean;
 
     private VipBean mVipBean;
@@ -78,6 +81,7 @@ public class VipCenterActivity extends BaseActivity {
                     @Override
                     public void onNext(VipBean bean) {
                         mVipBean = bean;
+                        mTvRemark.setText(mVipBean.getRemark());
                     }
                 });
     }
