@@ -3,6 +3,7 @@ package com.jingwei.vega.moudle.bean;
 import java.util.List;
 
 public class BannerListBean {
+
     private List<ListBean> list;
 
     public List<ListBean> getList() {

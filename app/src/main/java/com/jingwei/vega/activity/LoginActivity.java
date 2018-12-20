@@ -3,6 +3,7 @@ package com.jingwei.vega.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.came.viewbguilib.ButtonBgUi;
 import com.jingwei.vega.R;
+import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.callback.PermissionsCallback;
+import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.RetrofitAPI;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
@@ -19,6 +22,9 @@ import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.utils.TextUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +57,8 @@ public class LoginActivity extends BaseActivity {
     ImageView mIvLoginBg;
     @BindView(R.id.ll_login_bg)
     LinearLayout mLlLoginBg;
+
+    private List<BannerListBean.ListBean> beanList = new ArrayList<>();
 
     @Override
     public int getContentView() {
@@ -124,7 +132,21 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onNext(Object token) {
                         PreferencesUtil.saveLoginState(LoginActivity.this, true);
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        ServiceAPI.Retrofit().getBanner()
+                                .map(new RxResultFunc<BannerListBean>())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new RxSubscriber<BannerListBean>(LoginActivity.this, "正在初始化数据...") {
+                                    @Override
+                                    public void onNext(BannerListBean bean) {
+                                        beanList = bean.getList();
+                                        if (beanList.size() > 0) {
+                                            PreferencesUtil.saveBannerList(LoginActivity.this, bean.getList());
+                                        }
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                });
                     }
                 });
     }

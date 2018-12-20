@@ -182,6 +182,7 @@ public class PreferencesUtil {
                 .edit();
         editor.putString("banner", gson.toJson(listBeans));
         editor.commit();
+        Log.v("tag", "保存：" + listBeans.size());
     }
 
     /**
@@ -197,6 +198,7 @@ public class PreferencesUtil {
             mBannerList = gson.fromJson(banner, new TypeToken<List<BannerListBean.ListBean>>() {
             }.getType());
         }
+        Log.v("tag", "获取：" + mBannerList.size());
         return mBannerList;
     }
 

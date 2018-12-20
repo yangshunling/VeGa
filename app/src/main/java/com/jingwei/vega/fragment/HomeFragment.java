@@ -6,10 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -41,8 +38,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import de.greenrobot.event.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -79,13 +75,14 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
-//        mSpring.setHeader(new DefaultHeader(getActivity()));
+        mSpring.setHeader(new DefaultHeader(getActivity()));
     }
 
     @Override
     public void initData() {
-        getMarketList();
         initBanner();
+        getBannerList();
+        getMarketList();
     }
 
     private void getBannerList() {
@@ -97,8 +94,8 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onNext(BannerListBean bean) {
                         mBannerList = bean.getList();
-                        if (mBannerList == null && mBannerList.size() > 0) {
-                            PreferencesUtil.saveBannerList(getActivity(),mBannerList);
+                        if (mBannerList.size() > 0) {
+                            PreferencesUtil.saveBannerList(getActivity(), mBannerList);
                         }
                         mSpring.onFinishFreshAndLoad();
                     }
@@ -209,13 +206,13 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void onClick(View v) {
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         timer.cancel();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
