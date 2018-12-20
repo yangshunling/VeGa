@@ -2,10 +2,12 @@ package com.jingwei.vega.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jingwei.vega.Constants;
+import com.jingwei.vega.moudle.bean.BannerListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class PreferencesUtil {
 
     private static Gson gson = new Gson();
     private static List<String> mRecordList = new ArrayList<>();
+    private static List<BannerListBean.ListBean> mBannerList = new ArrayList<>();
 
     /**
      * 保存App版本号
@@ -169,6 +172,32 @@ public class PreferencesUtil {
                 "record", context.MODE_PRIVATE).edit();
         editor.clear();
         editor.commit();
+    }
+
+    /**
+     * 保存banner列表
+     */
+    public static void saveBannerList(Context context, List<BannerListBean.ListBean> listBeans) {
+        editor = context.getSharedPreferences("banner", Context.MODE_PRIVATE)
+                .edit();
+        editor.putString("banner", gson.toJson(listBeans));
+        editor.commit();
+    }
+
+    /**
+     * 获取banner列表
+     *
+     * @param context
+     * @return
+     */
+    public static List<BannerListBean.ListBean> getBannerList(Context context) {
+        pref = context.getSharedPreferences("banner", context.MODE_PRIVATE);
+        String banner = pref.getString("banner", "");
+        if (!banner.equals("")) {
+            mBannerList = gson.fromJson(banner, new TypeToken<List<BannerListBean.ListBean>>() {
+            }.getType());
+        }
+        return mBannerList;
     }
 
 }

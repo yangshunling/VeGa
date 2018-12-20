@@ -32,6 +32,7 @@ import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.ListViewUtil;
+import com.jingwei.vega.utils.PreferencesUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,11 +79,12 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public void initView(View rootView) {
-        mSpring.setHeader(new DefaultHeader(getActivity()));
+//        mSpring.setHeader(new DefaultHeader(getActivity()));
     }
 
     @Override
     public void initData() {
+        initBanner();
         getMarketList();
         getBannerList();
     }
@@ -96,11 +98,8 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onNext(BannerListBean bean) {
                         mBannerList = bean.getList();
-                        if (mBannerListAdapter == null) {
-                            initBanner();
-                        } else {
-                            mBannerListAdapter.notifyDataSetChanged();
-                            mRlBanner.notifyDataSetChanged();
+                        if (mBannerList != null && mBannerList.size() > 0) {
+                            PreferencesUtil.saveBannerList(getActivity(),mBannerList);
                         }
                         mSpring.onFinishFreshAndLoad();
                     }
@@ -108,6 +107,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initBanner() {
+        mBannerList = PreferencesUtil.getBannerList(getActivity());
         mBannerListAdapter = new BannerListAdapter(getActivity(), mBannerList);
         mRlBanner.setAdapter(mBannerListAdapter);
         mRlBanner.setInterpolator(new LinearInterpolator());
