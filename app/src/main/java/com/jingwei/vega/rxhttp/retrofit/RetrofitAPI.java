@@ -38,8 +38,6 @@ import rx.Observable;
 
 public interface RetrofitAPI {
 
-    /********************************* Anonymous******************************/
-
     /**
      * 用户登录
      */
@@ -109,8 +107,6 @@ public interface RetrofitAPI {
     @Multipart
     @POST("download_history/save")
     Observable<RxMoudle<Object>> dowload(@PartMap Map<String, RequestBody> params);
-
-    /********************************* chengxc******************************/
 
     /**
      * 市场商铺列表

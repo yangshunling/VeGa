@@ -8,7 +8,6 @@ public class Constants {
     public static String HOST = "https://game.lkfcni.cn/api/";//服务器host
     public static String IMAGEHOST = "https://image.lkfcni.cn/";//图片host
 
-
     /******************************** 搜索条件 **************************/
     public static Integer DEMOACTIVITY = 0;
     public static Integer HOMEFRAGMENT = 1;
