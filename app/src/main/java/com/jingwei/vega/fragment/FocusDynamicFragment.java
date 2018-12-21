@@ -134,6 +134,20 @@ public class FocusDynamicFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.bt_save:
+                        //下载
+                        ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
+                                .addBody("productId", mBeanList.get(position).getId() + "")
+                                .bulidBody())
+                                .map(new RxResultFunc<Object>())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new RxSubscriber<Object>(getActivity()) {
+                                    @Override
+                                    public void onNext(Object bean) {
+
+                                    }
+                                });
+                        //存图
                         imgList = mBeanList.get(position).getProduct().getPictures();
                         if (imgList != null && imgList.size() != 0) {
                             mBar.setMessage("正在保存：第 0/" + imgList.size() + " 张");

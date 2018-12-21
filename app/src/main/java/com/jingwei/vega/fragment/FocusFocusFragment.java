@@ -1,5 +1,6 @@
 package com.jingwei.vega.fragment;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.ShopActivity;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.FocusSearchMsgEvent;
@@ -85,6 +87,15 @@ public class FocusFocusFragment extends BaseFragment {
                 getLoadmore();
             }
         });
+
+        mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), ShopActivity.class);
+                intent.putExtra("shopId", mBeanList.get(position).getId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -150,6 +161,7 @@ public class FocusFocusFragment extends BaseFragment {
             helper.setText(R.id.tv_xin, item.getNewProductNumber() + "");
             helper.setText(R.id.tv_dian, item.getProductNumber() + "");
             helper.setText(R.id.tv_project, item.getMainProducts());
+            helper.addOnClickListener(R.id.bt_save);
         }
     }
 

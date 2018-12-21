@@ -103,6 +103,13 @@ public interface RetrofitAPI {
     @GET("love/dynamic")
     Observable<RxMoudle<DynamicBean>> getDynamicList(@QueryMap Map<String, String> params);
 
+    /**
+     * 下载接口
+     */
+    @Multipart
+    @POST("download_history/save")
+    Observable<RxMoudle<Object>> dowload(@PartMap Map<String, RequestBody> params);
+
     /********************************* chengxc******************************/
 
     /**
