@@ -130,12 +130,12 @@ public class DownloadRecordActivity extends BaseActivity {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-
+                getRefreshInfo();
             }
 
             @Override
             public void onLoadmore() {
-
+                getRefreshInfo();
             }
         });
 
