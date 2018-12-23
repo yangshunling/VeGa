@@ -265,7 +265,9 @@ public class FocusDynamicFragment extends BaseFragment {
             helper.setText(R.id.tv_name, item.getName());
             helper.setText(R.id.tv_content, item.getProduct().getProductDesc());
             CustomGridView gridView = helper.getView(R.id.image_list);
-            gridView.setAdapter(new DynamicImageAdapter(getActivity(), item.getProduct().getPictures()));
+            if(item.getProduct().getPictures() != null && item.getProduct().getPictures().size()>0){
+                gridView.setAdapter(new DynamicImageAdapter(getActivity(), item.getProduct().getPictures()));
+            }
             helper.setText(R.id.tv_time, item.getCreatedAt());
             //点击事件
             helper.addOnClickListener(R.id.bt_save);
