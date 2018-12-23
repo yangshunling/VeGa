@@ -163,6 +163,12 @@ public interface RetrofitAPI {
     Observable<RxMoudle<MyCollectProductsBean>> getMyCollectList(@QueryMap Map<String, String> params);
 
     /**
+     * 我的收藏列表取消收藏
+     */
+    @GET("collect/{id}/delete")
+    Observable<RxMoudle<Object>> deleteSaveProductState(@Path("id") String id);
+
+    /**
      * 关于vega
      */
     @GET("about/info")

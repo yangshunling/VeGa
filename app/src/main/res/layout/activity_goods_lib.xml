@@ -7,7 +7,7 @@
               android:animateLayoutChanges="true"
               android:orientation="vertical">
 
-    <include layout="@layout/include_search"/>
+    <include layout="@layout/include_search_product"/>
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/tablayout"

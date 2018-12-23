@@ -32,7 +32,7 @@
             android:clickable="true"
             android:focusable="false"
             android:gravity="center"
-            android:hint="@string/search_shop"
+            android:hint="@string/search_product"
             android:imeOptions="actionSearch"
             android:padding="5dp"
             android:textColorHint="@color/gray2"

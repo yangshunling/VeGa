@@ -9,4 +9,6 @@
     <string name="is_love">已关注</string>
     <string name="love">关注</string>
 
+    <string name="search_shop">搜索店铺</string>
+    <string name="search_product">搜索商品</string>
 </resources>

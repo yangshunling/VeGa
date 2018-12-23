@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/include_search"/>
+            <include layout="@layout/include_search_product"/>
 
             <include layout="@layout/include_line_small"/>
 

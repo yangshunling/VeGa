@@ -173,7 +173,7 @@ public class MyCollectActivity extends BaseActivity {
      * @param position 列表中所在位置
      */
     private void deleteMyCollect(int id, final int position) {
-        ServiceAPI.Retrofit().updateSaveProductState(id + "")
+        ServiceAPI.Retrofit().deleteSaveProductState(id + "")
                 .map(new RxResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

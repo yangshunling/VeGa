@@ -85,135 +85,13 @@
             android:textSize="15dp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/vip_bg"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/app_logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="66元·季度会员"
-            android:textColor="@color/white"
-            android:textSize="16dp" />
-
-        <com.came.viewbguilib.ButtonBgUi
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="3dp"
-            android:text="加入"
-            android:textColor="@color/black"
-            android:textSize="14dp"
-            app:defaultColor="@color/white"
-            app:isRipple="true"
-            app:pressedColor="@color/app_color"
-            app:raoundRadius="10dp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+    <android.support.v7.widget.RecyclerView
         android:layout_marginTop="10dp"
-        android:background="@drawable/vip_bg"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp">
-
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/app_logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="99元·半年会员"
-            android:textColor="@color/white"
-            android:textSize="16dp" />
-
-        <com.came.viewbguilib.ButtonBgUi
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="3dp"
-            android:text="加入"
-            android:textColor="@color/black"
-            android:textSize="14dp"
-            app:defaultColor="@color/white"
-            app:isRipple="true"
-            app:pressedColor="@color/app_color"
-            app:raoundRadius="10dp" />
-    </RelativeLayout>
-
-    <RelativeLayout
+        android:id="@+id/rv_vip_type"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/vip_bg"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/app_logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="188元·年度会员"
-            android:textColor="@color/white"
-            android:textSize="16dp" />
-
-        <com.came.viewbguilib.ButtonBgUi
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="3dp"
-            android:text="加入"
-            android:textColor="@color/black"
-            android:textSize="14dp"
-            app:defaultColor="@color/white"
-            app:isRipple="true"
-            app:pressedColor="@color/app_color"
-            app:raoundRadius="10dp" />
-    </RelativeLayout>
+    </android.support.v7.widget.RecyclerView>
 
     <include layout="@layout/include_line_small" />
 

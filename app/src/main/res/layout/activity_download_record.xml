@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/include_search"/>
+    <include layout="@layout/include_search_product"/>
 
     <com.jingwei.vega.refresh.SpringView
         android:id="@+id/spring"
