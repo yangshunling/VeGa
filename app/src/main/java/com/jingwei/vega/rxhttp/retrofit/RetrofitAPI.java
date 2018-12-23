@@ -1,6 +1,7 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
 import com.jingwei.vega.moudle.bean.BannerListBean;
+import com.jingwei.vega.moudle.bean.CategoryBannerBean;
 import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
 import com.jingwei.vega.moudle.bean.DownloadRecordBean;
@@ -82,6 +83,12 @@ public interface RetrofitAPI {
      */
     @GET("category/root_list")
     Observable<RxMoudle<CategoryByOneBean>> getCategoryByOne();
+
+    /**
+     * 商品分类轮播图
+     */
+    @GET("category/adv")
+    Observable<RxMoudle<CategoryBannerBean>> getCategoryBanner();
 
     /**
      * 商品二三级分类
