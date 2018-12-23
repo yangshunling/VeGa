@@ -88,6 +88,15 @@ public class GoodsLibAllFragment extends BaseFragment {
             }
         });
 
+        mMyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(),ShopProductDetailActivity.class);
+                intent.putExtra("id",mBeanList.get(position).getId()+"");
+                startActivity(intent);
+            }
+        });
+
         mIvArrowTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

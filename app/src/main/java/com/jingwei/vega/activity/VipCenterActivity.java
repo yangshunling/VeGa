@@ -67,8 +67,14 @@ public class VipCenterActivity extends BaseActivity {
         if(!TextUtils.isEmpty(userInfoBean.getHeadImg())){
             GlideUtil.setImage(VipCenterActivity.this, Constants.IMAGEHOST+userInfoBean.getHeadImg(),mUserIcon);
         }
-        mTvDateTitle.setText(userInfoBean.getMemberTag()+"：");
-        mTvDate.setText("至"+userInfoBean.getEndAt());
+        if(TextUtils.isEmpty(userInfoBean.getMemberTag()) || TextUtils.isEmpty(userInfoBean.getEndAt())){
+            //有一个为空时不显示
+            mTvDateTitle.setText("");
+            mTvDate.setText("");
+        }else {
+            mTvDateTitle.setText(userInfoBean.getMemberTag() + "：");
+            mTvDate.setText("至" + userInfoBean.getEndAt());
+        }
     }
 
     @Override
