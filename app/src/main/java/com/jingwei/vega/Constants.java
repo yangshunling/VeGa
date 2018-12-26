@@ -22,4 +22,8 @@ public class Constants {
     /******************************** 图片路径 **************************/
     public static String IMAGEPATH = Environment.getExternalStorageDirectory().getPath() + "/vega";
 
+
+    /******************************** 微信支付 **************************/
+    public static String WX_APPID = "wxd930ea5d5a258f4f";
+
 }

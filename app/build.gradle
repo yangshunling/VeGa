@@ -90,4 +90,5 @@ dependencies {
     implementation 'com.noober.background:core:1.3.4'//xml
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'//MD全能对话框
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'//图片选择器
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'//微信支付
 }

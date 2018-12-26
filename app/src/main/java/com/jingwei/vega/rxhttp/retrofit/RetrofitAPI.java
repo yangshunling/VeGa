@@ -19,6 +19,7 @@ import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.moudle.bean.VegaInfoBean;
 import com.jingwei.vega.moudle.bean.VipBean;
+import com.jingwei.vega.moudle.bean.WXPayInfoBean;
 import com.jingwei.vega.rxhttp.rxjava.RxMoudle;
 
 import java.util.List;
@@ -226,4 +227,11 @@ public interface RetrofitAPI {
      */
     @GET("download_history/detail/{id}")
     Observable<RxMoudle<DownloadRecordDetailBean>> getDownloadRecordDetail(@Path("id") String id);
+
+    /**
+     * 获取微信支付信息
+     */
+    @Multipart
+    @POST("download_history/detail/{id}")
+    Observable<RxMoudle<WXPayInfoBean>> getWXPayInfo(@PartMap Map<String, RequestBody> params);
 }
