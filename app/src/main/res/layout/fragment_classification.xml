@@ -17,16 +17,14 @@
 
         <ListView
             android:id="@+id/lv_left"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
             android:divider="@null"
             android:scrollbars="none"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="5"
             android:orientation="vertical">
 
             <ImageView

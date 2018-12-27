@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.GlideUtil;
+import com.jingwei.vega.utils.ListViewUtil;
 import com.jingwei.vega.view.CustomGridView;
 import com.jingwei.vega.view.GlideImageLoader;
 import com.youth.banner.Banner;
@@ -49,8 +51,6 @@ public class ClassificationFragment extends BaseFragment {
     RecyclerView mRvRight;
     @BindView(R.id.banner)
     ImageView mBanner;
-
-    private List<String> mBannerList = new ArrayList<>();
 
     private ClassificationListAdapter mLeftListAdapter;
     private List<CategoryByOneBean.ListBean> mLeftList = new ArrayList<>();
@@ -122,10 +122,11 @@ public class ClassificationFragment extends BaseFragment {
                     public void onNext(CategoryByOneBean bean) {
                         mLeftList = bean.getList();
                         if (mLeftList.size() != 0) {
-                            mLeftList.get(0).setTag(true);
-                            getCategoryByTwo(mLeftList.get(0).getId());
                             mLeftListAdapter = new ClassificationListAdapter(getActivity(), mLeftList);
                             mLvLeft.setAdapter(mLeftListAdapter);
+                            ListViewUtil.setListViewHeightBasedOnChildren(mLvLeft);
+                            mLeftList.get(0).setTag(true);
+                            getCategoryByTwo(mLeftList.get(0).getId());
                         }
                     }
                 });
@@ -159,7 +160,9 @@ public class ClassificationFragment extends BaseFragment {
         protected void convert(BaseViewHolder helper, final CategoryByTwoBean.ListBean item) {
             helper.setText(R.id.tv_title, item.getName());
             CustomGridView gridView = helper.getView(R.id.right_image_list);
-            gridView.setAdapter(new ClassificationImageAdapter(getActivity(), item.getSonList()));
+            if (item.getSonList()!=null){
+                gridView.setAdapter(new ClassificationImageAdapter(getActivity(), item.getSonList()));
+            }
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
