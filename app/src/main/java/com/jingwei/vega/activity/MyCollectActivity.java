@@ -140,7 +140,6 @@ public class MyCollectActivity extends BaseActivity {
                 getMyCollectList();
             }
         });
-
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -149,6 +148,15 @@ public class MyCollectActivity extends BaseActivity {
                         deleteMyCollect(mBeanList.get(position).getId(), position);
                         break;
                 }
+            }
+        });
+
+        mMyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(MyCollectActivity.this, ShopProductDetailActivity.class);
+                intent.putExtra("id", mBeanList.get(position).getProductId() + "");
+                startActivity(intent);
             }
         });
     }

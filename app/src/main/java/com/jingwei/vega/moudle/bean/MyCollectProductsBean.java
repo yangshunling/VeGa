@@ -230,6 +230,7 @@ public class MyCollectProductsBean {
             private String name;
             private String remark;
             private int id;
+            private int productId;
             private List<IconImageBean> iconImage;
 
             public int getPrice() {
@@ -262,6 +263,14 @@ public class MyCollectProductsBean {
 
             public void setId(int id) {
                 this.id = id;
+            }
+
+            public int getProductId() {
+                return productId;
+            }
+
+            public void setProductId(int productId) {
+                this.productId = productId;
             }
 
             public List<IconImageBean> getIconImage() {
