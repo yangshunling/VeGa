@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VeGa</string>
+    <string name="app_name">VeGar</string>
 
     <!--网络请求回调-->
     <string name="timeout">网络中断，请检查您的网络状态</string>
