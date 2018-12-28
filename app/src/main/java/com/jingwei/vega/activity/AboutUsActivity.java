@@ -41,7 +41,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void initTitleBar() {
-        getTitleBar().setLeftImage(R.drawable.icon_back).setTitleText("关于VeGa");
+        getTitleBar().setLeftImage(R.drawable.icon_back).setTitleText("关于VeGar");
     }
 
     @Override
