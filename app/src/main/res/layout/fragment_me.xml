@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:left_image="@drawable/icon_about"
-            app:title="关于VeGa"/>
+            app:title="关于VeGar"/>
 
         <include layout="@layout/include_line_small"/>
     </LinearLayout>

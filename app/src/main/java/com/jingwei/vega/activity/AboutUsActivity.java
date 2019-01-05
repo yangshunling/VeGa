@@ -70,7 +70,7 @@ public class AboutUsActivity extends BaseActivity {
         mTvIntroduceInfo.setText(mVegaInfoBean.getRemark());
 
         mTvVersion.setText(getVersion());
-        mTvVersionBottom.setText("VeGa "+getVersion());
+        mTvVersionBottom.setText(getResources().getString(R.string.app_name)+" "+getVersion());
     }
 
     public String getVersion() {

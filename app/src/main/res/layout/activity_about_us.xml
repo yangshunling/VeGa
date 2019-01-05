@@ -132,7 +132,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:maxEms="8"
-            android:text="VeGa 1.0"
+            android:text="VeGar 1.0"
             android:gravity="center"
             android:textColor="@color/line_color"/>
 
