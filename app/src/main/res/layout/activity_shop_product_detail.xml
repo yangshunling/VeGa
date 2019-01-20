@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -106,8 +108,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/include_line_big" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -133,12 +133,66 @@
 
                 <include layout="@layout/include_line_big" />
 
-                <ListView
-                    android:id="@+id/lv_product_detail"
+                <TextView
+                    android:id="@+id/tv_remark"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@null"
-                    android:scrollbars="none"></ListView>
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="12dp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_product_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_save"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:padding="2dp"
+                        android:text="一键存图"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        app:bl_shape = "rectangle"
+                        app:bl_gradient_angle = "0"
+                        app:bl_gradient_startColor = "#262626"
+                        app:bl_gradient_endColor = "#969696"
+                        app:bl_corners_topLeftRadius = "30dp"
+                        app:bl_corners_bottomLeftRadius = "30dp"
+                        />
+
+                    <Button
+                        android:id="@+id/bt_copy"
+                        android:layout_width="120dp"
+                        android:layout_height="match_parent"
+                        android:padding="2dp"
+                        android:text="文案复制"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="15dp"
+                        app:bl_shape = "rectangle"
+                        app:bl_gradient_angle = "0"
+                        app:bl_gradient_startColor = "#000000"
+                        app:bl_gradient_endColor = "#434242"
+                        app:bl_corners_topRightRadius = "30dp"
+                        app:bl_corners_bottomRightRadius = "30dp"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 

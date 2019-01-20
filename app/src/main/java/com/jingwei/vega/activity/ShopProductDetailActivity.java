@@ -1,25 +1,44 @@
 package com.jingwei.vega.activity;
 
+import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.ProductDetailAdapter;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
+import com.jingwei.vega.rxhttp.okhttp.DownloadUtil;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
+import com.jingwei.vega.utils.GlideUtil;
 import com.jingwei.vega.utils.ListViewUtil;
+import com.jingwei.vega.utils.TextUtil;
 import com.jingwei.vega.view.GlideImageLoader;
+import com.jingwei.vega.view.ProgressDialogUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +61,8 @@ public class ShopProductDetailActivity extends BaseActivity {
     @BindView(R.id.iv_left_finish)
     ImageView mIvLeftFinish;
 
-    @BindView(R.id.lv_product_detail)
-    ListView mListView;
+    @BindView(R.id.rv_product_detail)
+    RecyclerView mRecyclerView;
 
     @BindView(R.id.iv_iscollect)
     ImageView mIvIscollect;//收藏按钮
@@ -57,19 +76,48 @@ public class ShopProductDetailActivity extends BaseActivity {
     @BindView(R.id.tv_shop_name)
     TextView mTvShopName;//商铺名称
 
-    private String pid = "";
+    @BindView(R.id.tv_remark)
+    TextView mTvRemark;//商品介绍
 
-    private ProductDetailAdapter mProductDetailAdapter;
+    private String pid = "";
 
     private ShopProductDetailBean mShopProductDetailBean;
 
     //轮播图
     private List<String> bannerPics = new ArrayList<>();
 
-    //商品详情土
+    //商品详情图
     private List<String> productDetailPics = new ArrayList<>();
 
+    private ShopProductDetailAdapter mShopProductDetailAdapter;
+
     private DecimalFormat df = new DecimalFormat("0.0");
+
+    private ProgressDialog mBar;
+    private int mImgCount = 0;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    mBar.setMessage("正在保存：第 " + msg.obj + "/" + productDetailPics.size() + " 张");
+                    break;
+                case 1:
+                    mBar.setMessage("正在保存：第 0/" + productDetailPics.size() + " 张");
+                    mBar.dismiss();
+                    showToast("图片保存成功");
+                    mImgCount = 0;
+                    break;
+                case 2:
+                    mBar.dismiss();
+                    showToast("图片保存失败");
+                    mImgCount = 0;
+                    break;
+            }
+        }
+    };
 
     @Override
     public int getContentView() {
@@ -89,6 +137,13 @@ public class ShopProductDetailActivity extends BaseActivity {
         mBanner.requestFocus();
         mBanner.setFocusableInTouchMode(true);
         pid = getIntent().getStringExtra("id");
+
+        mShopProductDetailAdapter = new ShopProductDetailAdapter(R.layout.item_product_detail_image, productDetailPics);
+        mShopProductDetailAdapter.setEmptyView(getEmptyView());
+        mRecyclerView.setAdapter(mShopProductDetailAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(ShopProductDetailActivity.this, 3));
+
+        mBar = ProgressDialogUtil.creatProgressBarDialog(ShopProductDetailActivity.this);
     }
 
     @Override
@@ -118,7 +173,8 @@ public class ShopProductDetailActivity extends BaseActivity {
 
                         initBanner();
 
-                        initListView();
+                        //刷新显示
+                        mShopProductDetailAdapter.replaceData(productDetailPics);
                     }
                 });
     }
@@ -137,6 +193,9 @@ public class ShopProductDetailActivity extends BaseActivity {
 
         //商铺名称
         mTvShopName.setText(mShopProductDetailBean.getDetail().getSupplierName());
+
+        //商品介绍
+        mTvRemark.setText(mShopProductDetailBean.getDetail().getRemark());
     }
 
     private void initBanner() {
@@ -158,13 +217,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         mBanner.start();
     }
 
-    private void initListView() {
-        mProductDetailAdapter = new ProductDetailAdapter(ShopProductDetailActivity.this, productDetailPics);
-        mListView.setAdapter(mProductDetailAdapter);
-        ListViewUtil.setListViewHeightBasedOnChildren(mListView);
-    }
-
-    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect})
+    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect,R.id.bt_save,R.id.bt_copy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left_finish:
@@ -174,8 +227,76 @@ public class ShopProductDetailActivity extends BaseActivity {
             case R.id.iv_iscollect://更改当前收藏状态
                 updateSaveProductState();
                 break;
+
+            case R.id.bt_save://存图
+                //下载
+                ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
+                        .addBody("productId", mShopProductDetailBean.getDetail().getId() + "")
+                        .bulidBody())
+                        .map(new RxResultFunc<Object>())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new RxSubscriber<Object>(ShopProductDetailActivity.this) {
+                            @Override
+                            public void onNext(Object bean) {
+
+                            }
+                        });
+                //存图
+                if (productDetailPics != null && productDetailPics.size() != 0) {
+                    mBar.setMessage("正在保存：第 0/" + productDetailPics.size() + " 张");
+                    mBar.show();
+                    for (int i = 0; i < productDetailPics.size(); i++) {
+                        downloadImage(i);
+                    }
+                }
+
+                break;
+
+            case R.id.bt_copy://文案复制
+                ClipboardManager cm = (ClipboardManager) ShopProductDetailActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", mShopProductDetailBean.getDetail().getRemark());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                showToast("复制成功");
+                break;
         }
     }
+
+    private void downloadImage(int index) {
+
+        String fileUrl = productDetailPics.get(index);
+        String filePath = Constants.IMAGEPATH;
+        String fileName = System.currentTimeMillis() + ".jpg";
+
+        DownloadUtil.get().download(fileUrl, filePath, fileName, new DownloadUtil.OnDownloadListener() {
+            @Override
+            public void onDownloadSuccess(File file) {
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri uri = Uri.fromFile(file);
+                intent.setData(uri);
+                ShopProductDetailActivity.this.sendBroadcast(intent);
+                //计数
+                mImgCount++;
+                mHandler.sendMessage(mHandler.obtainMessage(0, mImgCount));
+                if (mImgCount == productDetailPics.size()) {
+                    mHandler.sendMessage(mHandler.obtainMessage(1, "图片保存成功"));
+                }
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+                Log.v("TAG", "进度：" + progress);
+            }
+
+            @Override
+            public void onDownloadFailed(Exception e) {
+                mHandler.sendMessage(mHandler.obtainMessage(2, "下载失败：" + e.getMessage()));
+            }
+        });
+    }
+
 
     private void updateSaveProductState() {
         ServiceAPI.Retrofit().updateSaveProductState(mShopProductDetailBean.getDetail().getId() + "")
@@ -190,5 +311,18 @@ public class ShopProductDetailActivity extends BaseActivity {
                                 getResources().getDrawable(R.drawable.icon_iscollect):getResources().getDrawable(R.drawable.icon_uncollect));
                     }
                 });
+    }
+
+    //商铺详情图片展示
+    public class ShopProductDetailAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+
+        public ShopProductDetailAdapter(int layoutResId, List data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+            GlideUtil.setImage(ShopProductDetailActivity.this,item, (ImageView) helper.getView(R.id.iv_product_detail_image));
+        }
     }
 }
