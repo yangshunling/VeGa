@@ -220,6 +220,7 @@ public class DynamicBean {
              * headImg : admin/c251639f34ba40e1865a979729a2c7d8.png
              * name : 机汇网
              * id : 1
+             * price:123
              */
 
             private String createdAt;
@@ -227,6 +228,7 @@ public class DynamicBean {
             private String headImg;
             private String name;
             private int id;
+            private String price;
 
             public String getCreatedAt() {
                 return createdAt;
@@ -266,6 +268,14 @@ public class DynamicBean {
 
             public void setId(int id) {
                 this.id = id;
+            }
+
+            public String getPrice() {
+                return price;
+            }
+
+            public void setPrice(String price) {
+                this.price = price;
             }
 
             public static class ProductBean {

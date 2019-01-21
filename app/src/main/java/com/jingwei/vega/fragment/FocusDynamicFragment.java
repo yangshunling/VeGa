@@ -19,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.ShopActivity;
 import com.jingwei.vega.adapter.DynamicImageAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.FocusSearchMsgEvent;
@@ -40,6 +41,7 @@ import com.jingwei.vega.view.ProgressDialogUtil;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -165,6 +167,18 @@ public class FocusDynamicFragment extends BaseFragment {
                         cm.setPrimaryClip(mClipData);
                         showToast("复制成功");
                         break;
+
+                    case R.id.iv_image:
+                        Intent intent = new Intent(getActivity(),ShopActivity.class);
+                        intent.putExtra("shopId",mBeanList.get(position).getId());
+                        startActivity(intent);
+                        break;
+
+                    case R.id.tv_name:
+                        Intent intent1 = new Intent(getActivity(),ShopActivity.class);
+                        intent1.putExtra("shopId",mBeanList.get(position).getId());
+                        startActivity(intent1);
+                        break;
                 }
             }
         });
@@ -269,9 +283,14 @@ public class FocusDynamicFragment extends BaseFragment {
                 gridView.setAdapter(new DynamicImageAdapter(getActivity(), item.getProduct().getPictures()));
             }
             helper.setText(R.id.tv_time, item.getCreatedAt());
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            helper.setText(R.id.tv_price,"￥"+df.format(Integer.parseInt(item.getPrice())));
             //点击事件
             helper.addOnClickListener(R.id.bt_save);
             helper.addOnClickListener(R.id.bt_copy);
+            helper.addOnClickListener(R.id.iv_image);
+            helper.addOnClickListener(R.id.tv_name);
         }
     }
 

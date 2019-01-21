@@ -223,6 +223,7 @@ public class DownloadRecordBean {
              * mainProducts : 网站
              * mainPic : {"path":"admin/2018-12/559e19e44e7246c286d312483c491169.jpg","type":"MAIN_PIC","createdAt":null}
              * id : 9
+             * shopId:1
              * productName : 满2件包邮Netty进阶之路 跟着案例学Netty
              */
 
@@ -230,6 +231,7 @@ public class DownloadRecordBean {
             private String mainProducts;
             private MainPicBean mainPic;
             private int id;
+            private int shopId;
             private String productName;
 
             public String getSupplierName() {
@@ -262,6 +264,14 @@ public class DownloadRecordBean {
 
             public void setId(int id) {
                 this.id = id;
+            }
+
+            public int getShopId() {
+                return shopId;
+            }
+
+            public void setShopId(int shopId) {
+                this.shopId = shopId;
             }
 
             public String getProductName() {

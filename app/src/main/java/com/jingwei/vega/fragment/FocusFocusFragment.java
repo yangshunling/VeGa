@@ -91,9 +91,25 @@ public class FocusFocusFragment extends BaseFragment {
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
-                intent.putExtra("shopId", mBeanList.get(position).getId());
-                startActivity(intent);
+                switch (view.getId()){
+                    case R.id.bt_save:
+                        Intent intent = new Intent(getActivity(), ShopActivity.class);
+                        intent.putExtra("shopId", mBeanList.get(position).getId());
+                        startActivity(intent);
+                        break;
+
+                    case R.id.iv_image:
+                        Intent intent1 = new Intent(getActivity(),ShopActivity.class);
+                        intent1.putExtra("shopId",mBeanList.get(position).getId());
+                        startActivity(intent1);
+                        break;
+
+                    case R.id.tv_name:
+                        Intent intent2 = new Intent(getActivity(),ShopActivity.class);
+                        intent2.putExtra("shopId",mBeanList.get(position).getId());
+                        startActivity(intent2);
+                        break;
+                }
             }
         });
     }
@@ -162,6 +178,8 @@ public class FocusFocusFragment extends BaseFragment {
             helper.setText(R.id.tv_dian, item.getProductNumber() + "");
             helper.setText(R.id.tv_project, item.getMainProducts());
             helper.addOnClickListener(R.id.bt_save);
+            helper.addOnClickListener(R.id.iv_image);
+            helper.addOnClickListener(R.id.tv_name);
         }
     }
 

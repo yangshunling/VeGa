@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -72,6 +73,9 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_product_price)
     TextView mTvProductPrice;//商品价格
+
+    @BindView(R.id.iv_shop_icon)
+    ImageView mIvShopIcon;//商品图标
 
     @BindView(R.id.tv_shop_name)
     TextView mTvShopName;//商铺名称
@@ -217,7 +221,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         mBanner.start();
     }
 
-    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect,R.id.bt_save,R.id.bt_copy})
+    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect,R.id.bt_save,R.id.bt_copy,R.id.iv_shop_icon,R.id.tv_shop_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left_finish:
@@ -260,6 +264,14 @@ public class ShopProductDetailActivity extends BaseActivity {
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
                 showToast("复制成功");
+                break;
+
+            case R.id.iv_shop_icon:
+                finish();
+                break;
+
+            case R.id.tv_shop_name:
+                finish();
                 break;
         }
     }

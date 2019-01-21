@@ -147,6 +147,19 @@ public class DownloadRecordActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_shop:
+                        Intent intent = new Intent(DownloadRecordActivity.this,ShopActivity.class);
+                        intent.putExtra("shopId",mBeanList.get(position).getShopId());
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -173,6 +186,9 @@ public class DownloadRecordActivity extends BaseActivity {
             helper.setText(R.id.tv_name, item.getProductName());
             helper.setText(R.id.tv_shop, item.getSupplierName());
             helper.setText(R.id.tv_type, item.getMainProducts());
+
+            //增加点击事件
+            helper.addOnClickListener(R.id.ll_shop);
         }
     }
 }
