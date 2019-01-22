@@ -171,7 +171,6 @@ public class ShopProductDetailActivity extends BaseActivity {
                                 productDetailPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getPicturesList().get(i).getPath());
                             }
                         }
-
                         updateView();
 
                         initBanner();
