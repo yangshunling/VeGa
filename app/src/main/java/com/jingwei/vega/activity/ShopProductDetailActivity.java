@@ -68,9 +68,6 @@ public class ShopProductDetailActivity extends BaseActivity {
     @BindView(R.id.iv_iscollect)
     ImageView mIvIscollect;//收藏按钮
 
-    @BindView(R.id.tv_product_name)
-    TextView mTvProductName;//商品名称
-
     @BindView(R.id.tv_product_price)
     TextView mTvProductPrice;//商品价格
 
@@ -79,6 +76,9 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_shop_name)
     TextView mTvShopName;//商铺名称
+
+    @BindView(R.id.iv_image)
+    ImageView mIvImage;//店铺图标
 
     @BindView(R.id.tv_remark)
     TextView mTvRemark;//商品介绍
@@ -162,9 +162,8 @@ public class ShopProductDetailActivity extends BaseActivity {
                         mShopProductDetailBean = bean;
 
                         if (mShopProductDetailBean.getDetail().getIconImageList().size() > 0) {
-                            for (int i = 0; i < mShopProductDetailBean.getDetail().getIconImageList().size(); i++) {
-                                bannerPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getIconImageList().get(i).getPath());
-                            }
+                            //只显示一张
+                            bannerPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getIconImageList().get(0).getPath());
                         }
 
                         if(mShopProductDetailBean.getDetail().getPicturesList().size()>0){
@@ -189,14 +188,15 @@ public class ShopProductDetailActivity extends BaseActivity {
         mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect()?
                 getResources().getDrawable(R.drawable.icon_iscollect):getResources().getDrawable(R.drawable.icon_uncollect));
 
-        //商品名称
-        mTvProductName.setText(mShopProductDetailBean.getDetail().getName());
-
         //商品价格
         mTvProductPrice.setText("￥"+df.format(mShopProductDetailBean.getDetail().getPrice()));
 
         //商铺名称
         mTvShopName.setText(mShopProductDetailBean.getDetail().getSupplierName());
+
+        //店铺图标
+        GlideUtil.setCircleImage(ShopProductDetailActivity.this,
+                Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getSupplierLogo(),mIvImage);
 
         //商品介绍
         mTvRemark.setText(mShopProductDetailBean.getDetail().getRemark());
@@ -204,7 +204,8 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     private void initBanner() {
         //设置banner样式
-        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
+//        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
+        mBanner.setBannerStyle(BannerConfig.CENTER);
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         //设置图片集合
@@ -221,7 +222,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         mBanner.start();
     }
 
-    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect,R.id.bt_save,R.id.bt_copy,R.id.iv_shop_icon,R.id.tv_shop_name})
+    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect,R.id.bt_save,R.id.bt_copy,R.id.iv_shop_icon,R.id.tv_shop_name,R.id.iv_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left_finish:
@@ -271,6 +272,10 @@ public class ShopProductDetailActivity extends BaseActivity {
                 break;
 
             case R.id.tv_shop_name:
+                finish();
+                break;
+
+            case R.id.iv_image:
                 finish();
                 break;
         }

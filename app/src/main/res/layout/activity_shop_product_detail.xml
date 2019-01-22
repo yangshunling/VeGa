@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="MissingPrefix"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="180dp">
+                    android:layout_height="150dp">
 
                     <com.youth.banner.Banner
                         android:id="@+id/banner"
@@ -50,27 +50,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp">
 
-                    <TextView
-                        android:id="@+id/tv_product_name"
-                        android:layout_width="0dp"
-                        android:layout_weight="5"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:lines="2"
-                        android:text="格纹羊毛外套2018新款秋冬女"
-                        android:textColor="@color/gray3"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
-
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="2"
                         android:layout_height="wrap_content"
-                        android:gravity="left"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
@@ -84,52 +72,59 @@
                             android:textStyle="bold" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp">
 
                             <ImageView
-                                android:id="@+id/iv_shop_icon"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:src="@drawable/icon_shop" />
+                                android:src="@drawable/icon_choose" />
 
                             <TextView
-                                android:id="@+id/tv_shop_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:autoLink="all"
-                                android:text="咕咕品牌店"
-                                android:textColor="@color/black"
+                                android:text="服务：可换其他款"
+                                android:textColor="@color/gray3"
                                 android:textSize="12dp" />
                         </LinearLayout>
+
                     </LinearLayout>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@drawable/icon_choose" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="服务：可换其他款"
-                        android:textColor="@color/gray3"
-                        android:textSize="12dp" />
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_shop_icon"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/icon_shop" />
+
+                        <TextView
+                            android:id="@+id/tv_shop_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:autoLink="all"
+                            android:text="咕咕品牌店"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+                        <ImageView
+                            android:id="@+id/iv_image"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="5dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/app_logo" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <include layout="@layout/include_line_big" />
@@ -138,25 +133,23 @@
                     android:id="@+id/tv_remark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="12dp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="12dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_product_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="30dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="right"
                     android:orientation="horizontal">
 
@@ -167,15 +160,14 @@
                         android:padding="2dp"
                         android:text="一键存图"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
                         android:textSize="15dp"
-                        app:bl_shape = "rectangle"
-                        app:bl_gradient_angle = "0"
-                        app:bl_gradient_startColor = "#262626"
-                        app:bl_gradient_endColor = "#969696"
-                        app:bl_corners_topLeftRadius = "30dp"
-                        app:bl_corners_bottomLeftRadius = "30dp"
-                        />
+                        android:textStyle="bold"
+                        app:bl_corners_bottomLeftRadius="30dp"
+                        app:bl_corners_topLeftRadius="30dp"
+                        app:bl_gradient_angle="0"
+                        app:bl_gradient_endColor="#969696"
+                        app:bl_gradient_startColor="#262626"
+                        app:bl_shape="rectangle" />
 
                     <Button
                         android:id="@+id/bt_copy"
@@ -184,15 +176,14 @@
                         android:padding="2dp"
                         android:text="文案复制"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
                         android:textSize="15dp"
-                        app:bl_shape = "rectangle"
-                        app:bl_gradient_angle = "0"
-                        app:bl_gradient_startColor = "#000000"
-                        app:bl_gradient_endColor = "#434242"
-                        app:bl_corners_topRightRadius = "30dp"
-                        app:bl_corners_bottomRightRadius = "30dp"
-                        />
+                        android:textStyle="bold"
+                        app:bl_corners_bottomRightRadius="30dp"
+                        app:bl_corners_topRightRadius="30dp"
+                        app:bl_gradient_angle="0"
+                        app:bl_gradient_endColor="#434242"
+                        app:bl_gradient_startColor="#000000"
+                        app:bl_shape="rectangle" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

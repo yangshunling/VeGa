@@ -228,7 +228,6 @@ public class DynamicBean {
             private String headImg;
             private String name;
             private int id;
-            private String price;
 
             public String getCreatedAt() {
                 return createdAt;
@@ -270,14 +269,6 @@ public class DynamicBean {
                 this.id = id;
             }
 
-            public String getPrice() {
-                return price;
-            }
-
-            public void setPrice(String price) {
-                this.price = price;
-            }
-
             public static class ProductBean {
                 /**
                  * productDesc : Netty是Java高性能网络编程的明星框架  在阿里等互联网公司Netty是程序员必须掌握的基础组件  现有Netty图书多是讲解其实现及原理的，缺少对实际应用的指导  在实际使用中遇到Netty故障，需要花大量实践摸索、试验解决  本书作者经过多年的积累，将遇到的问题进行分门别类的讲解
@@ -285,12 +276,14 @@ public class DynamicBean {
                  * pdesc : Netty是Java高性能网络编程的明星框架  在阿里等互联网公司Netty是程序员必须掌握的基础组件  现有Netty图书多是讲解其实现及原理的，缺少对实际应用的指导  在实际使用中遇到Netty故障，需要花大量实践摸索、试验解决  本书作者经过多年的积累，将遇到的问题进行分门别类的讲解
                  * pictures : [{"path":"admin/2018-12/f8b7a909ac5b47189ca34e98524d5c7e.jpg","type":"MAIN_PIC","createdAt":null}]
                  * productName : 满2件包邮Netty进阶之路 跟着案例学Netty
+                 * price:1
                  */
 
                 private String productDesc;
                 private int productId;
                 private String pdesc;
                 private String productName;
+                private int price;
                 private List<PicturesBean> pictures;
 
                 public String getProductDesc() {
@@ -323,6 +316,14 @@ public class DynamicBean {
 
                 public void setProductName(String productName) {
                     this.productName = productName;
+                }
+
+                public int getPrice() {
+                    return price;
+                }
+
+                public void setPrice(int price) {
+                    this.price = price;
                 }
 
                 public List<PicturesBean> getPictures() {

@@ -275,7 +275,7 @@ public class FocusDynamicFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, DynamicBean.PageListBean.ListBean item) {
-            GlideUtil.setImage(getActivity(), item.getHeadImg(), (ImageView) helper.getView(R.id.iv_image));
+            GlideUtil.setImage(getActivity(), Constants.IMAGEHOST+item.getHeadImg(), (ImageView) helper.getView(R.id.iv_image));
             helper.setText(R.id.tv_name, item.getName());
             helper.setText(R.id.tv_content, item.getProduct().getProductDesc());
             CustomGridView gridView = helper.getView(R.id.image_list);
@@ -285,7 +285,7 @@ public class FocusDynamicFragment extends BaseFragment {
             helper.setText(R.id.tv_time, item.getCreatedAt());
 
             DecimalFormat df = new DecimalFormat("0.00");
-            helper.setText(R.id.tv_price,"￥"+df.format(Integer.parseInt(item.getPrice())));
+            helper.setText(R.id.tv_price,"￥"+df.format(item.getProduct().getPrice()));
             //点击事件
             helper.addOnClickListener(R.id.bt_save);
             helper.addOnClickListener(R.id.bt_copy);
