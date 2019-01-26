@@ -267,17 +267,24 @@ public class ShopProductDetailActivity extends BaseActivity {
                 break;
 
             case R.id.iv_shop_icon:
-                finish();
+                showShop();
                 break;
 
             case R.id.tv_shop_name:
-                finish();
+                showShop();
                 break;
 
             case R.id.iv_image:
-                finish();
+                showShop();
                 break;
         }
+    }
+
+    //跳转店铺页面
+    private void showShop() {
+        Intent intent = new Intent(ShopProductDetailActivity.this,ShopActivity.class);
+        intent.putExtra("shopId",mShopProductDetailBean.getDetail().getSupplierId());
+        startActivity(intent);
     }
 
     private void downloadImage(int index) {

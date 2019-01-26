@@ -38,6 +38,7 @@ public class ShopProductDetailBean {
 
         private String supplierName;
         private String supplierLogo;
+        private int supplierId;
         private String name;
         private String pdesc;
         private boolean isCollect;
@@ -65,6 +66,14 @@ public class ShopProductDetailBean {
 
         public void setSupplierLogo(String supplierLogo) {
             this.supplierLogo = supplierLogo;
+        }
+
+        public int getSupplierId() {
+            return supplierId;
+        }
+
+        public void setSupplierId(int supplierId) {
+            this.supplierId = supplierId;
         }
 
         public void setName(String name) {

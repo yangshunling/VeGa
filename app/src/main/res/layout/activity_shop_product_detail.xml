@@ -143,59 +143,59 @@
                     android:id="@+id/rv_product_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="30dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/bt_save"
-                        android:layout_width="120dp"
-                        android:layout_height="match_parent"
-                        android:padding="2dp"
-                        android:text="一键存图"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        app:bl_corners_bottomLeftRadius="30dp"
-                        app:bl_corners_topLeftRadius="30dp"
-                        app:bl_gradient_angle="0"
-                        app:bl_gradient_endColor="#969696"
-                        app:bl_gradient_startColor="#262626"
-                        app:bl_shape="rectangle" />
-
-                    <Button
-                        android:id="@+id/bt_copy"
-                        android:layout_width="120dp"
-                        android:layout_height="match_parent"
-                        android:padding="2dp"
-                        android:text="文案复制"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        app:bl_corners_bottomRightRadius="30dp"
-                        app:bl_corners_topRightRadius="30dp"
-                        app:bl_gradient_angle="0"
-                        app:bl_gradient_endColor="#434242"
-                        app:bl_gradient_startColor="#000000"
-                        app:bl_shape="rectangle" />
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
-        <ImageView
-            android:id="@+id/iv_iscollect"
-            android:layout_width="40dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="40dp"
-            android:layout_marginLeft="40dp"
-            android:background="@drawable/icon_iscollect" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentBottom="true">
+
+            <ImageView
+                android:id="@+id/iv_iscollect"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/icon_iscollect" />
+
+            <Button
+                android:id="@+id/bt_save"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:text="一键存图"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:bl_corners_bottomLeftRadius="30dp"
+                app:bl_corners_topLeftRadius="30dp"
+                app:bl_gradient_angle="0"
+                app:bl_gradient_endColor="#969696"
+                app:bl_gradient_startColor="#262626"
+                android:layout_toLeftOf="@+id/bt_copy"
+                app:bl_shape="rectangle" />
+
+            <Button
+                android:id="@+id/bt_copy"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:padding="2dp"
+                android:text="文案复制"
+                android:textColor="@color/white"
+                android:layout_alignParentRight="true"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:bl_corners_bottomRightRadius="30dp"
+                app:bl_corners_topRightRadius="30dp"
+                app:bl_gradient_angle="0"
+                app:bl_gradient_endColor="#434242"
+                app:bl_gradient_startColor="#000000"
+                app:bl_shape="rectangle" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>
