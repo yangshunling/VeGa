@@ -39,6 +39,7 @@ public class ShopProductDetailBean {
         private String supplierName;
         private String supplierLogo;
         private int supplierId;
+        private String serialNo;//商品编码
         private String name;
         private String pdesc;
         private boolean isCollect;
@@ -74,6 +75,14 @@ public class ShopProductDetailBean {
 
         public void setSupplierId(int supplierId) {
             this.supplierId = supplierId;
+        }
+
+        public String getSerialNo() {
+            return serialNo;
+        }
+
+        public void setSerialNo(String serialNo) {
+            this.serialNo = serialNo;
         }
 
         public void setName(String name) {

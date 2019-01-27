@@ -80,6 +80,9 @@ public class ShopProductDetailActivity extends BaseActivity {
     @BindView(R.id.iv_image)
     ImageView mIvImage;//店铺图标
 
+    @BindView(R.id.tv_serial_no)
+    TextView mTvSerialNo;//商品编码
+
     @BindView(R.id.tv_remark)
     TextView mTvRemark;//商品介绍
 
@@ -196,6 +199,9 @@ public class ShopProductDetailActivity extends BaseActivity {
         //店铺图标
         GlideUtil.setCircleImage(ShopProductDetailActivity.this,
                 Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getSupplierLogo(),mIvImage);
+
+        //商品编码
+        mTvSerialNo.setText("商品编码："+mShopProductDetailBean.getDetail().getSerialNo());
 
         //商品介绍
         mTvRemark.setText(mShopProductDetailBean.getDetail().getRemark());
