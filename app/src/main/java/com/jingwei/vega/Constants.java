@@ -5,7 +5,7 @@ import android.os.Environment;
 public class Constants {
 
     /******************************** HOST **************************/
-    public static String HOST = "https://game.lkfcni.cn/api/";//服务器host
+    public static String HOST = "https://api.vegarhome.com/api/";//服务器host
     public static String IMAGEHOST = "https://image.lkfcni.cn/";//图片host
 
     /******************************** 搜索条件 **************************/
@@ -20,7 +20,7 @@ public class Constants {
 
 
     /******************************** 图片路径 **************************/
-    public static String IMAGEPATH = Environment.getExternalStorageDirectory().getPath() + "/vega";
+    public static String IMAGEPATH = Environment.getExternalStorageDirectory().getPath() + "/vegar";
 
 
     /******************************** 微信支付 **************************/
