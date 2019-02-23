@@ -277,7 +277,7 @@ public class ShopActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_change_price,R.id.bt_save,R.id.bt_cancel})
+    @OnClick({R.id.iv_change_price,R.id.bt_save,R.id.bt_cancel,R.id.iv_left_finish})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_change_price:
@@ -303,6 +303,10 @@ public class ShopActivity extends BaseActivity {
 
             case R.id.bt_cancel://当前是关注状态，点击进行取消关注
                 updateLoveShopState();
+                break;
+
+            case R.id.iv_left_finish:
+                finish();
                 break;
         }
     }
