@@ -26,6 +26,7 @@ import com.jingwei.vega.moudle.FocusSearchMsgEvent;
 import com.jingwei.vega.moudle.LibSearchMsgEvent;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.DynamicBean;
+import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
@@ -133,31 +134,45 @@ public class FocusDynamicFragment extends BaseFragment {
 
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
                 switch (view.getId()) {
                     case R.id.bt_save:
-                        //下载
-                        ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
-                                .addBody("productId", mBeanList.get(position).getId() + "")
-                                .bulidBody())
-                                .map(new RxResultFunc<Object>())
+                        //先获取当前用户是否是会员
+                        ServiceAPI.Retrofit().getUserInfo()
+                                .map(new RxResultFunc<UserInfoBean>())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new RxSubscriber<Object>(getActivity()) {
+                                .subscribe(new RxSubscriber<UserInfoBean>(getActivity()) {
                                     @Override
-                                    public void onNext(Object bean) {
+                                    public void onNext(UserInfoBean bean) {
+                                        if (bean.isIsMember()) {
+                                            //下载
+                                            ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
+                                                    .addBody("productId", mBeanList.get(position).getId() + "")
+                                                    .bulidBody())
+                                                    .map(new RxResultFunc<Object>())
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(new RxSubscriber<Object>(getActivity()) {
+                                                        @Override
+                                                        public void onNext(Object bean) {
 
+                                                        }
+                                                    });
+                                            //存图
+                                            imgList = mBeanList.get(position).getProduct().getPictures();
+                                            if (imgList != null && imgList.size() != 0) {
+                                                mBar.setMessage("正在保存：第 0/" + imgList.size() + " 张");
+                                                mBar.show();
+                                                for (int i = 0; i < imgList.size(); i++) {
+                                                    downloadImage(i);
+                                                }
+                                            }
+                                        } else {
+                                            showToast("非会员无法下载");
+                                        }
                                     }
                                 });
-                        //存图
-                        imgList = mBeanList.get(position).getProduct().getPictures();
-                        if (imgList != null && imgList.size() != 0) {
-                            mBar.setMessage("正在保存：第 0/" + imgList.size() + " 张");
-                            mBar.show();
-                            for (int i = 0; i < imgList.size(); i++) {
-                                downloadImage(i);
-                            }
-                        }
                         break;
                     case R.id.bt_copy:
                         ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -169,14 +184,14 @@ public class FocusDynamicFragment extends BaseFragment {
                         break;
 
                     case R.id.iv_image:
-                        Intent intent = new Intent(getActivity(),ShopActivity.class);
-                        intent.putExtra("shopId",mBeanList.get(position).getId());
+                        Intent intent = new Intent(getActivity(), ShopActivity.class);
+                        intent.putExtra("shopId", mBeanList.get(position).getId());
                         startActivity(intent);
                         break;
 
                     case R.id.tv_name:
-                        Intent intent1 = new Intent(getActivity(),ShopActivity.class);
-                        intent1.putExtra("shopId",mBeanList.get(position).getId());
+                        Intent intent1 = new Intent(getActivity(), ShopActivity.class);
+                        intent1.putExtra("shopId", mBeanList.get(position).getId());
                         startActivity(intent1);
                         break;
                 }
@@ -275,17 +290,17 @@ public class FocusDynamicFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, DynamicBean.PageListBean.ListBean item) {
-            GlideUtil.setImage(getActivity(), Constants.IMAGEHOST+item.getHeadImg(), (ImageView) helper.getView(R.id.iv_image));
+            GlideUtil.setImage(getActivity(), Constants.IMAGEHOST + item.getHeadImg(), (ImageView) helper.getView(R.id.iv_image));
             helper.setText(R.id.tv_name, item.getName());
             helper.setText(R.id.tv_content, item.getProduct().getProductDesc());
             CustomGridView gridView = helper.getView(R.id.image_list);
-            if(item.getProduct().getPictures() != null && item.getProduct().getPictures().size()>0){
+            if (item.getProduct().getPictures() != null && item.getProduct().getPictures().size() > 0) {
                 gridView.setAdapter(new DynamicImageAdapter(getActivity(), item.getProduct().getPictures()));
             }
             helper.setText(R.id.tv_time, item.getCreatedAt());
 
             DecimalFormat df = new DecimalFormat("0.00");
-            helper.setText(R.id.tv_price,"￥"+df.format(item.getProduct().getPrice()));
+            helper.setText(R.id.tv_price, "￥" + df.format(item.getProduct().getPrice()));
             //点击事件
             helper.addOnClickListener(R.id.bt_save);
             helper.addOnClickListener(R.id.bt_copy);

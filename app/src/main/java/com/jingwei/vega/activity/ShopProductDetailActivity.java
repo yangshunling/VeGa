@@ -25,6 +25,7 @@ import com.jingwei.vega.adapter.ProductDetailAdapter;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
+import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.rxhttp.okhttp.DownloadUtil;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
@@ -239,28 +240,41 @@ public class ShopProductDetailActivity extends BaseActivity {
                 break;
 
             case R.id.bt_save://存图
-                //下载
-                ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
-                        .addBody("productId", mShopProductDetailBean.getDetail().getId() + "")
-                        .bulidBody())
-                        .map(new RxResultFunc<Object>())
+                //先获取当前用户是否是会员
+                ServiceAPI.Retrofit().getUserInfo()
+                        .map(new RxResultFunc<UserInfoBean>())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new RxSubscriber<Object>(ShopProductDetailActivity.this) {
+                        .subscribe(new RxSubscriber<UserInfoBean>(ShopProductDetailActivity.this) {
                             @Override
-                            public void onNext(Object bean) {
+                            public void onNext(UserInfoBean bean) {
+                                if(bean.isIsMember()){
+                                    //下载
+                                    ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
+                                            .addBody("productId", mShopProductDetailBean.getDetail().getId() + "")
+                                            .bulidBody())
+                                            .map(new RxResultFunc<Object>())
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(new RxSubscriber<Object>(ShopProductDetailActivity.this) {
+                                                @Override
+                                                public void onNext(Object bean) {
 
+                                                }
+                                            });
+                                    //存图
+                                    if (productDetailPics != null && productDetailPics.size() != 0) {
+                                        mBar.setMessage("正在保存：第 0/" + productDetailPics.size() + " 张");
+                                        mBar.show();
+                                        for (int i = 0; i < productDetailPics.size(); i++) {
+                                            downloadImage(i);
+                                        }
+                                    }
+                                }else{
+                                    showToast("非会员无法下载");
+                                }
                             }
                         });
-                //存图
-                if (productDetailPics != null && productDetailPics.size() != 0) {
-                    mBar.setMessage("正在保存：第 0/" + productDetailPics.size() + " 张");
-                    mBar.show();
-                    for (int i = 0; i < productDetailPics.size(); i++) {
-                        downloadImage(i);
-                    }
-                }
-
                 break;
 
             case R.id.bt_copy://文案复制
