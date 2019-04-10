@@ -9,13 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
-import com.jingwei.vega.moudle.bean.ClassificationRightBean;
-import com.jingwei.vega.utils.GlideUtil;
-import com.jingwei.vega.view.GlideApp;
 
 import java.util.List;
 
@@ -64,10 +62,8 @@ public class ClassificationImageAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        GlideApp.with(context)
+        Glide.with(context)
                 .load(Constants.IMAGEHOST + mBeanList.get(position).getIcon())
-                .error(R.drawable.classification_default)
-                .fallback(R.drawable.classification_default)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(viewHolder.mIvClassificationImage);
         viewHolder.mTvClassificationName.setText(mBeanList.get(position).getName());

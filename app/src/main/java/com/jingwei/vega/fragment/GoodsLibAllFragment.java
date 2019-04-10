@@ -91,8 +91,8 @@ public class GoodsLibAllFragment extends BaseFragment {
         mMyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(getActivity(),ShopProductDetailActivity.class);
-                intent.putExtra("id",mBeanList.get(position).getId()+"");
+                Intent intent = new Intent(getActivity(), ShopProductDetailActivity.class);
+                intent.putExtra("id", mBeanList.get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -172,7 +172,7 @@ public class GoodsLibAllFragment extends BaseFragment {
 
         @Override
         protected void convert(BaseViewHolder helper, GoodsLibBean.PageListBean.ListBean item) {
-            GlideUtil.setImage(getActivity(), Constants.IMAGEHOST + item.getIconImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
+            GlideUtil.setRoundImage(getActivity(), Constants.IMAGEHOST + item.getIconImage(), 15, (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getName());
             helper.setText(R.id.tv_goods_lib_price, "¥" + item.getPrice());
         }

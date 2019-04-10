@@ -60,8 +60,7 @@ dependencies {
     /**
      * 图片处理
      */
-    implementation 'com.github.bumptech.glide:glide:4.5.0'//Glide4
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'//Glide API生成
+    implementation 'com.github.bumptech.glide:glide:3.7.0'//Glide
     implementation 'jp.wasabeef:glide-transformations:3.3.0'//Glide转化器
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'//GPU加速器
     /**
