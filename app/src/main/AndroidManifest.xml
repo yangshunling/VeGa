@@ -50,6 +50,7 @@
         <activity android:name=".activity.GoodsListActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.UpdatePwdActivity" />
+        <activity android:name=".activity.ImagePreviewActivity"/>
     </application>
 
 </manifest>

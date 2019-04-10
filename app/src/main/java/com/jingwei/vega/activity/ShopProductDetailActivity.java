@@ -36,6 +36,7 @@ import com.jingwei.vega.utils.ListViewUtil;
 import com.jingwei.vega.utils.TextUtil;
 import com.jingwei.vega.view.GlideImageLoader;
 import com.jingwei.vega.view.ProgressDialogUtil;
+import com.liji.imagezoom.util.ImageZoom;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -150,8 +151,19 @@ public class ShopProductDetailActivity extends BaseActivity {
         mShopProductDetailAdapter.setEmptyView(getEmptyView());
         mRecyclerView.setAdapter(mShopProductDetailAdapter);
         mRecyclerView.setLayoutManager(new GridLayoutManager(ShopProductDetailActivity.this, 3));
-
         mBar = ProgressDialogUtil.creatProgressBarDialog(ShopProductDetailActivity.this);
+
+        mShopProductDetailAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+                List<String> list = new ArrayList<>();
+                for (int i = 0; i < productDetailPics.size(); i++) {
+                    list.add(productDetailPics.get(i));
+                }
+                ImageZoom.show(ShopProductDetailActivity.this, productDetailPics.get(0), list);
+            }
+        });
     }
 
     @Override
@@ -160,19 +172,19 @@ public class ShopProductDetailActivity extends BaseActivity {
                 .map(new RxResultFunc<ShopProductDetailBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<ShopProductDetailBean>(ShopProductDetailActivity.this,true) {
+                .subscribe(new RxSubscriber<ShopProductDetailBean>(ShopProductDetailActivity.this, true) {
                     @Override
                     public void onNext(ShopProductDetailBean bean) {
                         mShopProductDetailBean = bean;
 
                         if (mShopProductDetailBean.getDetail().getIconImageList().size() > 0) {
                             //只显示一张
-                            bannerPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getIconImageList().get(0).getPath());
+                            bannerPics.add(Constants.IMAGEHOST + mShopProductDetailBean.getDetail().getIconImageList().get(0).getPath());
                         }
 
-                        if(mShopProductDetailBean.getDetail().getPicturesList().size()>0){
+                        if (mShopProductDetailBean.getDetail().getPicturesList().size() > 0) {
                             for (int i = 0; i < mShopProductDetailBean.getDetail().getPicturesList().size(); i++) {
-                                productDetailPics.add(Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getPicturesList().get(i).getPath());
+                                productDetailPics.add(Constants.IMAGEHOST + mShopProductDetailBean.getDetail().getPicturesList().get(i).getPath());
                             }
                         }
                         updateView();
@@ -188,21 +200,21 @@ public class ShopProductDetailActivity extends BaseActivity {
     //其余控件显示
     private void updateView() {
         //收藏
-        mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect()?
-                getResources().getDrawable(R.drawable.icon_iscollect):getResources().getDrawable(R.drawable.icon_uncollect));
+        mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect() ?
+                getResources().getDrawable(R.drawable.icon_iscollect) : getResources().getDrawable(R.drawable.icon_uncollect));
 
         //商品价格
-        mTvProductPrice.setText("￥"+df.format(mShopProductDetailBean.getDetail().getPrice()));
+        mTvProductPrice.setText("￥" + df.format(mShopProductDetailBean.getDetail().getPrice()));
 
         //商铺名称
         mTvShopName.setText(mShopProductDetailBean.getDetail().getSupplierName());
 
         //店铺图标
         GlideUtil.setCircleImage(ShopProductDetailActivity.this,
-                Constants.IMAGEHOST+mShopProductDetailBean.getDetail().getSupplierLogo(),mIvImage);
+                Constants.IMAGEHOST + mShopProductDetailBean.getDetail().getSupplierLogo(), mIvImage);
 
         //商品编码
-        mTvSerialNo.setText("商品编码："+mShopProductDetailBean.getDetail().getSerialNo());
+        mTvSerialNo.setText("商品编码：" + mShopProductDetailBean.getDetail().getSerialNo());
 
         //商品介绍
         mTvRemark.setText(mShopProductDetailBean.getDetail().getRemark());
@@ -228,7 +240,7 @@ public class ShopProductDetailActivity extends BaseActivity {
         mBanner.start();
     }
 
-    @OnClick({R.id.iv_left_finish,R.id.iv_iscollect,R.id.bt_save,R.id.bt_copy,R.id.iv_shop_icon,R.id.tv_shop_name,R.id.iv_image})
+    @OnClick({R.id.iv_left_finish, R.id.iv_iscollect, R.id.bt_save, R.id.bt_copy, R.id.iv_shop_icon, R.id.tv_shop_name, R.id.iv_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left_finish:
@@ -248,7 +260,7 @@ public class ShopProductDetailActivity extends BaseActivity {
                         .subscribe(new RxSubscriber<UserInfoBean>(ShopProductDetailActivity.this) {
                             @Override
                             public void onNext(UserInfoBean bean) {
-                                if(bean.isIsMember()){
+                                if (bean.isIsMember()) {
                                     //下载
                                     ServiceAPI.Retrofit().dowload(ParamBuilder.newBody()
                                             .addBody("productId", mShopProductDetailBean.getDetail().getId() + "")
@@ -270,7 +282,7 @@ public class ShopProductDetailActivity extends BaseActivity {
                                             downloadImage(i);
                                         }
                                     }
-                                }else{
+                                } else {
                                     showToast("非会员无法下载");
                                 }
                             }
@@ -280,7 +292,7 @@ public class ShopProductDetailActivity extends BaseActivity {
             case R.id.bt_copy://文案复制
                 ClipboardManager cm = (ClipboardManager) ShopProductDetailActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("Label", mShopProductDetailBean.getDetail().getRemark());
+                ClipData mClipData = ClipData.newPlainText("Label", "编号：" + mShopProductDetailBean.getDetail().getSerialNo() + "\n" + "信息：" + mShopProductDetailBean.getDetail().getRemark());
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
                 showToast("复制成功");
@@ -302,8 +314,8 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     //跳转店铺页面
     private void showShop() {
-        Intent intent = new Intent(ShopProductDetailActivity.this,ShopActivity.class);
-        intent.putExtra("shopId",mShopProductDetailBean.getDetail().getSupplierId());
+        Intent intent = new Intent(ShopProductDetailActivity.this, ShopActivity.class);
+        intent.putExtra("shopId", mShopProductDetailBean.getDetail().getSupplierId());
         startActivity(intent);
     }
 
@@ -346,12 +358,12 @@ public class ShopProductDetailActivity extends BaseActivity {
                 .map(new RxResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<Object>(ShopProductDetailActivity.this,mShopProductDetailBean.getDetail().isCollect()?"正在取消收藏...":"正在收藏...") {
+                .subscribe(new RxSubscriber<Object>(ShopProductDetailActivity.this, mShopProductDetailBean.getDetail().isCollect() ? "正在取消收藏..." : "正在收藏...") {
                     @Override
                     public void onNext(Object message) {
                         mShopProductDetailBean.getDetail().setCollect(!mShopProductDetailBean.getDetail().isCollect());
-                        mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect()?
-                                getResources().getDrawable(R.drawable.icon_iscollect):getResources().getDrawable(R.drawable.icon_uncollect));
+                        mIvIscollect.setBackground(mShopProductDetailBean.getDetail().isIsCollect() ?
+                                getResources().getDrawable(R.drawable.icon_iscollect) : getResources().getDrawable(R.drawable.icon_uncollect));
                     }
                 });
     }
@@ -365,7 +377,8 @@ public class ShopProductDetailActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, String item) {
-            GlideUtil.setImage(ShopProductDetailActivity.this,item, (ImageView) helper.getView(R.id.iv_product_detail_image));
+            GlideUtil.setImage(ShopProductDetailActivity.this, item, (ImageView) helper.getView(R.id.iv_product_detail_image));
+            helper.addOnClickListener(R.id.iv_product_detail_image);
         }
     }
 }
