@@ -5,8 +5,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,16 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
-import com.jingwei.vega.adapter.ProductDetailAdapter;
 import com.jingwei.vega.base.BaseActivity;
-import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.rxhttp.okhttp.DownloadUtil;
@@ -32,8 +29,6 @@ import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.GlideUtil;
-import com.jingwei.vega.utils.ListViewUtil;
-import com.jingwei.vega.utils.TextUtil;
 import com.jingwei.vega.view.GlideImageLoader;
 import com.jingwei.vega.view.ProgressDialogUtil;
 import com.liji.imagezoom.util.ImageZoom;
@@ -47,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -87,6 +83,9 @@ public class ShopProductDetailActivity extends BaseActivity {
 
     @BindView(R.id.tv_remark)
     TextView mTvRemark;//商品介绍
+
+    @BindView(R.id.tv_shangjiashisjian)
+    TextView mTvShangjiashisjian;
 
     private String pid = "";
 
@@ -218,6 +217,8 @@ public class ShopProductDetailActivity extends BaseActivity {
 
         //商品介绍
         mTvRemark.setText(mShopProductDetailBean.getDetail().getRemark());
+
+        mTvShangjiashisjian.setText("上架时间：" + mShopProductDetailBean.getDetail().getPutawayAt());
     }
 
     private void initBanner() {

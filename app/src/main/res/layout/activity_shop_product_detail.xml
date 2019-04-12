@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:ignore="MissingPrefix">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                     <com.youth.banner.Banner
                         android:id="@+id/banner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                             android:layout_width="@dimen/title_image_size"
                             android:layout_height="@dimen/title_image_size"
                             android:padding="@dimen/title_image_padding"
-                            android:src="@drawable/icon_back_white" />
+                            android:src="@drawable/icon_back_white"/>
                     </RelativeLayout>
 
                 </RelativeLayout>
@@ -68,7 +68,7 @@
                             android:text="￥1668.0"
                             android:textColor="@color/black"
                             android:textSize="14dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                             <ImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:src="@drawable/icon_choose" />
+                                android:src="@drawable/icon_choose"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:text="服务：可换其他款"
                                 android:textColor="@color/gray3"
-                                android:textSize="12dp" />
+                                android:textSize="12dp"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -108,7 +108,7 @@
                             android:text="￥1668.0"
                             android:textColor="@color/price_red"
                             android:textSize="15dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                                 android:id="@+id/iv_shop_icon"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
-                                android:src="@drawable/icon_shop" />
+                                android:src="@drawable/icon_shop"/>
 
                             <TextView
                                 android:id="@+id/tv_shop_name"
@@ -130,7 +130,7 @@
                                 android:autoLink="all"
                                 android:text="咕咕品牌店"
                                 android:textColor="@color/black"
-                                android:textSize="12dp" />
+                                android:textSize="12dp"/>
 
                             <ImageView
                                 android:id="@+id/iv_image"
@@ -138,27 +138,36 @@
                                 android:layout_height="35dp"
                                 android:layout_marginLeft="5dp"
                                 android:background="@drawable/app_logo"
-                                android:scaleType="centerCrop" />
+                                android:scaleType="centerCrop"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/include_line_big" />
+                <include layout="@layout/include_line_big"/>
+
+                <TextView
+                    android:id="@+id/tv_shangjiashisjian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="12dp"/>
 
                 <TextView
                     android:id="@+id/tv_remark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
                     android:padding="10dp"
                     android:textColor="@color/black"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_product_detail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </ScrollView>
 
@@ -176,7 +185,7 @@
                 android:id="@+id/iv_iscollect"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/icon_iscollect" />
+                android:background="@drawable/icon_iscollect"/>
 
             <Button
                 android:id="@+id/bt_save"
@@ -193,7 +202,7 @@
                 app:bl_gradient_angle="0"
                 app:bl_gradient_endColor="#969696"
                 app:bl_gradient_startColor="#262626"
-                app:bl_shape="rectangle" />
+                app:bl_shape="rectangle"/>
 
             <Button
                 android:id="@+id/bt_copy"
@@ -210,7 +219,7 @@
                 app:bl_gradient_angle="0"
                 app:bl_gradient_endColor="#434242"
                 app:bl_gradient_startColor="#000000"
-                app:bl_shape="rectangle" />
+                app:bl_shape="rectangle"/>
         </RelativeLayout>
     </RelativeLayout>
 

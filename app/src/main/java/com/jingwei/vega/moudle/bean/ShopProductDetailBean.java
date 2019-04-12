@@ -34,6 +34,7 @@ public class ShopProductDetailBean {
          * id : 2
          * iconImageList : [{"path":"admin/2018-12/559e19e44e7246c286d312483c491169.jpg","type":"MAIN_PIC","createdAt":null}]
          * price:168
+         * putawayAt : ""
          */
 
         private String supplierName;
@@ -46,8 +47,17 @@ public class ShopProductDetailBean {
         private String remark;
         private int id;
         private int price;
+        private String putawayAt;
         private List<PicturesListBean> picturesList;
         private List<IconImageListBean> iconImageList;
+
+        public String getPutawayAt() {
+            return putawayAt;
+        }
+
+        public void setPutawayAt(String putawayAt) {
+            this.putawayAt = putawayAt;
+        }
 
         public String getSupplierName() {
             return supplierName;
