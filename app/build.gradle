@@ -38,17 +38,23 @@ android {
             }
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     /**
-     * 基础依赖
+     * Support依赖
      */
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+    implementation 'androidx.cardview:cardview:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.0.0-beta01'
+    implementation 'androidx.multidex:multidex:2.0.0'
     /**
      * 网络请求
      */
@@ -71,8 +77,8 @@ dependencies {
     /**
      * 常用依赖
      */
-    implementation 'com.jakewharton:butterknife:8.8.1'//butterknife
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.1.0'//butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'//导航栏
     implementation 'com.gyf.immersionbar:immersionbar:2.3.2-beta03'//沉浸式状态栏
     implementation 'de.greenrobot:eventbus:3.0.0-beta1'//消息总线
@@ -80,7 +86,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:2.0.0'//动态权限
     implementation 'com.gcssloop.widget:rclayout:1.8.1'//圆角布局
     implementation 'com.github.ithedan:CustomViewBgUi:v1.0'//自定义button
-    implementation 'com.android.support:multidex:1.0.1'//multidex
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'//顶部导航栏
     implementation 'com.hyman:flowlayout-lib:1.1.2'//流式标签
     implementation 'com.github.devlight:infinitecycleviewpager:1.0.2'//UI

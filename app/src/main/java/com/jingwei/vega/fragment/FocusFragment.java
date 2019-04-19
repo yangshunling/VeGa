@@ -1,9 +1,9 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,7 +14,6 @@ import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.ViewPagerAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.FocusSearchMsgEvent;
-import com.jingwei.vega.moudle.LibSearchMsgEvent;
 
 import java.util.ArrayList;
 

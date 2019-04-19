@@ -17,9 +17,9 @@
         android:textColor="@color/gray3"
         android:textSize="12dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dialog_rv_top_market_shops"
         android:layout_width="match_parent"
-        android:layout_height="100dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="100dp"></androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

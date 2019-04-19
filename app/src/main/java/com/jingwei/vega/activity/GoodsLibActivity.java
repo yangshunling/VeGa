@@ -1,14 +1,12 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.View;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jingwei.vega.Constants;

@@ -2,9 +2,9 @@ package com.jingwei.vega.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.widget.EditText;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -12,13 +12,9 @@ import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.adapter.ViewPagerAdapter;
 import com.jingwei.vega.base.BaseActivity;
-import com.jingwei.vega.fragment.GoodsLibAllFragment;
-import com.jingwei.vega.fragment.GoodsLibLatestFragment;
-import com.jingwei.vega.fragment.GoodsLibSentimentFragment;
 import com.jingwei.vega.fragment.GoodsListAllFragment;
 import com.jingwei.vega.fragment.GoodsListLatestFragment;
 import com.jingwei.vega.fragment.GoodsListSentimentFragment;
-import com.jingwei.vega.moudle.LibSearchMsgEvent;
 import com.jingwei.vega.moudle.ListSearchMsgEvent;
 
 import java.util.ArrayList;
