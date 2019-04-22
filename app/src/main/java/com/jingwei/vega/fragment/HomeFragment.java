@@ -148,7 +148,7 @@ public class HomeFragment extends BaseFragment {
         ServiceAPI.Retrofit().getBrand(ParamBuilder.newParams()
                 .addParam("pageNumber", pageNum + "")
                 .bulidParam())
-                .map(new RxResultFunc<>())
+                .map(new RxResultFunc<BrandListBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<BrandListBean>(getActivity()) {

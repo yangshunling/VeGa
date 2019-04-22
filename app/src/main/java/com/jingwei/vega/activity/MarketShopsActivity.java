@@ -210,11 +210,16 @@ public class MarketShopsActivity extends BaseActivity {
                             }
                         }
                         mSpring.onFinishFreshAndLoad();
+
+                        //将recyclerView滑到顶部
+                        mRvMarketShops.scrollToPosition(0);
+                        LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRvMarketShops.getLayoutManager();
+                        mLayoutManager.scrollToPositionWithOffset(0, 0);
                     }
                 });
     }
 
-    @OnClick({R.id.rl_choose_market_shops})
+    @OnClick({R.id.rl_choose_market_shops,R.id.btn_turn_to_top})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_choose_market_shops:
@@ -222,7 +227,9 @@ public class MarketShopsActivity extends BaseActivity {
                 break;
 
             case R.id.btn_turn_to_top:
-                mRvMarketShops.scrollTo(0, 0);
+                mRvMarketShops.scrollToPosition(0);
+                LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRvMarketShops.getLayoutManager();
+                mLayoutManager.scrollToPositionWithOffset(0, 0);
                 break;
         }
     }

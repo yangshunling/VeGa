@@ -2,6 +2,7 @@ package com.jingwei.vega.fragment;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -203,7 +204,7 @@ public class MeFragment extends BaseFragment{
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
                     //获取选中的图片
-                    headPath = PictureSelector.obtainMultipleResult(data).get(0).getCutPath();
+                    headPath = PictureSelector.obtainMultipleResult(data).get(0).getCompressPath();
                     //头像上传
                     updataHead();
                     break;
