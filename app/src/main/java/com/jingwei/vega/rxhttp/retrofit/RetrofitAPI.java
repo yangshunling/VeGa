@@ -1,6 +1,7 @@
 package com.jingwei.vega.rxhttp.retrofit;
 
 import com.jingwei.vega.moudle.bean.BannerListBean;
+import com.jingwei.vega.moudle.bean.BrandListBean;
 import com.jingwei.vega.moudle.bean.CategoryBannerBean;
 import com.jingwei.vega.moudle.bean.CategoryByOneBean;
 import com.jingwei.vega.moudle.bean.CategoryByTwoBean;
@@ -72,6 +73,12 @@ public interface RetrofitAPI {
      */
     @GET("index/market")
     Observable<RxMoudle<MarketListBean>> getMarketList();
+
+    /**
+     * 品牌列表
+     */
+    @GET("brand/list")
+    Observable<RxMoudle<BrandListBean>> getBrand(@QueryMap Map<String, String> params);
 
     /**
      * 商品库列表

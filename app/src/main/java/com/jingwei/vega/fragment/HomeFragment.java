@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
@@ -19,17 +17,21 @@ import com.jingwei.vega.activity.GoodsLibActivity;
 import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.activity.SearchActivity;
 import com.jingwei.vega.adapter.BannerListAdapter;
+import com.jingwei.vega.adapter.BrandListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.BannerListBean;
+import com.jingwei.vega.moudle.bean.BrandListBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
+import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.ListViewUtil;
 import com.jingwei.vega.utils.PreferencesUtil;
+import com.jingwei.vega.view.CustomGridView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,11 +57,18 @@ public class HomeFragment extends BaseFragment {
     SpringView mSpring;
     @BindView(R.id.cv_goods_lib)
     CardView mCvGoodsLib;
+    @BindView(R.id.gv_brand)
+    CustomGridView mGvBrand;
 
     private List<BannerListBean.ListBean> mBannerList = new ArrayList<>();
     private BannerListAdapter mBannerListAdapter;
+
     private List<MarketListBean.ListBeanX.ListBean> mMarketList = new ArrayList<>();
     private HomeListAdapter mListAdapter;
+
+    private List<BrandListBean.ListBeanX.ListBean> mBrandList = new ArrayList<>();
+    private BrandListAdapter mBrandListAdapter;
+
     private Timer timer = new Timer();
 
     private Handler mHandler = new Handler() {
@@ -82,6 +93,28 @@ public class HomeFragment extends BaseFragment {
         initBanner();
         getBannerList();
         getMarketList();
+        getBrandList();
+    }
+
+    private void getBrandList() {
+        ServiceAPI.Retrofit().getBrand(ParamBuilder.newParams()
+                .addParam("pageNumber", "1")
+                .bulidParam())
+                .map(new RxResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<BrandListBean>(getActivity()) {
+                    @Override
+                    public void onNext(BrandListBean bean) {
+                        mBrandList = bean.getList().getList();
+                        if (mBrandListAdapter == null) {
+                            initBrandList();
+                        } else {
+                            mBrandListAdapter.notifyDataSetChanged();
+                        }
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
     }
 
     private void getBannerList() {
@@ -135,6 +168,11 @@ public class HomeFragment extends BaseFragment {
         ListViewUtil.setListViewHeightBasedOnChildren(mHomeList);
     }
 
+    private void initBrandList() {
+        //列表
+        mBrandListAdapter = new BrandListAdapter(getActivity(), mBrandList);
+        mGvBrand.setAdapter(mBrandListAdapter);
+    }
 
     private void startSchedule() {
         timer.schedule(new TimerTask() {
@@ -176,11 +214,21 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        mGvBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), GoodsLibActivity.class);
+                intent.putExtra("id", mBrandList.get(position).getId() + "");
+                startActivity(intent);
+            }
+        });
+
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
                 getBannerList();
                 getMarketList();
+                getBrandList();
             }
 
             @Override
