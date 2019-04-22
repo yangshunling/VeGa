@@ -2,6 +2,7 @@ package com.jingwei.vega.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -44,6 +45,7 @@ public class GoodsLibActivity extends BaseActivity {
     private ViewPagerAdapter mAdapter;
 
     private String msg = "";
+    private String brandId = "";
 
     @Override
     public int getContentView() {
@@ -59,14 +61,16 @@ public class GoodsLibActivity extends BaseActivity {
     @Override
     public void initView() {
         msg = getIntent().getStringExtra("tag");
+        brandId = getIntent().getStringExtra("brandId");
         mEtContent.setText(msg);
 
-        if (!TextUtil.isEmpty(msg)){
+        if (!TextUtil.isEmpty(msg)) {
             hintTitleBar();
         }
 
         Bundle bundle = new Bundle();
-        bundle.putString("tag",msg);
+        bundle.putString("tag", msg);
+        bundle.putString("brandId", brandId);
 
         mAllFragment = new GoodsLibAllFragment();
         mAllFragment.setArguments(bundle);

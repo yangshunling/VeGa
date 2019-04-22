@@ -1,8 +1,11 @@
 package com.jingwei.vega.fragment;
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -49,6 +52,8 @@ public class GoodsLibAllFragment extends BaseFragment {
     private MyAdapter mMyAdapter;
     private List<GoodsLibBean.PageListBean.ListBean> mBeanList = new ArrayList<>();
 
+    private String brandId = "";
+
     @Override
     public int getContentView() {
         return R.layout.fragment_goods_lib_all;
@@ -63,6 +68,8 @@ public class GoodsLibAllFragment extends BaseFragment {
         mMyAdapter = new MyAdapter(R.layout.item_goods_lib_recycle, mBeanList);
         mRvList.setAdapter(mMyAdapter);
         mRvList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        brandId = getArguments().getString("brandId");
     }
 
     @Override
@@ -115,6 +122,7 @@ public class GoodsLibAllFragment extends BaseFragment {
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("sortBy", "")
+                .addParam("brandId", brandId)
                 .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<GoodsLibBean>())
@@ -135,6 +143,7 @@ public class GoodsLibAllFragment extends BaseFragment {
         ServiceAPI.Retrofit().getGoodsLibList(ParamBuilder.newParams()
                 .addParam("name", searchName)
                 .addParam("sortBy", "")
+                .addParam("brandId", brandId)
                 .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<GoodsLibBean>())

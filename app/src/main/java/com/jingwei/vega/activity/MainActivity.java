@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @BindView(R.id.nav_bar)
     BottomNavigationBar mNavBar;
 
-    private TitleBar mTitleBar;
     private FragmentManager manager;
     private FragmentTransaction transaction;
 
@@ -148,10 +147,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     public void onTabReselected(int position) {
 
-    }
-
-    private void initTitle(int i) {
-        mTitleBar.setTitleText(titles[i]);
     }
 
     private void hintFragment(FragmentTransaction transaction) {

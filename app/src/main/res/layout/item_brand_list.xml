@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/iv_brand_list_item"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="90dp"
         android:scaleType="fitXY"
         android:src="@drawable/head_img_bg_normal"/>
 

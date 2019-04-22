@@ -23,6 +23,7 @@ import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.BrandListBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
+import com.jingwei.vega.refresh.DefaultFooter;
 import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
@@ -60,6 +61,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.gv_brand)
     CustomGridView mGvBrand;
 
+    private int pageNum = 1;
+
     private List<BannerListBean.ListBean> mBannerList = new ArrayList<>();
     private BannerListAdapter mBannerListAdapter;
 
@@ -86,6 +89,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initView(View rootView) {
         mSpring.setHeader(new DefaultHeader(getActivity()));
+        mSpring.setFooter(new DefaultFooter(getActivity()));
     }
 
     @Override
@@ -94,27 +98,6 @@ public class HomeFragment extends BaseFragment {
         getBannerList();
         getMarketList();
         getBrandList();
-    }
-
-    private void getBrandList() {
-        ServiceAPI.Retrofit().getBrand(ParamBuilder.newParams()
-                .addParam("pageNumber", "1")
-                .bulidParam())
-                .map(new RxResultFunc<>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<BrandListBean>(getActivity()) {
-                    @Override
-                    public void onNext(BrandListBean bean) {
-                        mBrandList = bean.getList().getList();
-                        if (mBrandListAdapter == null) {
-                            initBrandList();
-                        } else {
-                            mBrandListAdapter.notifyDataSetChanged();
-                        }
-                        mSpring.onFinishFreshAndLoad();
-                    }
-                });
     }
 
     private void getBannerList() {
@@ -155,6 +138,28 @@ public class HomeFragment extends BaseFragment {
                             initMarketList();
                         } else {
                             mListAdapter.notifyDataSetChanged();
+                        }
+                        mSpring.onFinishFreshAndLoad();
+                    }
+                });
+    }
+
+    private void getBrandList() {
+        ServiceAPI.Retrofit().getBrand(ParamBuilder.newParams()
+                .addParam("pageNumber", pageNum + "")
+                .bulidParam())
+                .map(new RxResultFunc<>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<BrandListBean>(getActivity()) {
+                    @Override
+                    public void onNext(BrandListBean bean) {
+                        if (pageNum == 1) {
+                            mBrandList = bean.getList().getList();
+                            initBrandList();
+                        } else {
+                            mBrandList.addAll(bean.getList().getList());
+                            mBrandListAdapter.notifyDataSetChanged();
                         }
                         mSpring.onFinishFreshAndLoad();
                     }
@@ -210,6 +215,7 @@ public class HomeFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), GoodsLibActivity.class);
                 intent.putExtra("tag", "");
+                intent.putExtra("brandId", "");
                 startActivity(intent);
             }
         });
@@ -218,7 +224,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), GoodsLibActivity.class);
-                intent.putExtra("id", mBrandList.get(position).getId() + "");
+                intent.putExtra("tag", "");
+                intent.putExtra("brandId", mBrandList.get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -226,6 +233,7 @@ public class HomeFragment extends BaseFragment {
         mSpring.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
+                pageNum = 1;
                 getBannerList();
                 getMarketList();
                 getBrandList();
@@ -233,7 +241,8 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onLoadmore() {
-
+                pageNum++;
+                getBrandList();
             }
         });
     }
