@@ -38,6 +38,7 @@
         <activity android:name=".activity.MarketShopsActivity" />
         <activity android:name=".activity.ShopActivity" />
         <activity android:name=".activity.ShopProductDetailActivity" />
+        <activity android:name=".activity.SearchPicActivity"/>
 
         <!-- 我的 -->
         <activity android:name=".activity.MyCollectActivity" />

@@ -8,18 +8,23 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.gigamole.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.DownloadRecordActivity;
 import com.jingwei.vega.activity.GoodsLibActivity;
+import com.jingwei.vega.activity.MainActivity;
 import com.jingwei.vega.activity.MarketShopsActivity;
 import com.jingwei.vega.activity.SearchActivity;
+import com.jingwei.vega.activity.SearchPicActivity;
 import com.jingwei.vega.adapter.BannerListAdapter;
 import com.jingwei.vega.adapter.BrandListAdapter;
 import com.jingwei.vega.adapter.HomeListAdapter;
 import com.jingwei.vega.base.BaseFragment;
+import com.jingwei.vega.callback.PermissionsCallback;
 import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.moudle.bean.BrandListBean;
 import com.jingwei.vega.moudle.bean.MarketListBean;
@@ -33,6 +38,10 @@ import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.ListViewUtil;
 import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.view.CustomGridView;
+import com.luck.picture.lib.PictureSelectionModel;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,6 +69,8 @@ public class HomeFragment extends BaseFragment {
     CardView mCvGoodsLib;
     @BindView(R.id.gv_brand)
     CustomGridView mGvBrand;
+    @BindView(R.id.iv_camera)
+    ImageView mIvCamera;
 
     private int pageNum = 1;
 
@@ -198,6 +209,13 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        mIvCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPermission();
+            }
+        });
+
         mHomeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -247,6 +265,61 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+    /**
+     * 动态权限
+     */
+    private void requestPermission() {
+        ((MainActivity)getActivity()).requestPermissions(new PermissionsCallback() {
+            @Override
+            public void onAccept() {
+                OpenCamera();
+            }
+
+            @Override
+            public void onDenied() {
+
+            }
+        });
+    }
+
+    /**
+     * 选择照片
+     */
+    private void OpenCamera() {
+        PictureSelectionModel selectionModel = PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())//全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                .maxSelectNum(1)// 最大图片选择数量 int
+                .minSelectNum(1)// 最小选择数量 int
+                .imageSpanCount(3)// 每行显示个数 int
+                .previewImage(true)// 是否可预览图片 true or false
+                .previewVideo(true)// 是否可预览视频 true or false
+                .enablePreviewAudio(true) // 是否可播放音频 true or false
+                .isCamera(true)// 是否显示拍照按钮 true or false
+                .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+                .sizeMultiplier(0.7f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
+                .enableCrop(true)// 是否裁剪 true or false
+                .imageFormat(PictureMimeType.PNG)// 拍照保存图片格式后缀,默认jpeg
+                .compress(true)// 是否压缩 true or false
+                .withAspectRatio(1, 1)// int 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示 true or false
+                .isGif(true)// 是否显示gif图片 true or false
+                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽 true or false
+                .circleDimmedLayer(false)// 是否圆形裁剪 true or false
+                .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false   true or false
+                .showCropGrid(true)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false    true or false
+                .openClickSound(true)// 是否开启点击声音 true or false
+                .previewEggs(true)// 预览图片时 是否增强左右滑动图片体验(图片滑动一半即可看到上一张是否选中) true or false
+                .minimumCompressSize(100)// 小于100kb的图片不压缩
+                .rotateEnabled(true) // 裁剪是否可旋转图片 true or false
+                .scaleEnabled(true)// 裁剪是否可放大缩小图片 true or false
+                .isDragFrame(true);// 是否可拖动裁剪框(固定)
+
+        //打开相册
+        selectionModel.selectionMode(PictureConfig.SINGLE)
+                .freeStyleCropEnabled(false)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -258,6 +331,14 @@ public class HomeFragment extends BaseFragment {
                 intent.putExtra("tag", msg);
                 startActivity(intent);
             }
+        }//以图搜图
+        else if(requestCode == PictureConfig.CHOOSE_REQUEST){
+            //获取选中的图片
+            String picPath = PictureSelector.obtainMultipleResult(data).get(0).getCompressPath();
+            //上传图片获取服务器返回的图片地址，然后将此地址通过商品的搜索接口获取以图搜图的最终搜索结果
+            Intent intent = new Intent(getActivity(), SearchPicActivity.class);
+            intent.putExtra("picPath",picPath);
+            startActivity(intent);
         }
     }
 

@@ -38,5 +38,13 @@
             android:textColorHint="@color/gray2"
             android:textSize="13dp" />
 
+        <ImageView
+            android:id="@+id/iv_camera"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_camera" />
     </com.gcssloop.widget.RCRelativeLayout>
 </LinearLayout>

@@ -17,6 +17,8 @@ import com.jingwei.vega.moudle.bean.ShopDetailBean;
 import com.jingwei.vega.moudle.bean.ShopNewBean;
 import com.jingwei.vega.moudle.bean.ShopNewRecommendBean;
 import com.jingwei.vega.moudle.bean.ShopProductDetailBean;
+import com.jingwei.vega.moudle.bean.UploadSearchPicBean;
+import com.jingwei.vega.moudle.bean.UploadSearchResultBean;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.moudle.bean.VegaInfoBean;
 import com.jingwei.vega.moudle.bean.VipBean;
@@ -241,4 +243,18 @@ public interface RetrofitAPI {
     @Multipart
     @POST("download_history/detail/{id}")
     Observable<RxMoudle<WXPayInfoBean>> getWXPayInfo(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 上传图片，获取服务器图片地址
+     */
+    @Multipart
+    @POST("upload/do")
+    Observable<RxMoudle<UploadSearchPicBean>> uploadSearchPic(@PartMap Map<String, RequestBody> params);
+
+    /**
+     * 获取以图搜图搜索结果
+     */
+    @Multipart
+    @POST("product/ai/search")
+    Observable<RxMoudle<UploadSearchResultBean>> uploadSearchResult(@PartMap Map<String, RequestBody> params);
 }
