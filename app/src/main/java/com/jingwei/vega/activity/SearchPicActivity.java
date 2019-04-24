@@ -148,7 +148,7 @@ public class SearchPicActivity extends BaseActivity {
      */
     private void uploadSearchResult() {
         ServiceAPI.Retrofit().uploadSearchResult(ParamBuilder.newBody()
-                .addBody("filePath", new File(picServerPath))
+                .addBody("filePath", picServerPath)
                 .addBody("pageNumber",pager+"")
                 .bulidBody())
                 .map(new RxResultFunc<UploadSearchResultBean>())
