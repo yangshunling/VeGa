@@ -96,7 +96,7 @@ public class ShopActivity extends BaseActivity {
     private int shopId;
 
     private int pager = 1;
-    private String sortBy = "new";//没有做排序时传new，价格升序->priceAsc|价格降序->priceDesc|人气->clickNumber
+    private String sortBy = "clickNumber";//排序字段(价格升序->priceAsc|价格降序->priceDesc|人气->clickNumber|最新->new,如果是全部则无需传值)
 
     @Override
     public int getContentView() {
@@ -188,6 +188,7 @@ public class ShopActivity extends BaseActivity {
         ServiceAPI.Retrofit().getShopNewRecommend(ParamBuilder.newParams()
                 .addParam("tagId", "9")//固定标签
                 .addParam("supplierId", shopId + "")
+                .addParam("sortBy","new")
                 .bulidParam())
                 .map(new RxResultFunc<ShopNewRecommendBean>())
                 .subscribeOn(Schedulers.io())
