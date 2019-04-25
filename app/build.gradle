@@ -19,6 +19,12 @@ android {
             storeFile file('VeGa.jks')
             storePassword '123456'
         }
+        dubug {
+            keyAlias 'VeGa'
+            keyPassword '123456'
+            storeFile file('VeGa.jks')
+            storePassword '123456'
+        }
     }
 
     buildTypes {

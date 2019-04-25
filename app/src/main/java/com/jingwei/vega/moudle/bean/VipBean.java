@@ -47,7 +47,7 @@ public class VipBean {
         private int id;
         private String name;
         private String serialNo;
-        private int amount;
+        private double amount;
         private int status;
         private long createdAt;
         private long updatedAt;
@@ -76,11 +76,11 @@ public class VipBean {
             this.serialNo = serialNo;
         }
 
-        public int getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 

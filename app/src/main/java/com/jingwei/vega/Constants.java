@@ -24,5 +24,5 @@ public class Constants {
 
 
     /******************************** 微信支付 **************************/
-    public static String WX_APPID = "wxd930ea5d5a258f4f";
+    public static String WX_APPID = "wxb0cc9488e32e0271";
 }

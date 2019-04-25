@@ -30,6 +30,7 @@ import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
@@ -240,9 +241,8 @@ public interface RetrofitAPI {
     /**
      * 获取微信支付信息
      */
-    @Multipart
-    @POST("download_history/detail/{id}")
-    Observable<RxMoudle<WXPayInfoBean>> getWXPayInfo(@PartMap Map<String, RequestBody> params);
+    @POST("pay/{gradeId}/mobile")
+    Observable<RxMoudle<WXPayInfoBean>> getWXPayInfo( @Path("gradeId") String gradeId);
 
     /**
      * 上传图片，获取服务器图片地址

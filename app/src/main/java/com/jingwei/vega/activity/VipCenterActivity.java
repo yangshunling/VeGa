@@ -68,6 +68,8 @@ public class VipCenterActivity extends BaseActivity {
 
     private VipBean mVipBean;
 
+    private WXPayInfoBean wxPayInfoBean;
+
     private IWXAPI msgApi;
 
     @Override
@@ -149,15 +151,14 @@ public class VipCenterActivity extends BaseActivity {
      * @param position
      */
     private void getWXPayInfo(int position) {
-        ServiceAPI.Retrofit().getWXPayInfo(ParamBuilder.newBody()
-                .addBody("id", mVipBean.getMemberGradeList().get(position).getId() + "")
-                .bulidBody())
+        ServiceAPI.Retrofit().getWXPayInfo( mVipBean.getMemberGradeList().get(position).getId() + "")
                 .map(new RxResultFunc<WXPayInfoBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<WXPayInfoBean>(VipCenterActivity.this) {
+                .subscribe(new RxSubscriber<WXPayInfoBean>(VipCenterActivity.this,true) {
                     @Override
                     public void onNext(WXPayInfoBean bean) {
+                        wxPayInfoBean = bean;
                         WXPay();
                     }
                 });
@@ -168,13 +169,13 @@ public class VipCenterActivity extends BaseActivity {
      */
     private void WXPay() {
         PayReq request = new PayReq();
-        request.appId = "wxd930ea5d5a258f4f";
-        request.partnerId = "1900000109";
-        request.prepayId= "1101000000140415649af9fc314aa427";
-        request.packageValue = "Sign=WXPay";
-        request.nonceStr= "1101000000140429eb40476f8896f4c9";
-        request.timeStamp= "1398746574";
-        request.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+        request.appId = wxPayInfoBean.getAppid();
+        request.partnerId = wxPayInfoBean.getPartnerid();
+        request.prepayId= wxPayInfoBean.getPrepayid();
+        request.packageValue = wxPayInfoBean.getPackageX();
+        request.nonceStr= wxPayInfoBean.getNoncestr();
+        request.timeStamp= wxPayInfoBean.getTimestamp();
+        request.sign= wxPayInfoBean.getSign();
         msgApi.sendReq(request);
     }
 

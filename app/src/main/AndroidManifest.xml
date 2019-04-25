@@ -52,6 +52,19 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.UpdatePwdActivity" />
         <activity android:name=".activity.ImagePreviewActivity"/>
+
+        <!-- 微信支付 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wxb0cc9488e32e0271"/>
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
