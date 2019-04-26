@@ -8,12 +8,15 @@ import android.widget.Toast;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.moudle.WXPayResultEvent;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import de.greenrobot.event.EventBus;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
@@ -46,6 +49,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (baseResp.errCode) {
                 case 0:
                     Toast.makeText(this,"支付成功",Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new WXPayResultEvent());
                     finish();
                     break;
                 case -1:

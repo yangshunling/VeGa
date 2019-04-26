@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.moudle.WXPayResultEvent;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.moudle.bean.VipBean;
 import com.jingwei.vega.moudle.bean.WXPayInfoBean;
@@ -32,6 +33,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
+import de.greenrobot.event.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -79,6 +83,8 @@ public class VipCenterActivity extends BaseActivity {
 
     @Override
     public void initTitleBar() {
+        EventBus.getDefault().register(this);
+
         hintTitleBar();
         //沉浸式图片
         setTransparent();
@@ -86,8 +92,51 @@ public class VipCenterActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        userInfoBean = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
+        mMyAdapter = new MyAdapter(R.layout.item_vip_remark, vipMemberTypeBean);
+        mMyAdapter.setEmptyView(getEmptyView());
+        mRvVipType.setAdapter(mMyAdapter);
+        mRvVipType.setLayoutManager(new LinearLayoutManager(VipCenterActivity.this));
+        mRvVipType.addItemDecoration(new HorizontalDividerItemDecoration.Builder(VipCenterActivity.this)
+                .color(ContextCompat.getColor(VipCenterActivity.this, R.color.gray2))
+                .size(DisplayUtil.dp2px(VipCenterActivity.this, 0))
+                .build());
 
+        initWXPay();
+
+        setListener();
+    }
+
+    private void initWXPay() {
+        msgApi = WXAPIFactory.createWXAPI(VipCenterActivity.this, null);
+        msgApi.registerApp(Constants.WX_APPID);
+    }
+
+    @Override
+    public void initData() {
+        getUserInfo();
+
+        getVipList();
+
+    }
+
+    //获取用户信息
+    private void getUserInfo() {
+        ServiceAPI.Retrofit().getUserInfo()
+                .map(new RxResultFunc<UserInfoBean>())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<UserInfoBean>(VipCenterActivity.this) {
+                    @Override
+                    public void onNext(UserInfoBean bean) {
+                        userInfoBean = bean;
+
+                        showInfo();
+                    }
+                });
+    }
+
+    //展示用户信息
+    private void showInfo() {
         mTvName.setText(userInfoBean.getNickName());
         if (!TextUtils.isEmpty(userInfoBean.getHeadImg())) {
             GlideUtil.setImage(VipCenterActivity.this, Constants.IMAGEHOST + userInfoBean.getHeadImg(), mUserIcon);
@@ -100,26 +149,10 @@ public class VipCenterActivity extends BaseActivity {
             mTvDateTitle.setText(userInfoBean.getMemberTag() + "：");
             mTvDate.setText("至" + userInfoBean.getEndAt());
         }
-
-        mMyAdapter = new MyAdapter(R.layout.item_vip_remark, vipMemberTypeBean);
-        mMyAdapter.setEmptyView(getEmptyView());
-        mRvVipType.setAdapter(mMyAdapter);
-        mRvVipType.setLayoutManager(new LinearLayoutManager(VipCenterActivity.this));
-        mRvVipType.addItemDecoration(new HorizontalDividerItemDecoration.Builder(VipCenterActivity.this)
-                .color(ContextCompat.getColor(VipCenterActivity.this, R.color.gray2))
-                .size(DisplayUtil.dp2px(VipCenterActivity.this, 0))
-                .build());
-
-        initWXPay();
     }
 
-    private void initWXPay() {
-        msgApi = WXAPIFactory.createWXAPI(VipCenterActivity.this, null);
-        msgApi.registerApp(Constants.WX_APPID);
-    }
-
-    @Override
-    public void initData() {
+    //获取vip列表
+    private void getVipList() {
         ServiceAPI.Retrofit().getVipList()
                 .map(new RxResultFunc<VipBean>())
                 .subscribeOn(Schedulers.io())
@@ -135,7 +168,9 @@ public class VipCenterActivity extends BaseActivity {
                         mMyAdapter.replaceData(vipMemberTypeBean);
                     }
                 });
+    }
 
+    private void setListener() {
         mMyAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -198,5 +233,17 @@ public class VipCenterActivity extends BaseActivity {
             helper.setText(R.id.tv_des, item.getAmount() + "元·" + item.getName());
             helper.addOnClickListener(R.id.bt_into);
         }
+    }
+
+    //微信支付成功，刷新
+    @Subscribe(threadMode = ThreadMode.MainThread)
+    public void setWXPayResultEvent(WXPayResultEvent event) {
+        initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

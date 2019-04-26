@@ -129,7 +129,6 @@ public class MeFragment extends BaseFragment{
                 break;
             case R.id.ll_vip:
                 Intent intentVip = new Intent(getActivity(),VipCenterActivity.class);
-                intentVip.putExtra("userInfo",userInfoBean);
                 startActivity(intentVip);
                 break;
             case R.id.ll_about:
