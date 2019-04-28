@@ -197,10 +197,15 @@ public class MarketShopsActivity extends BaseActivity {
                         if (bean.getPageList().getList().size() != 0) {
                             if (pager == 1) {
                                 mBeanList = bean.getPageList().getList();
+                                mMarketShopsAdapter.replaceData(mBeanList);
+                                //将recyclerView滑到顶部
+                                mRvMarketShops.scrollToPosition(0);
+                                LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRvMarketShops.getLayoutManager();
+                                mLayoutManager.scrollToPositionWithOffset(0, 0);
                             } else {
                                 mBeanList.addAll(bean.getPageList().getList());
+                                mMarketShopsAdapter.replaceData(mBeanList);
                             }
-                            mMarketShopsAdapter.replaceData(mBeanList);
                         } else {
                             if (pager > 1) {
                                 showToast(getResources().getString(R.string.no_more_date));
@@ -210,11 +215,6 @@ public class MarketShopsActivity extends BaseActivity {
                             }
                         }
                         mSpring.onFinishFreshAndLoad();
-
-                        //将recyclerView滑到顶部
-                        mRvMarketShops.scrollToPosition(0);
-                        LinearLayoutManager mLayoutManager = (LinearLayoutManager) mRvMarketShops.getLayoutManager();
-                        mLayoutManager.scrollToPositionWithOffset(0, 0);
                     }
                 });
     }
