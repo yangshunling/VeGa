@@ -1,8 +1,10 @@
 package com.jingwei.vega.activity;
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -188,12 +190,12 @@ public class ShopActivity extends BaseActivity {
         ServiceAPI.Retrofit().getShopNewRecommend(ParamBuilder.newParams()
                 .addParam("tagId", "9")//固定标签
                 .addParam("supplierId", shopId + "")
-                .addParam("sortBy","new")
+                .addParam("sortBy", "new")
                 .bulidParam())
                 .map(new RxResultFunc<ShopNewRecommendBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<ShopNewRecommendBean>(ShopActivity.this,true) {
+                .subscribe(new RxSubscriber<ShopNewRecommendBean>(ShopActivity.this, true) {
                     @Override
                     public void onNext(ShopNewRecommendBean bean) {
                         mNewRecommendList.addAll(bean.getPageList().getList());
@@ -206,16 +208,16 @@ public class ShopActivity extends BaseActivity {
     /**
      * 获取店铺产品
      */
-    private void getNew(){
+    private void getNew() {
         ServiceAPI.Retrofit().getShopNew(ParamBuilder.newParams()
                 .addParam("supplierId", shopId + "")
-                .addParam("sortBy",sortBy)
-                .addParam("pageNumber",pager+"")
+                .addParam("sortBy", sortBy)
+                .addParam("pageNumber", pager + "")
                 .bulidParam())
                 .map(new RxResultFunc<ShopNewBean>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<ShopNewBean>(ShopActivity.this,true) {
+                .subscribe(new RxSubscriber<ShopNewBean>(ShopActivity.this, true) {
                     @Override
                     public void onNext(ShopNewBean bean) {
                         if (bean.getPageList().getList().size() != 0) {
@@ -228,15 +230,15 @@ public class ShopActivity extends BaseActivity {
                         } else {
                             if (pager > 1) {
                                 showToast(getResources().getString(R.string.no_more_date));
-                            }else{
+                            } else {
                                 mNewList.clear();
                                 mNewAdapter.replaceData(mNewList);
                             }
                         }
 
-                        if(isPriceUp){
+                        if (isPriceUp) {
                             mIvChangePrice.setBackground(getResources().getDrawable(R.drawable.price_arrow_down));
-                        }else{
+                        } else {
                             mIvChangePrice.setBackground(getResources().getDrawable(R.drawable.price_arrow_up));
                         }
                         mSpring.onFinishFreshAndLoad();
@@ -261,8 +263,8 @@ public class ShopActivity extends BaseActivity {
         mNewRecommendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(ShopActivity.this,ShopProductDetailActivity.class);
-                intent.putExtra("id",mNewRecommendList.get(position).getId()+"");
+                Intent intent = new Intent(ShopActivity.this, ShopProductDetailActivity.class);
+                intent.putExtra("id", mNewRecommendList.get(position).getId() + "");
                 startActivity(intent);
             }
         });
@@ -270,25 +272,25 @@ public class ShopActivity extends BaseActivity {
         mNewAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(ShopActivity.this,ShopProductDetailActivity.class);
-                intent.putExtra("id",mNewList.get(position).getId()+"");
+                Intent intent = new Intent(ShopActivity.this, ShopProductDetailActivity.class);
+                intent.putExtra("id", mNewList.get(position).getId() + "");
                 startActivity(intent);
             }
         });
     }
 
-    @OnClick({R.id.iv_change_price,R.id.bt_save,R.id.bt_cancel,R.id.iv_left_finish})
+    @OnClick({R.id.iv_change_price, R.id.bt_save, R.id.bt_cancel, R.id.iv_left_finish})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_change_price:
                 //当前是降序排列(价格高的在上面)，更改为升序
-                if(isPriceUp){
+                if (isPriceUp) {
                     pager = 1;
                     isPriceUp = false;
                     sortBy = "priceAsc";
 
                     getNew();
-                }else{
+                } else {
                     pager = 1;
                     isPriceUp = true;
                     sortBy = "priceDesc";
@@ -319,7 +321,7 @@ public class ShopActivity extends BaseActivity {
                 .map(new RxResultFunc<Object>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<Object>(ShopActivity.this,mShopDetailBean.getDetail().isIsLove()?"正在取消关注...":"正在关注...") {
+                .subscribe(new RxSubscriber<Object>(ShopActivity.this, mShopDetailBean.getDetail().isIsLove() ? "正在取消关注..." : "正在关注...") {
                     @Override
                     public void onNext(Object message) {
                         mShopDetailBean.getDetail().setIsLove(!mShopDetailBean.getDetail().isIsLove());
@@ -343,11 +345,11 @@ public class ShopActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, ShopNewRecommendBean.PageListBean.ListBean item) {
-            GlideUtil.setImage(ShopActivity.this, Constants.IMAGEHOST+item.getIconImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
+            GlideUtil.setRoundImage(ShopActivity.this, Constants.IMAGEHOST + item.getIconImage(), 15, (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getName());
 
             DecimalFormat df = new DecimalFormat("0.00");
-            helper.setText(R.id.tv_goods_lib_price, "￥"+df.format(item.getPrice()));
+            helper.setText(R.id.tv_goods_lib_price, "￥" + df.format(item.getPrice()));
         }
     }
 
@@ -359,11 +361,11 @@ public class ShopActivity extends BaseActivity {
 
         @Override
         protected void convert(BaseViewHolder helper, ShopNewBean.PageListBean.ListBean item) {
-            GlideUtil.setImage(ShopActivity.this, Constants.IMAGEHOST+item.getIconImage(), (ImageView) helper.getView(R.id.iv_goods_lib));
+            GlideUtil.setRoundImage(ShopActivity.this, Constants.IMAGEHOST + item.getIconImage(), 15, (ImageView) helper.getView(R.id.iv_goods_lib));
             helper.setText(R.id.tv_goods_lib_introduce, item.getName());
 
             DecimalFormat df = new DecimalFormat("0.00");
-            helper.setText(R.id.tv_goods_lib_price, "￥"+df.format(item.getPrice()));
+            helper.setText(R.id.tv_goods_lib_price, "￥" + df.format(item.getPrice()));
         }
     }
 }

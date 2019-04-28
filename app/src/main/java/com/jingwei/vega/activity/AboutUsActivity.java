@@ -59,7 +59,6 @@ public class AboutUsActivity extends BaseActivity {
                     @Override
                     public void onNext(VegaInfoBean bean) {
                         mVegaInfoBean = bean;
-
                         setInfo();
                     }
                 });
