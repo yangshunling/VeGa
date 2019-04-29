@@ -1,6 +1,7 @@
 package com.jingwei.vega.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
 import com.jingwei.vega.moudle.bean.DynamicBean;
 import com.jingwei.vega.utils.GlideUtil;
+import com.jingwei.vega.utils.TextUtil;
 
 import java.util.List;
 
@@ -58,7 +60,13 @@ public class DynamicImageAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         //初始化
-        GlideUtil.setImage(context, Constants.IMAGEHOST + mBeanList.get(position).getPath(), viewHolder.mIvDynamicImage);
+        if( !TextUtils.isEmpty( mBeanList.get(position).getPath())){
+            viewHolder.mIvDynamicImage.setVisibility(View.VISIBLE);
+
+            GlideUtil.setImage(context, Constants.IMAGEHOST + mBeanList.get(position).getPath(), viewHolder.mIvDynamicImage);
+        } else {
+            viewHolder.mIvDynamicImage.setVisibility(View.GONE);
+        }
         return convertView;
     }
 

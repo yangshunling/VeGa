@@ -8,11 +8,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,8 +39,10 @@ import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.DisplayUtil;
 import com.jingwei.vega.utils.GlideUtil;
+import com.jingwei.vega.utils.TextUtil;
 import com.jingwei.vega.view.CustomGridView;
 import com.jingwei.vega.view.ProgressDialogUtil;
+import com.liji.imagezoom.util.ImageZoom;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.io.File;
@@ -303,6 +309,21 @@ public class FocusDynamicFragment extends BaseFragment {
             helper.addOnClickListener(R.id.bt_copy);
             helper.addOnClickListener(R.id.iv_image);
             helper.addOnClickListener(R.id.tv_name);
+
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    List<String> list = new ArrayList<>();
+                    if (item.getProduct().getPictures().size() > 0) {
+                        for (int i = 0; i < item.getProduct().getPictures().size(); i++) {
+                            if (!TextUtils.isEmpty(item.getProduct().getPictures().get(i).getPath())) {
+                                list.add(Constants.IMAGEHOST + item.getProduct().getPictures().get(i).getPath());
+                            }
+                        }
+                        ImageZoom.show(getActivity(), item.getProduct().getPictures().get(0).getPath(), list);
+                    }
+                }
+            });
         }
     }
 
