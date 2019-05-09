@@ -55,7 +55,7 @@ public class ServiceAPI {
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .addInterceptor(new LogInterceptor())
-                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory(),SSLSocketClient.getTrustManager())
                 .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
                 .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MyApplication.getContext())))
                 .build();
@@ -71,7 +71,7 @@ public class ServiceAPI {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .readTimeout(15, TimeUnit.SECONDS)
                 .writeTimeout(15, TimeUnit.SECONDS)
-                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory())
+                .sslSocketFactory(SSLSocketClient.getSSLSocketFactory(),SSLSocketClient.getTrustManager())
                 .hostnameVerifier(SSLSocketClient.getHostnameVerifier())
                 .build();
     }
