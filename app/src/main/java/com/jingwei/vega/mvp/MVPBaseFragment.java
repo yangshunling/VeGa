@@ -1,5 +1,6 @@
-package com.jingwei.vega.base;
+package com.jingwei.vega.mvp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jingwei.vega.R;
+
+import java.lang.reflect.ParameterizedType;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,9 +20,12 @@ import butterknife.Unbinder;
 /**
  * BaseActivity基类
  */
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+public abstract class MVPBaseFragment<V extends BaseView, T extends BasePresenterImpl<V>> extends Fragment implements BaseView, View.OnClickListener {
 
+    private View rootView;
     private Unbinder unbinder;
+
+    public T mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,10 +35,19 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, rootView);
+        initMVP();
         initView(view);
         setListener();
         initData();
+    }
+
+    private void initMVP() {
+        if (mPresenter != null) {
+
+        }
+        mPresenter = getInstance(this, 1);
+        mPresenter.attachView((V) this);
     }
 
     /**
@@ -77,5 +92,29 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (mPresenter != null)
+            mPresenter.detachView();
+    }
+
+    @Override
+    public Context getContext() {
+        return super.getContext();
+    }
+
+    public <T> T getInstance(Object o, int i) {
+        try {
+            return ((Class<T>) ((ParameterizedType) (o.getClass()
+                    .getGenericSuperclass())).getActualTypeArguments()[i])
+                    .newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

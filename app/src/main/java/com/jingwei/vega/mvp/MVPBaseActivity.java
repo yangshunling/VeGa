@@ -1,4 +1,4 @@
-package com.jingwei.vega.base;
+package com.jingwei.vega.mvp;
 
 import android.Manifest;
 import android.content.Context;
@@ -18,6 +18,7 @@ import com.jingwei.vega.callback.PermissionsCallback;
 import com.jingwei.vega.view.TitleBar;
 import com.noober.background.BackgroundLibrary;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,11 +29,13 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * BaseActivity基类
  */
-public abstract class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public abstract class MVPBaseActivity<V extends BaseView, T extends BasePresenterImpl<V>> extends AppCompatActivity implements BaseView, EasyPermissions.PermissionCallbacks {
 
     private LinearLayout mTitlebar;
     private FrameLayout mViewContent;
     private TitleBar mTitleBar;
+
+    public T mPresenter;
 
     private String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
@@ -44,6 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        //初始化mvp
+        initMVP();
         //初始化沉浸式
         initStatusBar();
         //解析子布局
@@ -56,6 +61,14 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
         initView();
         //初始化数据
         initData();
+    }
+
+    /**
+     * 初始化MVP
+     */
+    private void initMVP() {
+        mPresenter = getInstance(this, 1);
+        mPresenter.attachView((V) this);
     }
 
     /**
@@ -97,7 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
      * 初始化TitleBar
      */
     public TitleBar getTitleBar() {
-        mTitleBar = new TitleBar(BaseActivity.this);
+        mTitleBar = new TitleBar(MVPBaseActivity.this);
         mTitleBar.setLeftImageListening(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +138,7 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
      * 返回空布局
      */
     public View getEmptyView() {
-        return LayoutInflater.from(BaseActivity.this).inflate(R.layout.layout_empty_view, null);
+        return LayoutInflater.from(MVPBaseActivity.this).inflate(R.layout.layout_empty_view, null);
     }
 
     /**
@@ -221,6 +234,8 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
     protected void onDestroy() {
         super.onDestroy();
         ImmersionBar.with(this).destroy();
+        if (mPresenter != null)
+            mPresenter.detachView();
     }
 
     /**
@@ -273,5 +288,25 @@ public abstract class BaseActivity extends AppCompatActivity implements EasyPerm
             }
         }
         return false;
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    public <T> T getInstance(Object o, int i) {
+        try {
+            return ((Class<T>) ((ParameterizedType) (o.getClass()
+                    .getGenericSuperclass())).getActualTypeArguments()[i])
+                    .newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

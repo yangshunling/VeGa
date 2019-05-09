@@ -33,6 +33,7 @@ import com.jingwei.vega.refresh.DefaultHeader;
 import com.jingwei.vega.refresh.SpringView;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
+import com.jingwei.vega.rxhttp.rxjava.RxHelper;
 import com.jingwei.vega.rxhttp.rxjava.RxResultFunc;
 import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
 import com.jingwei.vega.utils.ListViewUtil;
@@ -46,6 +47,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -156,12 +158,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void getBrandList() {
-        ServiceAPI.Retrofit().getBrand(ParamBuilder.newParams()
+        Map<String, String> pageNumber = ParamBuilder.newParams()
                 .addParam("pageNumber", pageNum + "")
-                .bulidParam())
-                .map(new RxResultFunc<BrandListBean>())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .bulidParam();
+        RxHelper.observer(ServiceAPI.Retrofit().getBrand(pageNumber))
                 .subscribe(new RxSubscriber<BrandListBean>(getActivity()) {
                     @Override
                     public void onNext(BrandListBean bean) {
@@ -269,7 +269,7 @@ public class HomeFragment extends BaseFragment {
      * 动态权限
      */
     private void requestPermission() {
-        ((MainActivity)getActivity()).requestPermissions(new PermissionsCallback() {
+        ((MainActivity) getActivity()).requestPermissions(new PermissionsCallback() {
             @Override
             public void onAccept() {
                 OpenCamera();
@@ -332,12 +332,12 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
             }
         }//以图搜图
-        else if(requestCode == PictureConfig.CHOOSE_REQUEST){
+        else if (requestCode == PictureConfig.CHOOSE_REQUEST) {
             //获取选中的图片
             String picPath = PictureSelector.obtainMultipleResult(data).get(0).getCompressPath();
             //上传图片获取服务器返回的图片地址，然后将此地址通过商品的搜索接口获取以图搜图的最终搜索结果
             Intent intent = new Intent(getActivity(), SearchPicActivity.class);
-            intent.putExtra("picPath",picPath);
+            intent.putExtra("picPath", picPath);
             startActivity(intent);
         }
     }

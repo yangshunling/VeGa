@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.jingwei.vega.R;
+import com.jingwei.vega.activity.login.LoginActivity;
 import com.jingwei.vega.base.BaseActivity;
 import com.jingwei.vega.fragment.ClassificationFragment;
 import com.jingwei.vega.fragment.FocusFragment;
@@ -16,7 +17,6 @@ import com.jingwei.vega.fragment.HomeFragment;
 import com.jingwei.vega.fragment.MeFragment;
 import com.jingwei.vega.moudle.TokenLose;
 import com.jingwei.vega.utils.PreferencesUtil;
-import com.jingwei.vega.view.TitleBar;
 
 import butterknife.BindView;
 import de.greenrobot.event.EventBus;

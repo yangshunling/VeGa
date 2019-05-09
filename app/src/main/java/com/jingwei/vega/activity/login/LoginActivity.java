@@ -1,4 +1,4 @@
-package com.jingwei.vega.activity;
+package com.jingwei.vega.activity.login;
 
 import android.content.Intent;
 import android.view.View;
@@ -9,28 +9,25 @@ import android.widget.TextView;
 
 import com.came.viewbguilib.ButtonBgUi;
 import com.jingwei.vega.R;
-import com.jingwei.vega.base.BaseActivity;
+import com.jingwei.vega.activity.ForgetPwdActivity;
+import com.jingwei.vega.activity.MainActivity;
+import com.jingwei.vega.activity.RegistActivity;
 import com.jingwei.vega.callback.PermissionsCallback;
 import com.jingwei.vega.moudle.bean.BannerListBean;
-import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
-import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
-import com.jingwei.vega.rxhttp.rxjava.RxHelper;
-import com.jingwei.vega.rxhttp.rxjava.RxSubscriber;
+import com.jingwei.vega.mvp.MVPBaseActivity;
 import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.utils.TextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.RequestBody;
 
 /**
  * 用户登录
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPresenter> implements LoginContract.View, PermissionsCallback {
 
     @BindView(R.id.iv_logo)
     ImageView mIvLogo;
@@ -71,17 +68,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        requestPermissions(new PermissionsCallback() {
-            @Override
-            public void onAccept() {
-
-            }
-
-            @Override
-            public void onDenied() {
-
-            }
-        });
+        requestPermissions(this);
     }
 
     @Override
@@ -112,33 +99,32 @@ public class LoginActivity extends BaseActivity {
         else if (TextUtil.isEmpty(password))
             showToast("密码不能为空");
         else
-            login(phone, password);
+            mPresenter.login(LoginActivity.this, phone, password);
     }
 
-    private void login(String phone, String password) {
-        Map<String, RequestBody> stringRequestBodyMap = ParamBuilder.newBody()
-                .addBody("mobile", phone)
-                .addBody("password", password)
-                .bulidBody();
+    @Override
+    public void onAccept() {
 
-        RxHelper.observer(ServiceAPI.Retrofit().userLogin(stringRequestBodyMap))
-                .subscribe(new RxSubscriber<Object>(LoginActivity.this, "正在登录...") {
-                    @Override
-                    public void onNext(Object token) {
-                        PreferencesUtil.saveLoginState(LoginActivity.this, true);
-                        RxHelper.observer(ServiceAPI.Retrofit().getBanner())
-                                .subscribe(new RxSubscriber<BannerListBean>(LoginActivity.this, "正在初始化数据...") {
-                                    @Override
-                                    public void onNext(BannerListBean bean) {
-                                        beanList = bean.getList();
-                                        if (beanList.size() > 0) {
-                                            PreferencesUtil.saveBannerList(LoginActivity.this, bean.getList());
-                                        }
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                        finish();
-                                    }
-                                });
-                    }
-                });
+    }
+
+    @Override
+    public void onDenied() {
+
+    }
+
+    @Override
+    public void onLogin() {
+        PreferencesUtil.saveLoginState(LoginActivity.this, true);
+        mPresenter.getBanner(LoginActivity.this);
+    }
+
+    @Override
+    public void onBanner(BannerListBean bean) {
+        beanList = bean.getList();
+        if (beanList.size() > 0) {
+            PreferencesUtil.saveBannerList(LoginActivity.this, beanList);
+        }
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 }

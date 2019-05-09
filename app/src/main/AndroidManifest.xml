@@ -22,7 +22,7 @@
             android:value="GlideModule" />
 
         <activity
-            android:name=".activity.LoginActivity">
+            android:name=".activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
