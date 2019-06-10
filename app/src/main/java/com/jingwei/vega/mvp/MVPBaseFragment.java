@@ -22,7 +22,6 @@ import butterknife.Unbinder;
  */
 public abstract class MVPBaseFragment<V extends BaseView, T extends BasePresenterImpl<V>> extends Fragment implements BaseView, View.OnClickListener {
 
-    private View rootView;
     private Unbinder unbinder;
 
     public T mPresenter;
@@ -35,7 +34,7 @@ public abstract class MVPBaseFragment<V extends BaseView, T extends BasePresente
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, view);
         initMVP();
         initView(view);
         setListener();
@@ -43,9 +42,6 @@ public abstract class MVPBaseFragment<V extends BaseView, T extends BasePresente
     }
 
     private void initMVP() {
-        if (mPresenter != null) {
-
-        }
         mPresenter = getInstance(this, 1);
         mPresenter.attachView((V) this);
     }

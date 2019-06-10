@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jingwei.vega.Constants;
 import com.jingwei.vega.R;
@@ -17,6 +18,7 @@ import com.jingwei.vega.activity.SettingActivity;
 import com.jingwei.vega.activity.VipCenterActivity;
 import com.jingwei.vega.base.BaseFragment;
 import com.jingwei.vega.callback.PermissionsCallback;
+import com.jingwei.vega.moudle.TokenLose;
 import com.jingwei.vega.moudle.bean.UserInfoBean;
 import com.jingwei.vega.rxhttp.retrofit.ParamBuilder;
 import com.jingwei.vega.rxhttp.retrofit.ServiceAPI;
@@ -35,13 +37,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.greenrobot.event.EventBus;
 import pub.devrel.easypermissions.EasyPermissions;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MeFragment extends BaseFragment{
+public class MeFragment extends BaseFragment {
 
     @BindView(R.id.my_bg)
     ImageView mMyBg;
@@ -100,9 +103,9 @@ public class MeFragment extends BaseFragment{
 
                         mTvName.setText(bean.getNickName());
                         mTvPhone.setText(bean.getMobile());
-                        mIvVip.setBackground(bean.isIsMember()?getResources().getDrawable(R.drawable.icon_vip):getResources().getDrawable(R.drawable.icon_unvip));
-                        if(!TextUtils.isEmpty(bean.getHeadImg())){
-                            GlideUtil.setImage(getActivity(),Constants.IMAGEHOST+bean.getHeadImg(),mUserIcon);
+                        mIvVip.setBackground(bean.isIsMember() ? getResources().getDrawable(R.drawable.icon_vip) : getResources().getDrawable(R.drawable.icon_unvip));
+                        if (!TextUtils.isEmpty(bean.getHeadImg())) {
+                            GlideUtil.setImage(getActivity(), Constants.IMAGEHOST + bean.getHeadImg(), mUserIcon);
                         }
                     }
                 });
@@ -113,13 +116,17 @@ public class MeFragment extends BaseFragment{
 
     }
 
-    @OnClick({R.id.iv_setting, R.id.ll_collection, R.id.ll_download, R.id.ll_vip, R.id.ll_about,R.id.user_icon})
+    @OnClick({R.id.iv_setting, R.id.ll_collection, R.id.ll_download, R.id.ll_vip, R.id.ll_about, R.id.user_icon})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
-                Intent intent = new Intent(getActivity(),SettingActivity.class);
-                intent.putExtra("userInfo",userInfoBean);
-                startActivity(intent);
+                if (userInfoBean != null) {
+                    Intent intent = new Intent(getActivity(), SettingActivity.class);
+                    intent.putExtra("userInfo", userInfoBean);
+                    startActivity(intent);
+                } else {
+                    showToast("获取到用户信息失败");
+                }
                 break;
             case R.id.ll_collection:
                 startActivity(new Intent(getActivity(), MyCollectActivity.class));
@@ -128,7 +135,7 @@ public class MeFragment extends BaseFragment{
                 startActivity(new Intent(getActivity(), DownloadRecordActivity.class));
                 break;
             case R.id.ll_vip:
-                Intent intentVip = new Intent(getActivity(),VipCenterActivity.class);
+                Intent intentVip = new Intent(getActivity(), VipCenterActivity.class);
                 startActivity(intentVip);
                 break;
             case R.id.ll_about:
@@ -144,7 +151,7 @@ public class MeFragment extends BaseFragment{
      * 动态权限
      */
     private void requestPermission() {
-        ((MainActivity)getActivity()).requestPermissions(new PermissionsCallback() {
+        ((MainActivity) getActivity()).requestPermissions(new PermissionsCallback() {
             @Override
             public void onAccept() {
                 OpenCamera();
@@ -225,7 +232,7 @@ public class MeFragment extends BaseFragment{
                     @Override
                     public void onNext(Object bean) {
                         showToast("修改头像成功");
-                        GlideUtil.setImage(getActivity(),headPath,mUserIcon);
+                        GlideUtil.setImage(getActivity(), headPath, mUserIcon);
                     }
                 });
     }

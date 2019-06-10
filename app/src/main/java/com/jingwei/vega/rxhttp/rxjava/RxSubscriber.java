@@ -22,8 +22,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     private ProgressDialog mDialog;
     private boolean isShow = false;
 
-    private static long toastTime;
-
     /**
      * 不带有进度条
      */

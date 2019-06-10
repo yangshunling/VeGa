@@ -329,6 +329,7 @@ public class HomeFragment extends BaseFragment {
                 mEtContent.setText(msg);
                 Intent intent = new Intent(getActivity(), GoodsLibActivity.class);
                 intent.putExtra("tag", msg);
+                intent.putExtra("brandId", "");
                 startActivity(intent);
             }
         }//以图搜图

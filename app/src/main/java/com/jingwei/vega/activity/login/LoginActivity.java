@@ -17,6 +17,7 @@ import com.jingwei.vega.moudle.bean.BannerListBean;
 import com.jingwei.vega.mvp.MVPBaseActivity;
 import com.jingwei.vega.utils.PreferencesUtil;
 import com.jingwei.vega.utils.TextUtil;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,6 @@ public class LoginActivity extends MVPBaseActivity<LoginContract.View, LoginPres
 
     @Override
     public void initData() {
-
     }
 
     @OnClick({R.id.bt_login, R.id.tv_regist, R.id.tv_forget})

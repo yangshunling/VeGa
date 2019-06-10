@@ -1,6 +1,8 @@
 package com.jingwei.vega.rxhttp.exception;
 
 
+import android.util.Log;
+
 import com.jingwei.vega.moudle.TokenLose;
 
 import de.greenrobot.event.EventBus;
@@ -25,8 +27,10 @@ public class RxApiException extends RuntimeException {
      * @return
      */
     private static String getRxExceptionMessage(String code, String message) {
+        Log.v("vage", code+"");
         if (code.equals("Y00-000403")) {
             //Token过期，需要重新登录
+            Log.v("vage", code+"---");
             EventBus.getDefault().post(new TokenLose());
         }
         return message;
